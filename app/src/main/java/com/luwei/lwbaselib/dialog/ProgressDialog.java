@@ -4,16 +4,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.luwei.lwbaselib.R;
+import com.luwei.ui.dialog.BaseDialog;
+import com.luwei.ui.dialog.DialogViewHolder;
 
-import cn.luwei.mvp.ui.dialog.BaseDialog;
-import cn.luwei.mvp.ui.dialog.DialogViewHolder;
 
 /**
  * Created by runla on 2018/10/31.
  * 文件描述：
  */
 
-public class ProgressDialog extends BaseDialog{
+public class ProgressDialog extends BaseDialog {
 
     public static ProgressDialog newInstance(){
         return new ProgressDialog();

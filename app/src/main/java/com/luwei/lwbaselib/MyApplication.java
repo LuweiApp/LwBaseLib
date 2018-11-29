@@ -2,7 +2,8 @@ package com.luwei.lwbaselib;
 
 import android.app.Application;
 
-import cn.luwei.mvp.imageloader.ImageLoaderUtils;
+import com.luwei.util.imageloader.ImageLoaderUtils;
+
 
 /**
  * Created by runla on 2018/10/29.

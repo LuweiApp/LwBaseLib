@@ -11,29 +11,26 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.luwei.lwbaselib.R;
+import com.luwei.lwbaselib.dialog.CustomDialog;
+import com.luwei.lwbaselib.dialog.LoadingDialog;
+import com.luwei.lwbaselib.dialog.ProgressDialog;
+import com.luwei.ui.dialog.ConfirmListener;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.luwei.mvp.ui.dialog.ConfirmListener;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-
-import com.luwei.lwbaselib.dialog.CustomDialog;
-import com.luwei.lwbaselib.dialog.LoadingDialog;
-import com.luwei.lwbaselib.dialog.ProgressDialog;
 
 /**
  * dialog 的使用示例
