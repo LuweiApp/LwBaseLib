@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:context="com.luwei.lwbaselib.activity.ImageActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="使用 ImageLoaderUtils 需要先调用 init() 方法进行初始化" />
+
+        <ImageView
+            android:id="@+id/iv_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY" />
+
+
+        <ImageView
+            android:id="@+id/iv_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <ImageView
+            android:id="@+id/iv_from_drawable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <ImageView
+            android:id="@+id/iv_round"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY" />
+
+
+        <ImageView
+            android:id="@+id/iv_gif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_mask"
+            android:layout_width="200dp"
+            android:layout_height="200dp" />
+
+
+        <ImageView
+            android:id="@+id/iv_blur_befor"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+        <ImageView
+            android:id="@+id/iv_blur"
+            android:layout_width="640dp"
+            android:layout_height="300dp" />
+
+        <ImageView
+            android:id="@+id/iv_blur1"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+
+    </LinearLayout>
+
+</ScrollView>

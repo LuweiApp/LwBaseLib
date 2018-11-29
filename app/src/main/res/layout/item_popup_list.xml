@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    tools:layout_editor_absoluteY="25dp">
+
+    <TextView
+        android:id="@+id/tv_popup_list"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="PopupWindow显示List列表"
+        android:layout_marginLeft="15dp"
+        android:textColor="#000"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_popup_list"
+        app:layout_constraintEnd_toStartOf="@+id/btn_popup_list"
+        app:layout_constraintStart_toEndOf="@+id/iv_popup_list"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_popup_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_popup_list"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/mask_starfish" />
+</android.support.constraint.ConstraintLayout>
