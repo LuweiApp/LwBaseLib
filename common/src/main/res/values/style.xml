@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--弹窗的样式-->
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowFrame">@null</item>                                       <!--边框-->
+        <item name="android:windowIsFloating">true</item>                                   <!--是否浮现在activity之上-->
+        <item name="android:windowNoTitle">true</item>                                      <!--无标题-->
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <!--<item name="android:background">@color/transparent_color</item>-->
+        <item name="android:windowBackground">@color/transparent_color</item>               <!--背景透明-->
+        <item name="android:backgroundDimAmount">0.5</item>                                 <!--背景透明度-->
+        <item name="android:windowAnimationStyle">@style/BottomActionSheetDialogAnimation</item><!--动画-->
+    </style>
+
+    <!--弹窗的动画样式-->
+    <style name="BottomActionSheetDialogAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/bottom_anim_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/bottom_anim_dialog_out</item>
+    </style>
+
+    <style name="TopActionSheetDialogAnimation" parent="@android:style/Animation.Dialog">
+        <item name="android:windowEnterAnimation">@anim/top_anim_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/top_anim_dialog_out</item>
+    </style>
+
+    <!--PopupWindow的动画-->
+    <style name="CustomPopupStyle">
+        <item name="android:windowEnterAnimation">@anim/popupwindow_anim_in</item>
+        <item name="android:windowExitAnimation">@anim/popupwindow_anim_out</item>
+    </style>
+
+
+
+
+</resources>

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Mvp</string>
+    <string name="PopupWindow">PopupWindow</string>
+    <string name="PopupWindowError">"PopupWindowError:需要SDK>"</string>
+</resources>
