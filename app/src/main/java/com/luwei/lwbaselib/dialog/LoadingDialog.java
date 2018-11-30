@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.luwei.lwbaselib.R;
+import com.luwei.ui.dialog.BaseDialog;
+import com.luwei.ui.dialog.DialogViewHolder;
 
-import cn.luwei.mvp.ui.dialog.BaseDialog;
-import cn.luwei.mvp.ui.dialog.DialogViewHolder;
 
 /**
  * Created by runla on 2018/10/31.

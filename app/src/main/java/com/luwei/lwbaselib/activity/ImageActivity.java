@@ -4,12 +4,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
-
 import com.luwei.lwbaselib.R;
+import com.luwei.util.imageloader.ImageLoaderUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import cn.luwei.mvp.imageloader.ImageLoaderUtils;
 /**
  * 显示图片框架使用的 activity
  */
