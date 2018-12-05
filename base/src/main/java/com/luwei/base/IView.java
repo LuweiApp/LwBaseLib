@@ -9,7 +9,7 @@ import android.os.Bundle;
  */
 
 
-public interface IView<P> {
+public interface IView<P extends IPresent> {
 
     void initView(Bundle savedInstanceState);
 

@@ -6,7 +6,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.luwei.base.IPresent;
 import com.luwei.base.LwBaseActivity;
+import com.luwei.base.LwBasePresent;
 import com.luwei.base.bus.BaseEvent;
 import com.luwei.base.bus.RxBus;
 import com.luwei.lwbaselib.R;
@@ -55,7 +57,7 @@ public class RxBusActivity extends LwBaseActivity {
     }
 
     @Override
-    public Object newP() {
+    public IPresent newP() {
         return null;
     }
 

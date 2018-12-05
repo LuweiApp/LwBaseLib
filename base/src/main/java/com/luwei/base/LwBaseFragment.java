@@ -37,14 +37,20 @@ public abstract class LwBaseFragment<P extends IPresent>
 
     @Override
     public P getP() {
+        if (p == null) {
+            p = newP();
+            if (p != null) {
+                p.attachV(this);
+            }
+        }
         return p;
     }
 
     @Override
     public void onDestroy() {
         RxBus.getInstance().unregister(this);
-        if (getP() != null) {
-            getP().detachV();
+        if (p != null) {
+            p.detachV();
         }
         p = null;
         super.onDestroy();

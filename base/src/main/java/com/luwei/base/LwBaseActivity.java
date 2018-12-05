@@ -50,14 +50,20 @@ public abstract class LwBaseActivity<P extends IPresent> extends AppCompatActivi
 
     @Override
     public P getP() {
+        if (p == null) {
+            p = newP();
+            if (p != null) {
+                p.attachV(this);
+            }
+        }
         return p;
     }
 
 
     @Override
     protected void onDestroy() {
-        if (getP() != null) {
-            getP().detachV();
+        if (p != null) {
+            p.detachV();
         }
 
         if (unbinder != null) {
