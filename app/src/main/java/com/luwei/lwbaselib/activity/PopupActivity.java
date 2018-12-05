@@ -5,35 +5,60 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.luwei.lwbaselib.R;
 import com.luwei.lwbaselib.adapter.PopupListAdapter;
-import com.luwei.ui.popup.CustomPopupWindow;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.luwei.mvp.popupwindow.CustomPopupWindow;
 
 public class PopupActivity extends AppCompatActivity {
 
-    private View mRootView;
-    private CustomPopupWindow.Builder builder;
-    private CustomPopupWindow customPopupWindow;
+    private CustomPopupWindow mPopupWindow;
+    private int x;
+    private int y;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup);
         ButterKnife.bind(this);
-        mRootView = LayoutInflater.from(this).inflate(R.layout.activity_popup,null,false);
-        View mContentView = LayoutInflater.from(this).inflate(R.layout.popup_list,null,false);
-        initList(mContentView);
-        builder = new CustomPopupWindow.Builder(this);
-        customPopupWindow = builder.setView(mContentView).create();
-
     }
 
-    private void initList(View contentView){
+    private void initNormalPopup() {
+        if (mPopupWindow != null && mPopupWindow.isShowing()) return;
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popup_custom, null);
+        mPopupWindow = new CustomPopupWindow.Builder(this)
+                .setView(contentView)
+                .create();
+
+        TextView tvPopupYes = contentView.findViewById(R.id.tv_popup_yes);
+        TextView tvPopupNo = contentView.findViewById(R.id.tv_popup_no);
+        tvPopupYes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "确认", Toast.LENGTH_SHORT).show();
+                mPopupWindow.dismiss();
+            }
+        });
+        tvPopupNo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "取消", Toast.LENGTH_SHORT).show();
+                mPopupWindow.dismiss();
+            }
+        });
+    }
+
+    private void initListPopup() {
+        if (mPopupWindow != null && mPopupWindow.isShowing()) return;
+        View contentView = LayoutInflater.from(this).inflate(R.layout.popup_list, null);
         RecyclerView recyclerView = contentView.findViewById(R.id.rlv_popup_list);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -41,37 +66,40 @@ public class PopupActivity extends AppCompatActivity {
         PopupListAdapter adapter = new PopupListAdapter();
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        mPopupWindow = new CustomPopupWindow.Builder(this)
+                .setView(contentView)
+                .create();
     }
 
-    @OnClick({R.id.btn_1, R.id.btn_2, R.id.btn_3, R.id.btn_4, R.id.btn_5, R.id.btn_6, R.id.btn_7, R.id.btn_8, R.id.btn_9})
+
+    @OnClick({R.id.btn_up, R.id.btn_left, R.id.btn_right, R.id.btn_bottom, R.id.btn_center})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.btn_1:
-
+            case R.id.btn_up:
+                initListPopup();
+                x = (view.getWidth() - mPopupWindow.getWidth()) / 2;
+                mPopupWindow.showAsDropDown(view, x, 0);
                 break;
-            case R.id.btn_2:
-
+            case R.id.btn_left:
+                initNormalPopup();
+                x = view.getWidth();
+                y = -(view.getHeight() + mPopupWindow.getHeight()) / 2;
+                mPopupWindow.showAsDropDown(view, x, y);
                 break;
-            case R.id.btn_3:
-
+            case R.id.btn_right:
+                initNormalPopup();
+                x = -mPopupWindow.getWidth();
+                y = -(view.getHeight() + mPopupWindow.getHeight()) / 2;
+                mPopupWindow.showAsDropDown(view, x, y);
                 break;
-            case R.id.btn_4:
-                new CustomPopupWindow.Builder(this).setView(R.layout.popup_custom).create().showAsDropDown(view);
+            case R.id.btn_bottom:
                 break;
-            case R.id.btn_5:
-                customPopupWindow.showAsDropDown(view);
-                break;
-            case R.id.btn_6:
-
-                break;
-            case R.id.btn_7:
-
-                break;
-            case R.id.btn_8:
-
-                break;
-            case R.id.btn_9:
+            case R.id.btn_center:
+                initNormalPopup();
+                mPopupWindow.showAtLocationById(R.layout.popup_custom, Gravity.CENTER, 0, 0);
                 break;
         }
     }
+
+
 }
