@@ -1,4 +1,4 @@
-package com.luwei.lwbaselib.module.recyclerview;
+package com.luwei.lwbaselib.module.recyclerview.adapter;
 
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
