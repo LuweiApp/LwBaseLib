@@ -25,7 +25,13 @@
         <activity android:name=".activity.PopupActivity" />
         <activity android:name=".activity.PermissionActivity" />
         <activity android:name=".activity.RxBusActivity"></activity>
-        <activity android:name=".module.recyclerview.AdapterDemoActivity" />
+        <activity android:name=".module.recyclerview.adapter.AdapterDemoActivity" />
+        <activity android:name=".module.recyclerview.decoration.StaggeredActivity" />
+        <activity android:name=".module.recyclerview.decoration.StickHeaderActivity" />
+        <activity android:name=".module.recyclerview.decoration.TableDividerActivity" />
+        <activity android:name=".module.recyclerview.RecyclerViewActivity" />
+        <activity android:name=".module.recyclerview.decoration.DecorationActivity" />
+        <activity android:name=".module.recyclerview.decoration.GridSpaceActivity" />
     </application>
 
 </manifest>

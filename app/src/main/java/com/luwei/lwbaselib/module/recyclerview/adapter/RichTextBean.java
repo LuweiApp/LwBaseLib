@@ -1,4 +1,4 @@
-package com.luwei.lwbaselib.module.recyclerview;
+package com.luwei.lwbaselib.module.recyclerview.adapter;
 
 /**
  * Created by Mr_Zeng

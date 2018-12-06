@@ -1,4 +1,4 @@
-package com.luwei.lwbaselib.module.recyclerview;
+package com.luwei.lwbaselib.module.recyclerview.adapter;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
