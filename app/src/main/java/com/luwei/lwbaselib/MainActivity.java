@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.luwei.base.IPresent;
 import com.luwei.base.LwBaseActivity;
 import com.luwei.lwbaselib.activity.DialogActivity;
 import com.luwei.lwbaselib.activity.ImageActivity;
@@ -45,9 +46,10 @@ public class MainActivity extends LwBaseActivity {
     }
 
     @Override
-    public Object newP() {
+    public IPresent newP() {
         return null;
     }
+
 
     @Override
     public void showLoading() {

@@ -1,4 +1,4 @@
-package com.luwei.ui.popup;
+package cn.luwei.mvp.popupwindow;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
 import com.luwei.ui.R;
+
 
 /**
  * Created by LiCheng
@@ -37,13 +38,11 @@ public class CustomPopupWindow {
     private boolean mTouchable = true;
     //设置 点击 PopupWindow以外区域，隐藏 popupWindow
     private boolean mOutsideTouchable = true;
-    //设置 PopupWindow 的背景。该属性不设置会导致 PopupWindow 出现后不会消失，
-    // 即便是 点击 back 键也不起作用。
+    //设置 PopupWindow 的背景。该属性不设置会导致 PopupWindow 出现后不会消失，即便是 点击 back 键也不起作用。
     private Drawable mBackgroundDrawable;
     //设置动画特效 即 展示和消失动画
     private int mAnimationStyle = -1;
-    //主要作用是为了设置 PopupWindow 显示的时候是否会与 StatusBar 重叠（如果存在的话也包括 SystemBar ）
-    // 系统自己设定 api>=22就设置为true，反之false
+    //主要作用是为了设置 PopupWindow 显示的时候是否会与 StatusBar 重叠（如果存在的话也包括 SystemBar ）系统自己设定 api>=22就设置为true，反之false
     private boolean mAttachedInDecor = true;
     //设置 PopupWindow 允许超出窗口
     private boolean mClippingEnabled = true;
@@ -97,6 +96,7 @@ public class CustomPopupWindow {
      */
     public void dismiss(){
         if (mPopupWindow!=null){
+            mPopupWindow.dismiss();
             if (mOnDismissListener != null) {
                 mOnDismissListener.onDismiss();
                 mOnDismissListener = null;
@@ -111,9 +111,25 @@ public class CustomPopupWindow {
         return this;
     }
 
+    public CustomPopupWindow showAsDropDownById(int rootViewId) {
+        if (mPopupWindow != null) {
+            View rootView = LayoutInflater.from(mContext).inflate(rootViewId,null);
+            mPopupWindow.showAsDropDown(rootView);
+        }
+        return this;
+    }
+
     public CustomPopupWindow showAsDropDown(View anchor, int xoff, int yoff) {
         if (mPopupWindow != null) {
             mPopupWindow.showAsDropDown(anchor, xoff, yoff);
+        }
+        return this;
+    }
+
+    public CustomPopupWindow showAsDropDownById(int rootViewId, int xoff, int yoff) {
+        if (mPopupWindow != null) {
+            View rootView = LayoutInflater.from(mContext).inflate(rootViewId,null);
+            mPopupWindow.showAsDropDown(rootView, xoff, yoff);
         }
         return this;
     }
@@ -134,6 +150,14 @@ public class CustomPopupWindow {
         return this;
     }
 
+    public CustomPopupWindow showAsDropDownById(int rootViewId, int xoff, int yoff, int gravity) {
+        if (mPopupWindow != null) {
+            View rootView = LayoutInflater.from(mContext).inflate(rootViewId,null);
+            mPopupWindow.showAsDropDown(rootView, xoff, yoff, gravity);
+        }
+        return this;
+    }
+
     /**
      * 直接以传入的View为幕布，在其中选择位置显示（例如正中央Gravity.CENTER，下方Gravity.BOTTOM等）
      *
@@ -146,6 +170,14 @@ public class CustomPopupWindow {
     public CustomPopupWindow showAtLocation(View parent, int gravity, int x, int y) {
         if (mPopupWindow != null) {
             mPopupWindow.showAtLocation(parent, gravity, x, y);
+        }
+        return this;
+    }
+
+    public CustomPopupWindow showAtLocationById(int rootViewId, int xoff, int yoff, int gravity) {
+        if (mPopupWindow != null) {
+            View rootView = LayoutInflater.from(mContext).inflate(rootViewId,null);
+            mPopupWindow.showAtLocation(rootView, xoff, yoff, gravity);
         }
         return this;
     }
@@ -320,8 +352,7 @@ public class CustomPopupWindow {
             return this;
         }
 
-        //设置  PopupWindow 的背景。该属性不设置的会，会导致 PopupWindow 出现后不会消失，
-        // 即便是 点击 back 键也不起作用。这应该是 PopupWindow 较为变态的地方。
+        //设置  PopupWindow 的背景。该属性不设置的会，会导致 PopupWindow 出现后不会消失，即便是 点击 back 键也不起作用。这应该是 PopupWindow 较为变态的地方。
         public Builder setBackgroundDrawable(Drawable background) {
             mCustomPopupWindow.mBackgroundDrawable = background;
             return this;
@@ -351,8 +382,7 @@ public class CustomPopupWindow {
             return this;
         }
 
-        //脸颊事件  Events 都是有大小的当触摸点大于手指头大小时，
-        // 则为 脸颊事件 ，蛮有意思的 你可以尝试一下。
+        //脸颊事件  Events 都是有大小的当触摸点大于手指头大小时，则为 脸颊事件 ，蛮有意思的 你可以尝试一下。
         public Builder setIgnoreCheekPress() {
             mCustomPopupWindow.mPopupWindow.setIgnoreCheekPress();
             return this;

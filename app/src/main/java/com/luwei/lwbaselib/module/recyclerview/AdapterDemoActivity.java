@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.luwei.base.IPresent;
 import com.luwei.base.LwBaseActivity;
 import com.luwei.lwbaselib.R;
 import com.luwei.recyclerview.adapter.extension.SampleBinder;
@@ -54,7 +55,7 @@ public class AdapterDemoActivity extends LwBaseActivity {
     }
 
     @Override
-    public Object newP() {
+    public IPresent newP() {
         return null;
     }
 

@@ -3,8 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:background="@drawable/popupwindow_bg">
 
 
     <TextView
@@ -12,6 +14,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="这是一个PopupWindow"
+        android:textColor="@color/white_fff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_popup_yes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="确认"
+        android:textColor="@color/white_fff"
+        app:layout_constraintEnd_toStartOf="@+id/view"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/tv_popup_no" />
+
+    <TextView
+        android:id="@+id/tv_popup_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="取消"
+        android:textColor="@color/white_fff"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0.5dp"
+        android:layout_height="0dp"
+        android:background="@color/white_fff"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_popup_no"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/tv_popup_no" />
 </android.support.constraint.ConstraintLayout>
