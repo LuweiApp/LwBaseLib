@@ -81,6 +81,13 @@
             android:text="toast"
             android:textAllCaps="false" />
 
+        <Button
+            android:id="@+id/btn_activity_for_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="for result"
+            android:textAllCaps="false" />
+
 
     </LinearLayout>
 
