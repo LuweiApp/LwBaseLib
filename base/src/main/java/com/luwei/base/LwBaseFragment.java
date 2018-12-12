@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.luwei.base.bus.RxBus;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -48,7 +47,6 @@ public abstract class LwBaseFragment<P extends IPresent>
 
     @Override
     public void onDestroy() {
-        RxBus.getInstance().unregister(this);
         if (p != null) {
             p.detachV();
         }

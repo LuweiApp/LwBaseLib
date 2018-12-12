@@ -8,10 +8,9 @@ import android.widget.TextView;
 
 import com.luwei.base.IPresent;
 import com.luwei.base.LwBaseActivity;
-import com.luwei.base.LwBasePresent;
-import com.luwei.base.bus.BaseEvent;
-import com.luwei.base.bus.RxBus;
 import com.luwei.lwbaselib.R;
+import com.luwei.rxbus.BaseEvent;
+import com.luwei.rxbus.RxBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -57,6 +56,12 @@ public class RxBusActivity extends LwBaseActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        RxBus.getInstance().unregister(this);
+    }
+
+    @Override
     public IPresent newP() {
         return null;
     }
@@ -67,6 +72,7 @@ public class RxBusActivity extends LwBaseActivity {
         new Thread(() -> {
             RxBus.getInstance()
                     .post(new BaseEvent(0, etInput.getText().toString()));
+
         }).start();
 
     }

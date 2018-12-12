@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 
 import com.blankj.utilcode.util.ScreenUtils;
-import com.luwei.base.bus.RxBus;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -70,7 +69,6 @@ public abstract class LwBaseActivity<P extends IPresent> extends AppCompatActivi
             unbinder.unbind();
         }
         p = null;
-        RxBus.getInstance().unregister(this);
         super.onDestroy();
     }
 

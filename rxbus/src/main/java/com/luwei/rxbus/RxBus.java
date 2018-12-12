@@ -1,4 +1,4 @@
-package com.luwei.base.bus;
+package com.luwei.rxbus;
 
 import android.annotation.SuppressLint;
 
@@ -13,6 +13,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.internal.functions.Functions;
+import io.reactivex.internal.operators.flowable.FlowableInternalHelper;
 import io.reactivex.processors.FlowableProcessor;
 import io.reactivex.processors.PublishProcessor;
 
@@ -197,16 +199,14 @@ public class RxBus {
          * {@link Flowable#subscribe(Consumer)}
          */
         public void subscribe(Consumer<T> onNext) {
-            RxBus.getInstance()
-                    .with(mObserver, mFlowable.subscribe(onNext));
+            subscribe(onNext, Functions.ON_ERROR_MISSING);
         }
 
         /**
          * {@link Flowable#subscribe(Consumer, Consumer)}
          */
         public void subscribe(Consumer<T> onNext, Consumer<? super Throwable> onError) {
-            RxBus.getInstance()
-                    .with(mObserver, mFlowable.subscribe(onNext, onError));
+            subscribe(onNext, onError, Functions.EMPTY_ACTION);
         }
 
         /**
@@ -214,8 +214,10 @@ public class RxBus {
          */
         public void subscribe(Consumer<T> onNext, Consumer<? super Throwable> onError,
                               Action onComplete) {
-            RxBus.getInstance()
-                    .with(mObserver, mFlowable.subscribe(onNext, onError, onComplete));
+            BusLambdaSubscriber<T> subscriber = new BusLambdaSubscriber<>(
+                    onNext, onError, onComplete, FlowableInternalHelper.RequestMax.INSTANCE);
+            mFlowable.subscribe(subscriber);
+            RxBus.getInstance().with(mObserver, subscriber);
         }
     }
 }
