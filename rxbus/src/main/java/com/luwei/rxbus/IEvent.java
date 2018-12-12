@@ -1,4 +1,4 @@
-package com.luwei.base.bus;
+package com.luwei.rxbus;
 
 /**
  * Created by Tomey at 2018/6/19
