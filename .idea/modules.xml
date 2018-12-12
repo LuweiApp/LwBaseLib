@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ImagePreview/ImagePreview.iml" filepath="$PROJECT_DIR$/ImagePreview/ImagePreview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ImageSelector/ImageSelector.iml" filepath="$PROJECT_DIR$/ImageSelector/ImageSelector.iml" />
       <module fileurl="file://$PROJECT_DIR$/LwBaseLib.iml" filepath="$PROJECT_DIR$/LwBaseLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/base/base.iml" filepath="$PROJECT_DIR$/base/base.iml" />

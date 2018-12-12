@@ -34,8 +34,8 @@ public class SimpleOnResultFragment extends Fragment {
     public Observable<ActivityResultInfo> startForResult(final Intent intent) {
         int requestCode = generateRequestCode();
         PublishSubject<ActivityResultInfo> subject = PublishSubject.create();
-        startActivityForResult(intent, requestCode);
         mSubjects.put(requestCode, subject);
+        startActivityForResult(intent, requestCode);
         return subject;
     }
 

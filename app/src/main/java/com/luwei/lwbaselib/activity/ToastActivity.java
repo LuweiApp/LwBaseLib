@@ -30,6 +30,7 @@ public class ToastActivity extends LwBaseActivity {
         intent.putExtra("result","测试返回值 success");
         setResult(RESULT_OK,intent);
         finish();
+        overridePendingTransition(0, 0);
     }
 
     @Override

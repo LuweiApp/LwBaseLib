@@ -3,6 +3,7 @@ package com.luwei.lwbaselib;
 import android.app.Application;
 
 import com.luwei.util.imageloader.ImageLoaderUtils;
+import com.previewlibrary.ZoomMediaLoader;
 
 
 /**
@@ -15,5 +16,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         ImageLoaderUtils.init();
+        ZoomMediaLoader.getInstance().init(new PreviewPictureLoader());
+
     }
 }

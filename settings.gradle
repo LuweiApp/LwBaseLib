@@ -1,1 +1,1 @@
-include ':app', ':recyclerview', ':base', ':net', ':ui', ':util', ':umlibrary'
+include ':app', ':recyclerview', ':base', ':net', ':ui', ':util', ':umlibrary', ':ImageSelector', ':ImagePreview'

@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.luwei.lwbaselib">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -24,7 +28,7 @@
         <activity android:name=".activity.LogActivity" />
         <activity android:name=".activity.PopupActivity" />
         <activity android:name=".activity.PermissionActivity" />
-        <activity android:name=".activity.RxBusActivity"></activity>
+        <activity android:name=".activity.RxBusActivity" />
         <activity android:name=".module.recyclerview.adapter.AdapterDemoActivity" />
         <activity android:name=".module.recyclerview.decoration.StaggeredActivity" />
         <activity android:name=".module.recyclerview.decoration.StickHeaderActivity" />
@@ -32,6 +36,20 @@
         <activity android:name=".module.recyclerview.RecyclerViewActivity" />
         <activity android:name=".module.recyclerview.decoration.DecorationActivity" />
         <activity android:name=".module.recyclerview.decoration.GridSpaceActivity" />
+        <activity android:name=".activity.ImagePreviewActivity" />
+        <activity android:name=".activity.HeaderActivity"></activity>
+        <activity android:name="me.nereo.image_selector.MultiImageSelectorActivity" android:launchMode="singleTop"/>
+
+        <!-- 7.0拍照相册  注意 android:authorities 里面的值，在后面使用的getUriForFile(Context, String, File) 中， 第二个参数就是这个里面的值 -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.luwei.lwbaselib.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
     </application>
 
 </manifest>
