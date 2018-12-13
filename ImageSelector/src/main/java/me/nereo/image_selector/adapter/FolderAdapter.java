@@ -8,7 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -86,11 +87,13 @@ public class FolderAdapter extends BaseAdapter {
                 if(mFolders.size()>0){
                     Folder f = mFolders.get(0);
                     if (f != null) {
-                        Picasso.with(mContext)
-                                .load(new File(f.cover.path))
-                                .error(R.drawable.default_error)
-                                .resizeDimen(R.dimen.folder_cover_size, R.dimen.folder_cover_size)
+                        RequestOptions options = new RequestOptions()
                                 .centerCrop()
+//                                .override(R.dimen.folder_cover_size,R.dimen.folder_cover_size)
+                                .error(R.drawable.default_error);
+                        Glide.with(mContext)
+                                .load(new File(f.cover.path))
+                                .apply(options)
                                 .into(holder.cover);
                     }else{
                         holder.cover.setImageResource(R.drawable.default_error);
@@ -157,11 +160,14 @@ public class FolderAdapter extends BaseAdapter {
             }
             if (data.cover != null) {
                 // 显示图片
-                Picasso.with(mContext)
-                        .load(new File(data.cover.path))
-                        .placeholder(R.drawable.default_error)
-                        .resizeDimen(R.dimen.folder_cover_size, R.dimen.folder_cover_size)
+                RequestOptions options = new RequestOptions()
                         .centerCrop()
+//                                .override(R.dimen.folder_cover_size,R.dimen.folder_cover_size)
+                        .placeholder(R.drawable.default_error)
+                        .error(R.drawable.default_error);
+                Glide.with(mContext)
+                        .load(new File(data.cover.path))
+                        .apply(options)
                         .into(cover);
             }else{
                 cover.setImageResource(R.drawable.default_error);

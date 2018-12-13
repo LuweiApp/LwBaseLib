@@ -1,6 +1,7 @@
 package com.luwei.recyclerview.decoration;
 
 import android.graphics.Canvas;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
@@ -23,9 +24,9 @@ public class StickHeaderDecoration extends RecyclerView.ItemDecoration {
         mProvider = provider;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+    public void onDrawOver(@NonNull Canvas c, @NonNull RecyclerView parent,
+                           @NonNull RecyclerView.State state) {
         RecyclerView.Adapter adapter = parent.getAdapter();
         if (adapter == null || !(adapter instanceof StickProvider)) {
             return;
@@ -34,17 +35,18 @@ public class StickHeaderDecoration extends RecyclerView.ItemDecoration {
         if (itemCount == 1) {
             return;
         }
-        View firstItem = parent.getChildAt(0);
-        if (firstItem == null) {
-            return;
-        }
-        int firstItemPos = parent.getChildAdapterPosition(firstItem);
-        //从第一个Child往前找，找到当前的StickHeader对应的position
-        int currStickPos = currStickPos(firstItemPos);
+        //找到当前的StickHeader对应的position
+        int currStickPos = currStickPos(parent);
         if (currStickPos == -1) {
             return;
         }
         c.save();
+        if (parent.getClipToPadding()) {
+            //考虑padding的情况
+            c.clipRect(parent.getPaddingLeft(), parent.getPaddingTop(),
+                    parent.getWidth() - parent.getPaddingRight(),
+                    parent.getHeight() - parent.getPaddingBottom());
+        }
         int currStickType = adapter.getItemViewType(currStickPos);
         //当前显示的StickHeader相应的ViewHolder，先看有没有缓存
         RecyclerView.ViewHolder currHolder = mViewMap.get(currStickType);
@@ -56,25 +58,50 @@ public class StickHeaderDecoration extends RecyclerView.ItemDecoration {
             mViewMap.put(currStickType, currHolder);
         }
         //寻找下一个StickHeader
-        RecyclerView.ViewHolder nextStickHolder = nextStickHolder(parent);
+        RecyclerView.ViewHolder nextStickHolder = nextStickHolder(parent, currStickPos);
         if (nextStickHolder != null) {
+            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) currHolder.itemView.getLayoutParams();
+            int bottom = parent.getPaddingTop() + params.topMargin + currHolder.itemView.getMeasuredHeight();
             int nextStickTop = nextStickHolder.itemView.getTop();
             //下一个StickHeader如果顶部碰到了当前StickHeader的屁股，那么将当前的向上推
-            if (nextStickTop < currHolder.itemView.getHeight() && nextStickTop > 0) {
-                c.translate(0, nextStickTop - currHolder.itemView.getHeight());
+            if (nextStickTop < bottom && nextStickTop > 0) {
+                c.translate(0, nextStickTop - bottom);
             }
         }
         adapter.bindViewHolder(currHolder, currStickPos);
+        c.translate(currHolder.itemView.getLeft(), currHolder.itemView.getTop());
         currHolder.itemView.draw(c);
         c.restore();
     }
 
+
     /**
-     * 从开始位置向前查找相应的StickHeader的Adapter position
-     * @param start 起始位置
+     * 寻找当前的应该显示的StickHeader
+     *
+     * @param parent
+     * @return
      */
-    private int currStickPos(int start) {
-        for (int i = start; i >= 0; i--) {
+    private int currStickPos(RecyclerView parent) {
+        int childCount = parent.getChildCount();
+        int paddingTop = parent.getPaddingTop();
+        int currStickPos = -1;
+        for (int i = 0; i < childCount; i++) {
+            //考虑到parent padding 的情况，第一个item有可能不可见情况
+            //从第1个child向后找
+            View child = parent.getChildAt(i);
+            if (child.getTop() >= paddingTop) {
+                break;
+            }
+            int pos = parent.getChildAdapterPosition(child);
+            if (mProvider.isStick(pos)) {
+                currStickPos = pos;
+            }
+        }
+        if (currStickPos != -1) {
+            return currStickPos;
+        }
+        for (int i = parent.getChildAdapterPosition(parent.getChildAt(0)) - 1; i >= 0; i--) {
+            //从第一个child的前一个开始找
             if (mProvider.isStick(i)) {
                 return i;
             }
@@ -85,7 +112,7 @@ public class StickHeaderDecoration extends RecyclerView.ItemDecoration {
     /**
      * 下一个StickHeader的ViewHolder
      */
-    private RecyclerView.ViewHolder nextStickHolder(RecyclerView parent) {
+    private RecyclerView.ViewHolder nextStickHolder(RecyclerView parent, int currPos) {
         int childCount = parent.getChildCount();
         if (childCount == 1) {
             return null;
@@ -94,7 +121,7 @@ public class StickHeaderDecoration extends RecyclerView.ItemDecoration {
             //从RecyclerView第二个Child开始找
             View child = parent.getChildAt(i);
             int childPos = parent.getChildAdapterPosition(child);
-            if (mProvider.isStick(childPos)) {
+            if (mProvider.isStick(childPos) && childPos > currPos) {
                 return parent.getChildViewHolder(child);
             }
         }
@@ -129,7 +156,13 @@ public class StickHeaderDecoration extends RecyclerView.ItemDecoration {
             widthSpec = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
         }
         header.measure(widthSpec, heightSpec);
-        header.layout(0, 0, header.getMeasuredWidth(), header.getMeasuredHeight());
+        int left = parent.getPaddingLeft() + params.leftMargin;
+        int top = parent.getPaddingTop() + params.topMargin;
+
+        header.layout(left,
+                top,
+                left + header.getMeasuredWidth(),
+                top + header.getMeasuredHeight());
     }
 
     public interface StickProvider {
