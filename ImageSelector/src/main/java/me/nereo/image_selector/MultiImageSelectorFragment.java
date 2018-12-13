@@ -36,7 +36,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.io.IOException;
@@ -184,9 +184,11 @@ public class MultiImageSelectorFragment extends Fragment {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (scrollState == SCROLL_STATE_FLING) {
-                    Picasso.with(view.getContext()).pauseTag(TAG);
+                    Glide.with(view.getContext()).onStop();
+//                    Picasso.with(view.getContext()).pauseTag(TAG);
                 } else {
-                    Picasso.with(view.getContext()).resumeTag(TAG);
+                    Glide.with(view.getContext()).onStart();
+//                    Picasso.with(view.getContext()).resumeTag(TAG);
                 }
             }
 

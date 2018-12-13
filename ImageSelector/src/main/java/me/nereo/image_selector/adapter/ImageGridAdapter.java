@@ -10,13 +10,13 @@ import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.nereo.image_selector.MultiImageSelectorFragment;
 import me.nereo.image_selector.R;
 import me.nereo.image_selector.bean.Image;
 
@@ -222,12 +222,13 @@ public class ImageGridAdapter extends BaseAdapter {
             File imageFile = new File(data.path);
             if (imageFile.exists()) {
                 // 显示图片
-                Picasso.with(mContext)
-                        .load(imageFile)
-                        .placeholder(R.drawable.default_error)
-                        .tag(MultiImageSelectorFragment.TAG)
-                        .resize(mGridWidth, mGridWidth)
+                RequestOptions options = new RequestOptions()
                         .centerCrop()
+//                                .override(R.dimen.folder_cover_size,R.dimen.folder_cover_size)
+                        .placeholder(R.drawable.default_error);
+                Glide.with(mContext)
+                        .load(imageFile)
+                        .apply(options)
                         .into(image);
             }else{
                 image.setImageResource(R.drawable.default_error);
