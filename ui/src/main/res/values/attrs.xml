@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TimerButton">
+
+        <attr name="formatText" format="string"/>
+        <attr name="finishedText" format="string"/>
+        <attr name="startedTextColor" format="color"/>
+
+    </declare-styleable>
+</resources>
