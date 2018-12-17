@@ -11,19 +11,20 @@ public class CustomPopup extends BasePopup<CustomPopup> {
 
     private OnViewListener mOnViewListener;
 
+
+    private CustomPopup() {
+    }
+
+    private CustomPopup(Context context) {
+        setContext(context);
+    }
+
     public static CustomPopup newInstance(){
         return new CustomPopup();
     }
 
     public static CustomPopup newInstance(Context context){
         return new CustomPopup(context);
-    }
-
-    public CustomPopup() {
-    }
-
-    public CustomPopup(Context context) {
-        setContext(context);
     }
 
     @Override

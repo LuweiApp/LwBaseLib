@@ -1,13 +1,18 @@
 package com.luwei.lwbaselib.activity;
 
 
+
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.luwei.base.IPresent;
+import com.luwei.base.LwBaseActivity;
 import com.luwei.lwbaselib.R;
 import com.luwei.lwbaselib.popup.ListPopup;
 import com.luwei.lwbaselib.popup.ConfirmPopup;
@@ -15,23 +20,39 @@ import com.luwei.ui.popup.CustomPopup;
 import com.luwei.ui.popup.XGravity;
 import com.luwei.ui.popup.YGravity;
 
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PopupActivity extends AppCompatActivity {
+public class PopupActivity extends LwBaseActivity {
 
     private CustomPopup mCustomPopup;
     private ConfirmPopup mConfirmPopup;
     private ListPopup mListPopup;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_popup);
-        ButterKnife.bind(this);
-        initCustomPopup();
-        initConfirmPopup();
-        initListPopup();
+
+
+    @OnClick({R.id.btn_up, R.id.btn_left, R.id.btn_right, R.id.btn_bottom, R.id.btn_center})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_up:
+                mCustomPopup.showAtAnchorView(view,YGravity.BELOW,XGravity.ALIGN_LEFT);
+                break;
+            case R.id.btn_left:
+                mConfirmPopup.showAtAnchorView(view,YGravity.CENTER,XGravity.RIGHT);
+
+                break;
+            case R.id.btn_right:
+                mCustomPopup.showAtAnchorView(view,YGravity.CENTER,XGravity.LEFT);
+
+                break;
+            case R.id.btn_bottom:
+                mListPopup.showAtAnchorView(view, YGravity.ABOVE, XGravity.CENTER);
+
+
+                break;
+            case R.id.btn_center:
+                mCustomPopup.showAtLocation(getWindow().getDecorView(),Gravity.CENTER,0,0);
+                break;
+        }
     }
 
 
@@ -39,10 +60,11 @@ public class PopupActivity extends AppCompatActivity {
      * 创建自定义Popup
      */
     private void initCustomPopup(){
-
-        mCustomPopup = CustomPopup.newInstance(this)
+         mCustomPopup = CustomPopup.newInstance(this)
                 .setContentView(R.layout.popup_custom)
                 .setFocusAndOutsideEnable(true)
+                .setWidth(300)
+                .setHeight(200)
                 .setOnViewListener(new CustomPopup.OnViewListener() {
                     @Override
                     public void initViews(View view, CustomPopup popup) {
@@ -99,28 +121,30 @@ public class PopupActivity extends AppCompatActivity {
                 .create();
     }
 
-
-    @OnClick({R.id.btn_up, R.id.btn_left, R.id.btn_right, R.id.btn_bottom, R.id.btn_center})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_up:
-                mListPopup.showAtAnchorView(view,YGravity.BELOW,XGravity.CENTER);
-                break;
-            case R.id.btn_left:
-                mConfirmPopup.showAtAnchorView(view,YGravity.CENTER,XGravity.RIGHT);
-                break;
-            case R.id.btn_right:
-                mCustomPopup.showAtAnchorView(view,YGravity.CENTER,XGravity.LEFT);
-                break;
-            case R.id.btn_bottom:
-                mListPopup.showAtAnchorView(view, YGravity.ABOVE, XGravity.CENTER);
-                break;
-            case R.id.btn_center:
-                View rootView = View.inflate(this,R.layout.popup_custom,null);
-                mConfirmPopup.showAtLocation(rootView,Gravity.CENTER,0,0);
-                break;
-        }
+    @Override
+    public void initView(Bundle savedInstanceState) {
+        initCustomPopup();
+        initConfirmPopup();
+        initListPopup();
     }
 
+    @Override
+    public void initData() {
 
+    }
+
+    @Override
+    public void initEvent() {
+
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_popup;
+    }
+
+    @Override
+    public IPresent newP() {
+        return null;
+    }
 }

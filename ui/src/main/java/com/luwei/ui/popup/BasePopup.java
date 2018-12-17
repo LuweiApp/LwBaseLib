@@ -3,6 +3,7 @@ package com.luwei.ui.popup;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -13,7 +14,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StyleRes;
-import android.support.v4.widget.PopupWindowCompat;
 import android.transition.Transition;
 import android.util.Log;
 import android.view.Gravity;
@@ -59,7 +59,7 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
     private boolean mFocusAndOutsideEnable = true;
     //设置 PopupWindow 是否可以获取焦点
     private boolean mFocusable = true;
-    //设置 点击 PopupWindow以外区域，隐藏 popupWindow
+    //设置 点击 PopupWindow以外区域，隐藏 PopupWindow
     private boolean mOutsideTouchable = true;
     //设置 PopupWindow 是否可触摸 false情况下点击直接关闭
     private boolean mTouchable = true;
@@ -88,7 +88,7 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
 
 
     //是否重新测量宽高
-    private boolean isNeedReMeasureWH = false;
+    private boolean isNeedReMeasureWH = true;
     //真实的宽高是否已经准备好
     private boolean isRealWHAlready = false;
     private boolean isAtAnchorViewMethod = false;
@@ -99,7 +99,6 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
     private View.OnTouchListener mTouchInterceptor;
     //用于获取准确的PopupWindow宽高
     private OnRealWHAlreadyListener mOnRealWHAlreadyListener;
-
 
 
     protected T self() {
@@ -156,7 +155,7 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
 
     }
 
-    private void setPopup(){
+    private void setPopup() {
         setFocusAndBack();
 
         if (mAnimationStyle != 0) {
@@ -260,12 +259,13 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
                 mHeight = getContentView().getHeight();
 
                 isRealWHAlready = true;
-                isNeedReMeasureWH = false;
+                //isNeedReMeasureWH = false;
 
                 if (mOnRealWHAlreadyListener != null) {
                     mOnRealWHAlreadyListener.onRealWHAlready(BasePopup.this, mWidth, mHeight,
                             mAnchorView == null ? 0 : mAnchorView.getWidth(), mAnchorView == null ? 0 : mAnchorView.getHeight());
                 }
+                //updateLocation(mWidth, mHeight, mAnchorView, mYGravity, mXGravity, mOffsetX, mOffsetY);
 //                Log.d(TAG, "onGlobalLayout finished. isShowing=" + isShowing());
                 if (isShowing() && isAtAnchorViewMethod) {
                     updateLocation(mWidth, mHeight, mAnchorView, mYGravity, mXGravity, mOffsetX, mOffsetY);
@@ -291,12 +291,10 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
         if (mPopupWindow == null) {
             return;
         }
-        x = calculateX(anchor, xGravity, width, x);
-        y = calculateY(anchor, yGravity, height, y);
+        x = calculateOffsetX(anchor, xGravity, width, x);
+        y = calculateOffsetY(anchor, yGravity, height, y);
         mPopupWindow.update(anchor, x, y, width, height);
     }
-
-
 
 
     /****自定义生命周期方法****/
@@ -325,9 +323,7 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
      *
      * @param view
      */
-    protected  abstract void initViews(View view, T popup);
-
-
+    protected abstract void initViews(View view, T popup);
 
 
     /****设置属性方法****/
@@ -431,7 +427,7 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
         return self();
     }
 
-    public T setTouchable(boolean touchable){
+    public T setTouchable(boolean touchable) {
         this.mTouchable = touchable;
         return self();
     }
@@ -507,7 +503,7 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
     }
 
     /**
-     * 检查是否调用了 apply() 方法
+     * 检查是否调用了 create() 方法
      *
      * @param isAtAnchorView 是否是 showAt
      */
@@ -524,23 +520,31 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
     /**
      * 使用此方法需要在创建的时候调用setAnchorView()等属性设置{@see setAnchorView()}
      */
-    public void showAsDropDown() {
+    /*public void showAsDropDown() {
         if (mAnchorView == null) {
             return;
         }
         showAsDropDown(mAnchorView, mOffsetX, mOffsetY);
     }
 
-    /**
+    public void showAsDropDown(View anchor) {
+        showAsDropDown(anchor, 0, 0);
+    }
+
+    *//**
      * PopupWindow自带的显示方法
      *
      * @param anchor
      * @param offsetX
      * @param offsetY
-     */
+     *//*
     public void showAsDropDown(View anchor, int offsetX, int offsetY) {
+        if (mPopupWindow != null && mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
+            return;
+        }
         //防止忘记调用 apply() 方法
-        checkIsCreate(false);
+        checkIsCreate(true);
 
         handleBackgroundDim();
         mAnchorView = anchor;
@@ -550,26 +554,22 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
         if (isNeedReMeasureWH) {
             registerOnGlobalLayoutListener();
         }
-        mPopupWindow.showAsDropDown(anchor, mOffsetX, mOffsetY);
-    }
-
-    public void showAsDropDown(View anchor) {
-        //防止忘记调用 apply() 方法
-        checkIsCreate(false);
-
-        handleBackgroundDim();
-        mAnchorView = anchor;
-        //是否重新获取宽高
-        if (isNeedReMeasureWH) {
-            registerOnGlobalLayoutListener();
+        //mPopupWindow.showAsDropDown(anchor, offsetX, offsetY);
+        if (Build.VERSION.SDK_INT < 24) {
+            mPopupWindow.showAsDropDown(anchor, offsetX, offsetY);
+        } else {
+            //还是会出现一开始位置偏左
+            offsetX += anchor.getX();
+            offsetY += anchor.getY();
+            mPopupWindow.showAtLocation(anchor.getRootView(), Gravity.NO_GRAVITY, offsetX, offsetY);
         }
-        mPopupWindow.showAsDropDown(anchor);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void showAsDropDown(View anchor, int offsetX, int offsetY, int gravity) {
         //防止忘记调用 apply() 方法
-        checkIsCreate(false);
+        checkIsCreate(true);
 
         handleBackgroundDim();
         mAnchorView = anchor;
@@ -579,8 +579,8 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
         if (isNeedReMeasureWH) {
             registerOnGlobalLayoutListener();
         }
-        PopupWindowCompat.showAsDropDown(mPopupWindow, anchor, mOffsetX, mOffsetY, gravity);
-    }
+        mPopupWindow.showAsDropDown(anchor, mOffsetX, mOffsetY, gravity);
+    }*/
 
     public void showAtLocation(View parent, int gravity, int offsetX, int offsetY) {
         //防止忘记调用 apply() 方法
@@ -639,6 +639,10 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
      * @param y            垂直方向的偏移
      */
     public void showAtAnchorView(@NonNull View anchor, @YGravity final int vertGravity, @XGravity int horizGravity, int x, int y) {
+        if (mPopupWindow != null && mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
+            return;
+        }
         //防止忘记调用 apply() 方法
         checkIsCreate(true);
 
@@ -648,17 +652,99 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
         mYGravity = vertGravity;
         mXGravity = horizGravity;
         //处理背景变暗
+
         handleBackgroundDim();
-        x = calculateX(anchor, horizGravity, mWidth, mOffsetX);
-        y = calculateY(anchor, vertGravity, mHeight, mOffsetY);
+
         //是否重新获取宽高
         if (isNeedReMeasureWH) {
             registerOnGlobalLayoutListener();
         }
-//        Log.i(TAG, "showAtAnchorView: w=" + measuredW + ",y=" + measuredH);
-        PopupWindowCompat.showAsDropDown(mPopupWindow, anchor, x, y, Gravity.NO_GRAVITY);
+
+        if (Build.VERSION.SDK_INT < 24) {
+            x = calculateOffsetX(anchor, horizGravity, mWidth, mOffsetX);
+            y = calculateOffsetY(anchor, vertGravity, mHeight, mOffsetY);
+            mPopupWindow.showAsDropDown(anchor, x, y, Gravity.NO_GRAVITY);
+        } else {
+            x = calculateX(anchor, horizGravity, mWidth, mOffsetX);
+            y = calculateY(anchor, vertGravity, mHeight, mOffsetY);
+            mPopupWindow.showAtLocation(anchor.getRootView(), Gravity.NO_GRAVITY, x, y);
+        }
+
 
     }
+
+    /**
+     * 根据垂直gravity计算y偏移
+     *
+     * @param anchor
+     * @param vertGravity
+     * @param measuredH
+     * @param offsetY
+     * @return
+     */
+    private int calculateOffsetY(View anchor, int vertGravity, int measuredH, int offsetY) {
+        switch (vertGravity) {
+            case YGravity.ABOVE:
+                //anchor view之上
+                offsetY -= measuredH + anchor.getHeight();
+                break;
+            case YGravity.ALIGN_BOTTOM:
+                //anchor view底部对齐
+                offsetY -= measuredH;
+                break;
+            case YGravity.CENTER:
+                //anchor view垂直居中
+                offsetY -= anchor.getHeight() / 2 + measuredH / 2;
+                break;
+            case YGravity.ALIGN_TOP:
+                //anchor view顶部对齐
+                offsetY -= anchor.getHeight();
+                break;
+            case YGravity.BELOW:
+                //anchor view之下
+                // Default position.
+                break;
+        }
+
+        return offsetY;
+    }
+
+    /**
+     * 根据水平gravity计算x偏移
+     *
+     * @param anchor
+     * @param horizGravity
+     * @param measuredW
+     * @param offsetX
+     * @return
+     */
+    private int calculateOffsetX(View anchor, int horizGravity, int measuredW, int offsetX) {
+        switch (horizGravity) {
+            case XGravity.LEFT:
+                //anchor view左侧
+                offsetX -= measuredW;
+                break;
+            case XGravity.ALIGN_RIGHT:
+                //与anchor view右边对齐
+                offsetX -= measuredW - anchor.getWidth();
+                break;
+            case XGravity.CENTER:
+                //anchor view水平居中
+                offsetX += anchor.getWidth() / 2 - measuredW / 2;
+                break;
+            case XGravity.ALIGN_LEFT:
+                //与anchor view左边对齐
+                // Default position.
+                break;
+            case XGravity.RIGHT:
+                //anchor view右侧
+                offsetX += anchor.getWidth();
+                break;
+        }
+
+        return offsetX;
+    }
+
 
     /**
      * 根据垂直gravity计算y偏移
@@ -670,26 +756,30 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
      * @return
      */
     private int calculateY(View anchor, int vertGravity, int measuredH, int y) {
+        int[] location = new int[2];
+        anchor.getLocationOnScreen(location);
+        int yPoint = location[1];
         switch (vertGravity) {
             case YGravity.ABOVE:
                 //anchor view之上
-                y -= measuredH + anchor.getHeight();
+                y += anchor.getTop() - measuredH;
                 break;
             case YGravity.ALIGN_BOTTOM:
                 //anchor view底部对齐
-                y -= measuredH;
+                y += anchor.getTop() - measuredH + anchor.getHeight();
                 break;
             case YGravity.CENTER:
                 //anchor view垂直居中
-                y -= anchor.getHeight() / 2 + measuredH / 2;
+                y += anchor.getTop() - anchor.getY() / 2 + measuredH / 2;
                 break;
             case YGravity.ALIGN_TOP:
                 //anchor view顶部对齐
-                y -= anchor.getHeight();
+                y += anchor.getTop();
                 break;
             case YGravity.BELOW:
                 //anchor view之下
                 // Default position.
+                y += anchor.getTop() + anchor.getHeight();
                 break;
         }
 
@@ -709,23 +799,23 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
         switch (horizGravity) {
             case XGravity.LEFT:
                 //anchor view左侧
-                x -= measuredW;
+                x += anchor.getLeft() - measuredW;
                 break;
             case XGravity.ALIGN_RIGHT:
                 //与anchor view右边对齐
-                x -= measuredW - anchor.getWidth();
+                x += anchor.getLeft() - measuredW + anchor.getWidth();
                 break;
             case XGravity.CENTER:
                 //anchor view水平居中
-                x += anchor.getWidth() / 2 - measuredW / 2;
+                x += anchor.getLeft() - (measuredW - anchor.getWidth()) / 2;
                 break;
             case XGravity.ALIGN_LEFT:
                 //与anchor view左边对齐
-                // Default position.
+                x += anchor.getLeft();
                 break;
             case XGravity.RIGHT:
                 //anchor view右侧
-                x += anchor.getWidth();
+                x += anchor.getLeft() + anchor.getWidth();
                 break;
         }
 

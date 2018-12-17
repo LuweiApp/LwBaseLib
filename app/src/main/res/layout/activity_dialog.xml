@@ -6,8 +6,17 @@
     android:layout_height="match_parent"
     tools:context="com.luwei.lwbaselib.activity.DialogActivity">
 
+    <com.luwei.ui.TitleBar
+        android:id="@+id/view_tb_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:background="@color/colorPrimary">
+
+    </com.luwei.ui.TitleBar>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/view_tb_dialog"/>
 </android.support.constraint.ConstraintLayout>

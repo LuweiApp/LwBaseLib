@@ -1,7 +1,9 @@
 package com.luwei.lwbaselib;
 
 import android.app.Application;
+import android.graphics.Color;
 
+import com.luwei.ui.TitleBar;
 import com.luwei.util.imageloader.ImageLoaderUtils;
 import com.previewlibrary.ZoomMediaLoader;
 
@@ -16,6 +18,12 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         ImageLoaderUtils.init();
+
+/*        TitleBar.getConfig()
+                .setTitleTextColor(Color.RED)
+                .setPadding(this,25)
+                .setTitleTextSize(this,20);*/
+
         ZoomMediaLoader.getInstance().init(new PreviewPictureLoader());
 
     }
