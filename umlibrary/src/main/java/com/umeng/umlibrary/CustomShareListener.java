@@ -1,6 +1,7 @@
 package com.umeng.umlibrary;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -14,10 +15,10 @@ import java.lang.ref.WeakReference;
  * Date：2018/11/28
  */
 public class CustomShareListener implements UMShareListener {
-    private WeakReference<Activity> mActivity;
+    private WeakReference<Context> mContext;
 
-    public CustomShareListener(Activity activity) {
-        mActivity = new WeakReference(activity);
+    public CustomShareListener(Context context) {
+        mContext = new WeakReference(context);
     }
 
     @Override
@@ -29,9 +30,9 @@ public class CustomShareListener implements UMShareListener {
     public void onResult(SHARE_MEDIA platform) {
 
         if (platform.name().equals("WEIXIN_FAVORITE")) {
-            Toast.makeText(mActivity.get(), platform + " 收藏完成", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext.get(), platform + " 收藏完成", Toast.LENGTH_SHORT).show();
         } else if(platform.name().equals("WEIXIN")||platform.name().equals("WEIXIN_CIRCLE")){
-            Toast.makeText(mActivity.get(), platform + " 分享完成", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext.get(), platform + " 分享完成", Toast.LENGTH_SHORT).show();
         }else  {
             if (platform != SHARE_MEDIA.MORE && platform != SHARE_MEDIA.SMS
                     && platform != SHARE_MEDIA.EMAIL
@@ -44,7 +45,7 @@ public class CustomShareListener implements UMShareListener {
                     && platform != SHARE_MEDIA.GOOGLEPLUS
                     && platform != SHARE_MEDIA.YNOTE
                     && platform != SHARE_MEDIA.EVERNOTE) {
-                Toast.makeText(mActivity.get(), platform + " 分享成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext.get(), platform + " 分享成功", Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -66,7 +67,7 @@ public class CustomShareListener implements UMShareListener {
                 && platform != SHARE_MEDIA.GOOGLEPLUS
                 && platform != SHARE_MEDIA.YNOTE
                 && platform != SHARE_MEDIA.EVERNOTE) {
-            Toast.makeText(mActivity.get(), platform + " 分享失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext.get(), platform + " 分享失败", Toast.LENGTH_SHORT).show();
 
         }
 
@@ -74,6 +75,6 @@ public class CustomShareListener implements UMShareListener {
 
     @Override
     public void onCancel(SHARE_MEDIA platform) {
-        Toast.makeText(mActivity.get(), platform + " 分享取消", Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext.get(), platform + " 分享取消", Toast.LENGTH_SHORT).show();
     }
 }

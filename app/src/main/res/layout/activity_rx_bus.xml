@@ -4,6 +4,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.luwei.ui.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        android:background="@color/colorPrimary">
+
+    </com.luwei.ui.TitleBar>
+
     <TextView
         android:id="@+id/tv_content"
         android:layout_width="match_parent"
