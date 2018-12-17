@@ -2,22 +2,33 @@ package com.luwei.lwbaselib;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.luwei.base.IPresent;
 import com.luwei.base.LwBaseActivity;
 import com.luwei.lwbaselib.activity.DialogActivity;
+import com.luwei.lwbaselib.activity.HeaderActivity;
 import com.luwei.lwbaselib.activity.ImageActivity;
+import com.luwei.lwbaselib.activity.ImagePreviewActivity;
 import com.luwei.lwbaselib.activity.LogActivity;
 import com.luwei.lwbaselib.activity.PermissionActivity;
 import com.luwei.lwbaselib.activity.PopupActivity;
 import com.luwei.lwbaselib.activity.RxBusActivity;
 import com.luwei.lwbaselib.activity.ToastActivity;
-import com.luwei.lwbaselib.module.recyclerview.AdapterDemoActivity;
+import com.luwei.lwbaselib.module.recyclerview.RecyclerViewActivity;
+import com.luwei.util.forresult.SimpleForResult;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends LwBaseActivity {
 
@@ -62,7 +73,8 @@ public class MainActivity extends LwBaseActivity {
     }
 
     @OnClick({R.id.btn_to_image, R.id.btn_to_log, R.id.btn_to_dialog, R.id.btn_to_popup
-            , R.id.btn_to_adapter,R.id.btn_to_permission, R.id.btn_to_RxBus, R.id.btn_to_toast})
+            , R.id.btn_to_recyclerview, R.id.btn_to_permission, R.id.btn_to_RxBus,
+            R.id.btn_to_toast, R.id.btn_activity_for_result,R.id.btn_preview,R.id.btn_header})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_to_image:
@@ -77,8 +89,8 @@ public class MainActivity extends LwBaseActivity {
             case R.id.btn_to_popup:
                 startActivity(new Intent(MainActivity.this, PopupActivity.class));
                 break;
-            case R.id.btn_to_adapter:
-                startActivity(new Intent(MainActivity.this, AdapterDemoActivity.class));
+            case R.id.btn_to_recyclerview:
+                startActivity(new Intent(MainActivity.this, RecyclerViewActivity.class));
                 break;
             case R.id.btn_to_permission:
                 startActivity(new Intent(MainActivity.this, PermissionActivity.class));
@@ -88,6 +100,22 @@ public class MainActivity extends LwBaseActivity {
                 break;
             case R.id.btn_to_toast:
                 startActivity(new Intent(MainActivity.this, ToastActivity.class));
+                break;
+            case R.id.btn_activity_for_result:
+                // 简化调用 startActivityForResult 及避免在 onActivityResult 中处理繁琐的结果
+                SimpleForResult simpleForResult = new SimpleForResult(this);
+                simpleForResult.startForResult(ToastActivity.class)
+                        .subscribe((resultInfo) -> {
+                            if (resultInfo.getData() != null) {
+                                ToastUtils.showLong(resultInfo.getData().getStringExtra("result"));
+                            }
+                        });
+                break;
+            case R.id.btn_preview:
+                startActivity(new Intent(MainActivity.this, ImagePreviewActivity.class));
+                break;
+            case R.id.btn_header:
+                startActivity(new Intent(MainActivity.this, HeaderActivity.class));
                 break;
             default:
                 break;

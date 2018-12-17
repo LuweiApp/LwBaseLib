@@ -60,10 +60,10 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/btn_to_adapter"
+            android:id="@+id/btn_to_recyclerview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="adapter"
+            android:text="RecyclerView 相关，Adapter、Decoration"
             android:textAllCaps="false" />
 
         <Button
@@ -87,6 +87,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="toast"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_activity_for_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="for result"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="图片预览"
+            android:textAllCaps="false" />
+
+
+        <Button
+            android:id="@+id/btn_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择图片-头像预览"
             android:textAllCaps="false" />
 
 

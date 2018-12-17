@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".activity.HeaderActivity">
+
+
+    <ImageView
+        android:id="@+id/iv_header"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@mipmap/default_image" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="image_selector 模块中的 PictureHelper 主要是获取相关的各种 Intent" />
+
+    <Button
+        android:id="@+id/btn_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="拍照并裁剪" />
+
+
+    <Button
+        android:id="@+id/btn_open1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开图库方式（单图） 1" />
+
+
+    <Button
+        android:id="@+id/btn_open2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开图库方式（单图）2" />
+
+
+    <Button
+        android:id="@+id/btn_open3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="打开图库方式（多图）" />
+
+
+</LinearLayout>

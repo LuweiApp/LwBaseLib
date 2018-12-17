@@ -32,6 +32,9 @@ dependencies {
     implementation project(':ui')
     implementation project(':net')
     implementation project(':util')
+    implementation project(':ImagePreview')
+    implementation project(':ImageSelector')
+    implementation project(':rxbus')
     /**本地依赖包开始**/
     implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'com.android.support:appcompat-v7:28.0.0'

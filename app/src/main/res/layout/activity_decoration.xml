@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <Button
+        android:id="@+id/btn_to_grid_space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GridSpace"
+        android:textAllCaps="false" />
+
+
+    <Button
+        android:id="@+id/btn_to_table"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Table"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_to_staggered"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Staggered"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btn_to_stick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stick"
+        android:textAllCaps="false" />
+
+</LinearLayout>
