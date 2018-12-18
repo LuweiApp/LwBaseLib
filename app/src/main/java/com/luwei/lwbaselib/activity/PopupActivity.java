@@ -9,8 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.luwei.lwbaselib.R;
-import com.luwei.lwbaselib.popup.ListPopup;
-import com.luwei.lwbaselib.popup.ConfirmPopup;
+import com.luwei.lwbaselib.module.popup.ListPopup;
+import com.luwei.lwbaselib.module.popup.ConfirmPopup;
 import com.luwei.ui.popup.CustomPopup;
 import com.luwei.ui.popup.XGravity;
 import com.luwei.ui.popup.YGravity;

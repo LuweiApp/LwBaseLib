@@ -1,4 +1,4 @@
-package com.luwei.lwbaselib.popup;
+package com.luwei.lwbaselib.module.popup;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;

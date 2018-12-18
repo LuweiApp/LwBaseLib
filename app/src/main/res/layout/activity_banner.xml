@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/refresh_tv"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="刷新~~"
+        android:textColor="#333333"
+        android:textSize="17sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center"
+                android:text="正常数据"
+                android:textColor="#999999"
+                android:textSize="15sp" />
+
+            <com.luwei.ui.banner.Banner
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="178dp"
+                android:layout_marginTop="20dp"
+                app:banner_auto_play="true"
+                app:banner_interval_time="3000"
+                app:banner_multi_page="false"
+                app:banner_show_indicator="true"
+                app:banner_single_anim="Accordion"
+                app:indicator_default_drawable="@mipmap/line_normal"
+                app:indicator_default_height="5dp"
+                app:indicator_default_width="17dp"
+                app:indicator_select_drawable="@mipmap/line_select"
+                app:indicator_select_height="5dp"
+                app:indicator_select_width="32dp"
+                app:indicator_space="5dp" />
+
+            <com.luwei.ui.banner.Banner
+                android:id="@+id/banner_2"
+                android:layout_width="match_parent"
+                android:layout_height="178dp"
+                android:layout_marginTop="20dp"
+                app:banner_auto_play="true"
+                app:banner_expose_width="20dp"
+                app:banner_interval_time="3000"
+                app:banner_multi_anim="ScaleIn"
+                app:banner_multi_page="true"
+                app:banner_page_spacing="20dp"
+                app:banner_show_indicator="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="2条数据"
+                android:textColor="#999999"
+                android:textSize="15sp" />
+
+            <com.luwei.ui.banner.Banner
+                android:id="@+id/banner_3"
+                android:layout_width="match_parent"
+                android:layout_height="178dp"
+                android:layout_marginTop="20dp"
+                app:banner_auto_play="true"
+                app:banner_interval_time="3000"
+                app:banner_multi_page="false"
+                app:banner_show_indicator="true"
+                app:banner_single_anim="DepthPage"
+                app:indicator_default_drawable="@mipmap/line_normal"
+                app:indicator_default_height="5dp"
+                app:indicator_default_width="17dp"
+                app:indicator_select_drawable="@mipmap/line_select"
+                app:indicator_select_height="5dp"
+                app:indicator_select_width="32dp"
+                app:indicator_space="5dp" />
+
+            <com.luwei.ui.banner.Banner
+                android:id="@+id/banner_4"
+                android:layout_width="match_parent"
+                android:layout_height="178dp"
+                android:layout_marginTop="20dp"
+                app:banner_auto_play="true"
+                app:banner_expose_width="20dp"
+                app:banner_interval_time="3000"
+                app:banner_multi_anim="RotateUp"
+                app:banner_multi_page="true"
+                app:banner_page_spacing="20dp"
+                app:banner_show_indicator="true" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="1条数据"
+                android:textColor="#999999"
+                android:textSize="15sp" />
+
+            <com.luwei.ui.banner.Banner
+                android:id="@+id/banner_5"
+                android:layout_width="match_parent"
+                android:layout_height="178dp"
+                android:layout_marginTop="20dp"
+                app:banner_auto_play="true"
+                app:banner_interval_time="3000"
+                app:banner_multi_page="false"
+                app:banner_show_indicator="true"
+                app:banner_single_anim="Stack"
+                app:indicator_default_drawable="@mipmap/line_normal"
+                app:indicator_default_height="5dp"
+                app:indicator_default_width="17dp"
+                app:indicator_select_drawable="@mipmap/line_select"
+                app:indicator_select_height="5dp"
+                app:indicator_select_width="32dp"
+                app:indicator_space="5dp" />
+
+            <com.luwei.ui.banner.Banner
+                android:id="@+id/banner_6"
+                android:layout_width="match_parent"
+                android:layout_height="178dp"
+                android:layout_marginTop="20dp"
+                app:banner_auto_play="true"
+                app:banner_expose_width="20dp"
+                app:banner_interval_time="3000"
+                app:banner_multi_anim="RotateY"
+                app:banner_multi_page="true"
+                app:banner_page_spacing="20dp"
+                app:banner_show_indicator="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="Pager Item自定义~"
+                android:textColor="#999999"
+                android:textSize="15sp" />
+
+            <com.luwei.ui.banner.Banner
+                android:id="@+id/banner_7"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                app:banner_auto_play="true"
+                app:banner_interval_time="3000"
+                app:banner_multi_page="false"
+                app:banner_show_indicator="true"
+                app:banner_single_anim="Stack"
+                app:indicator_default_drawable="@mipmap/line_normal"
+                app:indicator_default_height="5dp"
+                app:indicator_default_width="17dp"
+                app:indicator_select_drawable="@mipmap/line_select"
+                app:indicator_select_height="5dp"
+                app:indicator_select_width="32dp"
+                app:indicator_space="5dp" />
+
+            <com.luwei.ui.banner.Banner
+                android:id="@+id/banner_8"
+                android:layout_width="match_parent"
+                android:layout_height="178dp"
+                android:layout_marginTop="20dp"
+                app:banner_auto_play="true"
+                app:banner_expose_width="20dp"
+                app:banner_interval_time="3000"
+                app:banner_multi_anim="RotateY"
+                app:banner_multi_page="true"
+                app:banner_page_spacing="20dp"
+                app:banner_show_indicator="true" />
+
+            <com.luwei.ui.banner.Banner
+                android:id="@+id/banner_9"
+                android:layout_width="match_parent"
+                android:layout_height="178dp"
+                android:layout_marginTop="20dp"
+                app:banner_auto_play="true"
+                app:banner_expose_width="20dp"
+                app:banner_interval_time="3000"
+                app:banner_multi_anim="RotateY"
+                app:banner_multi_page="true"
+                app:banner_page_spacing="20dp"
+                app:banner_show_indicator="true" />
+
+            <com.luwei.ui.banner.Banner
+                android:id="@+id/banner_10"
+                android:layout_width="match_parent"
+                android:layout_height="178dp"
+                android:layout_marginTop="20dp"
+                app:banner_auto_play="true"
+                app:banner_interval_time="3000"
+                app:banner_multi_page="false"
+                app:banner_show_indicator="false"
+                app:banner_single_anim="Stack">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="38dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#33000000">
+
+                    <TextView
+                        android:id="@+id/banner_10_text"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        tools:text="测试~" />
+
+                    <TextView
+                        android:id="@+id/banner_10_index"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:gravity="center_vertical"
+                        tools:text="4/5" />
+                </LinearLayout>
+            </com.luwei.ui.banner.Banner>
+
+            <com.luwei.ui.banner.Banner
+                android:id="@+id/banner_11"
+                android:layout_width="match_parent"
+                android:layout_height="178dp"
+                android:layout_marginBottom="50dp"
+                android:layout_marginTop="20dp"
+                app:banner_auto_play="true"
+                app:banner_interval_time="3000"
+                app:banner_multi_page="false"
+                app:banner_show_indicator="true"
+                app:banner_single_anim="Stack">
+
+                <com.luwei.lwbaselib.module.banner.BarrageView
+                    android:id="@+id/barrage_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </com.luwei.ui.banner.Banner>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>
