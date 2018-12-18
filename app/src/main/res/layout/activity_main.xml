@@ -112,6 +112,14 @@
             android:textAllCaps="false" />
 
 
+        <Button
+            android:id="@+id/btn_banner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Banner"
+            android:textAllCaps="false" />
+
+
     </LinearLayout>
 
 </ScrollView>
