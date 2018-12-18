@@ -2,7 +2,10 @@ package com.luwei.ui.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
+import android.support.annotation.ColorInt;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -26,7 +29,10 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
     private String mFinishedText;
     private int mOriginalColor;
     private int mStartedColor;
+    private Drawable mOriginalBackground;
+    private Drawable mStartedBackground;
     private Callback mCallback;
+    private int mTime;
     private boolean isStated = false;
 
     public TimerButton(Context context) {
@@ -41,6 +47,7 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
         super(context, attrs, defStyleAttr);
         mOriginalText = getText().toString();
         mOriginalColor = getCurrentTextColor();
+        mOriginalBackground = getBackground();
         initAttrs(context, attrs);
         initTimer();
     }
@@ -49,21 +56,23 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.TimerButton);
         mFormatText = array.getString(R.styleable.TimerButton_formatText);
         mFinishedText = array.getString(R.styleable.TimerButton_finishedText);
-        mStartedColor = array.getColor(R.styleable.TimerButton_startedTextColor,mOriginalColor);
+        mStartedColor = array.getColor(R.styleable.TimerButton_startedTextColor, mOriginalColor);
+        mTime = array.getInteger(R.styleable.TimerButton_time, 60);
+        mStartedBackground = array.getDrawable(R.styleable.TimerButton_startedBackground);
         array.recycle();
     }
 
 
     private void initTimer() {
-        mTimer = new CountDownTimer(2 * 1000, 1000) {
+        mTimer = new CountDownTimer(mTime * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                Log.e(TAG,""+millisUntilFinished);
+                Log.e(TAG, "" + millisUntilFinished);
                 try {
-                    setText(String.format(Locale.CHINA, mFormatText, millisUntilFinished / 1000));
+                    setText(String.format(Locale.CHINA, mFormatText, (millisUntilFinished + 500) / 1000));
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
-                    setText(String.format(Locale.CHINA, "%d", millisUntilFinished / 1000));
+                    setText(String.format(Locale.CHINA, "%d", (millisUntilFinished + 500) / 1000));
                 }
                 if (mCallback != null) {
                     mCallback.onTick(TimerButton.this, millisUntilFinished);
@@ -74,6 +83,9 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
             public void onFinish() {
                 setTextColor(mOriginalColor);
                 setText(TextUtils.isEmpty(mFinishedText) ? mOriginalText : mFinishedText);
+                if (mStartedBackground != null) {
+                    setBackground(mOriginalBackground);
+                }
                 if (mCallback != null) {
                     mCallback.onFinish(TimerButton.this);
                 }
@@ -86,10 +98,21 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
         return isStated;
     }
 
-    public void resetStatus(){
+    public void resetStatus() {
         setTextColor(mOriginalColor);
         setText(mOriginalText);
+        if (mStartedBackground != null) {
+            setBackground(mOriginalBackground);
+        }
         isStated = false;
+    }
+
+    public void stop(){
+        if (isStated){
+            mTimer.onFinish();
+            mTimer.cancel();
+            mTimer = null;
+        }
     }
 
     public void start() {
@@ -100,12 +123,10 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
         }
         isStated = true;
         setTextColor(mStartedColor);
+        setBackground(mStartedBackground);
         mTimer.start();
     }
 
-    public void setCallback(Callback callback) {
-        mCallback = callback;
-    }
 
     @Override
     protected void onDetachedFromWindow() {
@@ -113,6 +134,45 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
         mTimer.cancel();
         mTimer = null;
         super.onDetachedFromWindow();
+    }
+
+
+    public void setCallback(Callback callback) {
+        mCallback = callback;
+    }
+
+    public String getFormatText() {
+        return mFormatText;
+    }
+
+    public void setFormatText(@NonNull String mFormatText) {
+        this.mFormatText = mFormatText;
+    }
+
+    public String getFinishedText() {
+        return mFinishedText;
+    }
+
+    public void setFinishedText(@NonNull String mFinishedText) {
+        this.mFinishedText = mFinishedText;
+    }
+
+    public int getStartedColor() {
+        return mStartedColor;
+    }
+
+    public void setStartedColor(@ColorInt int mStartedColor) {
+        this.mStartedColor = mStartedColor;
+        setTextColor(mStartedColor);
+    }
+
+    public Drawable getStartedBackground() {
+        return mStartedBackground;
+    }
+
+    public void setStartedBackground(@NonNull Drawable mStartedBackground) {
+        this.mStartedBackground = mStartedBackground;
+        setBackground(mStartedBackground);
     }
 
     public interface Callback {
