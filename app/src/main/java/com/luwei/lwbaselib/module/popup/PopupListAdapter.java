@@ -1,8 +1,7 @@
-package com.luwei.lwbaselib.popup;
+package com.luwei.lwbaselib.module.popup;
 
 
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
