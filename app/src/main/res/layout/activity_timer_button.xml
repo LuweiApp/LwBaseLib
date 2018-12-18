@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.luwei.ui.view.TimerButton
+        android:id="@+id/view_timer_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="点击开始"
+        app:formatText="还剩%d秒"
+        app:finishedText="重新开始"
+        app:startedTextColor="@color/colorAccent"
+        app:time="30"
+        app:startedBackground="@color/colorPrimary"/>
+
+</FrameLayout>

@@ -119,6 +119,12 @@
             android:text="Banner"
             android:textAllCaps="false" />
 
+        <Button
+            android:id="@+id/btn_timer_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Timer Button"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 
