@@ -19,10 +19,10 @@ public class MyApplication extends Application {
         super.onCreate();
         ImageLoaderUtils.init();
 
-        TitleBar.getConfig()
-                .setTitleTextColor(Color.RED)
-                .setTitleTextSize(this,20)
-                .setBackGroundColor(Color.GRAY);
+//        TitleBar.getConfig()
+//                .setTitleTextColor(Color.RED)
+//                .setTitleTextSize(this,20)
+//                .setBackGroundColor(Color.GRAY);
 
         ZoomMediaLoader.getInstance().init(new PreviewPictureLoader());
 
