@@ -37,10 +37,13 @@
 
         <activity android:name=".activity.RxBusActivity"
             android:label="RxBus"/>
+
         <!--<activity android:name=".module.recyclerview.AdapterDemoActivity"
             />
 
         <activity android:name=".activity.RxBusActivity" />-->
+
+
         <activity android:name=".module.recyclerview.adapter.AdapterDemoActivity" />
         <activity android:name=".module.recyclerview.decoration.StaggeredActivity" />
         <activity android:name=".module.recyclerview.decoration.StickHeaderActivity" />
@@ -51,6 +54,8 @@
         <activity android:name=".activity.ImagePreviewActivity" />
         <activity android:name=".activity.HeaderActivity"></activity>
         <activity android:name="me.nereo.image_selector.MultiImageSelectorActivity" android:launchMode="singleTop"/>
+        <activity android:name=".module.banner.BannerActivity" />
+        <activity android:name=".activity.TimerButtonActivity" />
 
         <!-- 7.0拍照相册  注意 android:authorities 里面的值，在后面使用的getUriForFile(Context, String, File) 中， 第二个参数就是这个里面的值 -->
         <provider

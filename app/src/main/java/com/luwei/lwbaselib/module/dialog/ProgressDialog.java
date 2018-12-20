@@ -1,4 +1,4 @@
-package com.luwei.lwbaselib.dialog;
+package com.luwei.lwbaselib.module.dialog;
 
 import android.widget.ProgressBar;
 import android.widget.TextView;

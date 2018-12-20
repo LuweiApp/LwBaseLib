@@ -1,4 +1,4 @@
-package com.luwei.lwbaselib.popup;
+package com.luwei.lwbaselib.module.popup;
 
 import android.view.View;
 import android.widget.TextView;

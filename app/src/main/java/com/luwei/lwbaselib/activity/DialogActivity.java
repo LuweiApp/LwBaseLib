@@ -15,9 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.luwei.lwbaselib.R;
-import com.luwei.lwbaselib.dialog.CustomDialog;
-import com.luwei.lwbaselib.dialog.LoadingDialog;
-import com.luwei.lwbaselib.dialog.ProgressDialog;
+import com.luwei.lwbaselib.module.dialog.CustomDialog;
+import com.luwei.lwbaselib.module.dialog.LoadingDialog;
+import com.luwei.lwbaselib.module.dialog.ProgressDialog;
 import com.luwei.ui.dialog.ConfirmListener;
 
 import java.util.ArrayList;
