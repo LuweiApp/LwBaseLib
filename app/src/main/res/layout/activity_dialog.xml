@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.luwei.lwbaselib.activity.DialogActivity">
 
-    <com.luwei.ui.TitleBar
+    <com.luwei.ui.view.TitleBar
         android:id="@+id/view_tb_dialog"
         android:layout_width="match_parent"
         android:layout_height="43dp"
         android:background="@color/colorPrimary">
 
-    </com.luwei.ui.TitleBar>
+    </com.luwei.ui.view.TitleBar>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

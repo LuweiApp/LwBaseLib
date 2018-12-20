@@ -13,13 +13,13 @@
         android:orientation="vertical"
         tools:context="com.luwei.lwbaselib.MainActivity">
 
-        <com.luwei.ui.TitleBar
+        <com.luwei.ui.view.TitleBar
             android:layout_width="match_parent"
             android:layout_height="43dp"
             android:background="@color/colorPrimary"
             app:isBack="false">
 
-        </com.luwei.ui.TitleBar>
+        </com.luwei.ui.view.TitleBar>
 
         <TextView
             android:id="@+id/tv_content"

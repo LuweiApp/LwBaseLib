@@ -1,13 +1,8 @@
 package com.luwei.lwbaselib.activity;
 
-
-
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +14,7 @@ import com.luwei.lwbaselib.module.popup.ConfirmPopup;
 import com.luwei.ui.popup.CustomPopup;
 import com.luwei.ui.popup.XGravity;
 import com.luwei.ui.popup.YGravity;
+import com.luwei.ui.view.TitleBar;
 
 import butterknife.OnClick;
 
@@ -46,8 +42,6 @@ public class PopupActivity extends LwBaseActivity {
                 break;
             case R.id.btn_bottom:
                 mListPopup.showAtAnchorView(view, YGravity.ABOVE, XGravity.CENTER);
-
-
                 break;
             case R.id.btn_center:
                 mCustomPopup.showAtLocation(getWindow().getDecorView(),Gravity.CENTER,0,0);
@@ -63,8 +57,6 @@ public class PopupActivity extends LwBaseActivity {
          mCustomPopup = CustomPopup.newInstance(this)
                 .setContentView(R.layout.popup_custom)
                 .setFocusAndOutsideEnable(true)
-                .setWidth(300)
-                .setHeight(200)
                 .setOnViewListener(new CustomPopup.OnViewListener() {
                     @Override
                     public void initViews(View view, CustomPopup popup) {
@@ -126,6 +118,7 @@ public class PopupActivity extends LwBaseActivity {
         initCustomPopup();
         initConfirmPopup();
         initListPopup();
+
     }
 
     @Override

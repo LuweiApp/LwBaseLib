@@ -7,16 +7,15 @@
         <!--标题-->
         <attr name="titleText" format="string"/>
         <attr name="titleTextSize" format="dimension"/>
-        <attr name="titleColor" format="color"/>
+        <attr name="titleTextColor" format="color"/>
 
         <!--左部-->
-        <attr name="leftText" format="string"/>
-        <attr name="leftTextSize" format="dimension"/>
-        <attr name="leftBackground" format="reference|color"/>
+        <attr name="leftImage" format="reference"/>
 
         <!--右部-->
         <attr name="rightText" format="string"/>
         <attr name="rightTextSize" format="dimension"/>
-        <attr name="rightBackground" format="reference|color"/>
+        <attr name="rightTextColor" format="color"/>
+        <attr name="rightImage" format="reference"/>
     </declare-styleable>
 </resources>

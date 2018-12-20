@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.luwei.ui.TitleBar
+    <com.luwei.ui.view.TitleBar
         android:id="@+id/view_tb_adapter"
         android:layout_width="match_parent"
         android:layout_height="43dp"
         android:background="@color/colorPrimary"
         app:layout_constraintTop_toTopOf="parent">
 
-    </com.luwei.ui.TitleBar>
+    </com.luwei.ui.view.TitleBar>
 
     <Button
         android:id="@+id/btn_adapter_single"
