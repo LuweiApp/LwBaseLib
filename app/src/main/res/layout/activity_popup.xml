@@ -7,18 +7,16 @@
     tools:context="com.luwei.lwbaselib.activity.PopupActivity"
     tools:layout_editor_absoluteY="25dp">
 
-    <com.luwei.ui.TitleBar
+    <com.luwei.ui.view.TitleBar
         android:id="@+id/view_tb_popup"
         android:layout_width="match_parent"
         android:layout_height="43dp"
-        android:background="@color/colorPrimary"
-        app:titleText="PopupWindow"
-        app:leftBackground="@mipmap/icon_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </com.luwei.ui.TitleBar>
+    </com.luwei.ui.view.TitleBar>
+
 
     <Button
         android:id="@+id/btn_up"
