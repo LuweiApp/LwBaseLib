@@ -107,8 +107,8 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
         isStated = false;
     }
 
-    public void stop(){
-        if (isStated){
+    public void stop() {
+        if (isStated) {
             mTimer.onFinish();
             mTimer.cancel();
             mTimer = null;
@@ -123,7 +123,9 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
         }
         isStated = true;
         setTextColor(mStartedColor);
-        setBackground(mStartedBackground);
+        if (mStartedBackground != null) {
+            setBackground(mStartedBackground);
+        }
         mTimer.start();
     }
 
@@ -173,6 +175,15 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
     public void setStartedBackground(@NonNull Drawable mStartedBackground) {
         this.mStartedBackground = mStartedBackground;
         setBackground(mStartedBackground);
+    }
+
+
+    public int getTime() {
+        return mTime;
+    }
+
+    public void setTime(int mTime) {
+        this.mTime = mTime;
     }
 
     public interface Callback {
