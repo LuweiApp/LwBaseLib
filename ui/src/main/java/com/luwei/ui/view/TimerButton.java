@@ -1,15 +1,16 @@
 package com.luwei.ui.view;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.CountDownTimer;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.luwei.ui.CountDownTimer;
 import com.luwei.ui.R;
 
 import java.util.Locale;
@@ -27,7 +28,7 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
     private String mFormatText;
     private String mOriginalText;
     private String mFinishedText;
-    private int mOriginalColor;
+    private ColorStateList mOriginalColor;
     private int mStartedColor;
     private Drawable mOriginalBackground;
     private Drawable mStartedBackground;
@@ -46,7 +47,7 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
     public TimerButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mOriginalText = getText().toString();
-        mOriginalColor = getCurrentTextColor();
+        mOriginalColor = getTextColors();
         mOriginalBackground = getBackground();
         initAttrs(context, attrs);
         initTimer();
@@ -56,7 +57,7 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.TimerButton);
         mFormatText = array.getString(R.styleable.TimerButton_formatText);
         mFinishedText = array.getString(R.styleable.TimerButton_finishedText);
-        mStartedColor = array.getColor(R.styleable.TimerButton_startedTextColor, mOriginalColor);
+        mStartedColor = array.getColor(R.styleable.TimerButton_startedTextColor, -1);
         mTime = array.getInteger(R.styleable.TimerButton_time, 60);
         mStartedBackground = array.getDrawable(R.styleable.TimerButton_startedBackground);
         array.recycle();
@@ -81,8 +82,10 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
 
             @Override
             public void onFinish() {
-                setTextColor(mOriginalColor);
                 setText(TextUtils.isEmpty(mFinishedText) ? mOriginalText : mFinishedText);
+                if (mStartedColor != -1) {
+                    setTextColor(mOriginalColor);
+                }
                 if (mStartedBackground != null) {
                     setBackground(mOriginalBackground);
                 }
@@ -99,7 +102,9 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
     }
 
     public void resetStatus() {
-        setTextColor(mOriginalColor);
+        if (mStartedColor != -1) {
+            setTextColor(mOriginalColor);
+        }
         setText(mOriginalText);
         if (mStartedBackground != null) {
             setBackground(mOriginalBackground);
@@ -122,7 +127,9 @@ public class TimerButton extends android.support.v7.widget.AppCompatButton {
             initTimer();
         }
         isStated = true;
-        setTextColor(mStartedColor);
+        if (mStartedColor != -1) {
+            setTextColor(mStartedColor);
+        }
         if (mStartedBackground != null) {
             setBackground(mStartedBackground);
         }
