@@ -71,12 +71,16 @@ public class TitleBar extends RelativeLayout {
     private OnTitleClickListener mTitleListener;
 
     public TitleBar(@NonNull Context context) {
-        super(context);
-        this.mContext = context;
+        this(context, null);
+
     }
 
     public TitleBar(@NonNull Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
+    }
+
+    public TitleBar(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
         this.mContext = context;
         initDefaultParam();
         getAttr(attrs);
@@ -158,7 +162,7 @@ public class TitleBar extends RelativeLayout {
         LayoutParams leftParams = new LayoutParams(w, h);
         leftParams.addRule(ALIGN_PARENT_LEFT);
         mIvLeft = new ImageView(mContext);
-        mIvLeft.setPadding(mPadding, 0, mPadding, 0);
+        mIvLeft.setPadding(mPadding, 0, mPadding*2, 0);
         mIvLeft.setLayoutParams(leftParams);
         //没有设置图片资源时设置默认的返回图片
         if (mDefLeftImage != null && mLeftImage == null)
@@ -170,7 +174,7 @@ public class TitleBar extends RelativeLayout {
         } else {
             mIvLeft.setVisibility(GONE);
         }
-        mIvLeft.setAdjustViewBounds(true);
+
         mIvLeft.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
