@@ -19,8 +19,8 @@ import io.reactivex.subjects.PublishSubject;
  * @Description:    真正调用 startActivity 和处理 onActivityResult 的类。
  */
 public class SimpleOnResultFragment extends Fragment {
-    private Map<Integer, PublishSubject<ActivityResultInfo>> mSubjects = new HashMap<>();
-    private Map<Integer, SimpleForResult.Callback> mCallbacks = new HashMap<>();
+    private static Map<Integer, PublishSubject<ActivityResultInfo>> mSubjects = new HashMap<>();
+    private static Map<Integer, SimpleForResult.Callback> mCallbacks = new HashMap<>();
 
     public SimpleOnResultFragment() {
     }
