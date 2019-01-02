@@ -90,16 +90,21 @@ public class TitleBar extends RelativeLayout {
     }
 
     private void initDefaultParam() {
-        if (mDefPadding == 0)
+        if (mDefPadding == 0) {
             mDefPadding = dip2px(mContext, 14.0F);
-        if (mDefTextSize == 0)
+        }
+        if (mDefTextSize == 0) {
             mDefTextSize = 15;
-        if (mDefTextColor == 0)
+        }
+        if (mDefTextColor == 0) {
             mDefTextColor = Color.parseColor("#333333");
-        if (mDefBackGroundColor == 0)
+        }
+        if (mDefBackGroundColor == 0) {
             mDefBackGroundColor = Color.parseColor("#3F51B5");
-        if (mIsBack && mDefLeftImage == null)
-            mDefLeftImage = getResources().getDrawable(R.mipmap.icon_back);
+        }
+        if (mIsBack && mDefLeftImage == null) {
+            mDefLeftImage = ContextCompat.getDrawable(mContext,R.mipmap.top_return);
+        }
         setBackgroundColor(mDefBackGroundColor);
     }
 
@@ -162,11 +167,14 @@ public class TitleBar extends RelativeLayout {
         LayoutParams leftParams = new LayoutParams(w, h);
         leftParams.addRule(ALIGN_PARENT_LEFT);
         mIvLeft = new ImageView(mContext);
-        mIvLeft.setPadding(mPadding, 0, mPadding*2, 0);
+        mIvLeft.setPadding(mPadding, 0, mPadding * 2, 0);
         mIvLeft.setLayoutParams(leftParams);
+        mIvLeft.setScaleType(ImageView.ScaleType.FIT_XY);
+        mIvLeft.setAdjustViewBounds(true);
         //没有设置图片资源时设置默认的返回图片
-        if (mDefLeftImage != null && mLeftImage == null)
+        if (mDefLeftImage != null && mLeftImage == null) {
             mLeftImage = mDefLeftImage;
+        }
 
         if (mLeftImage != null) {
             mIvLeft.setImageDrawable(mLeftImage);
@@ -226,6 +234,8 @@ public class TitleBar extends RelativeLayout {
         mIvRight = new ImageView(mContext);
         mIvRight.setPadding(mPadding, 0, mPadding, 0);
         mIvRight.setLayoutParams(rightParams);
+        mIvRight.setScaleType(ImageView.ScaleType.FIT_XY);
+        mIvRight.setAdjustViewBounds(true);
         mIvRight.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -447,8 +457,9 @@ public class TitleBar extends RelativeLayout {
      * @param activity
      */
     private void closeKeyboard(Activity activity) {
-        if (activity == null)
+        if (activity == null) {
             return;
+        }
 
         View view = activity.getWindow().peekDecorView();
         if (view != null) {
