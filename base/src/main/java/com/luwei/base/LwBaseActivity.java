@@ -36,13 +36,13 @@ public abstract class LwBaseActivity<P extends IPresent> extends AppCompatActivi
         }
     }
 
-    abstract void initView(Bundle savedInstanceState);
+    public abstract void initView(Bundle savedInstanceState);
 
-    abstract void initData();
+    public abstract void initData();
 
-    abstract void initEvent();
+    public abstract void initEvent();
 
-    abstract int getLayoutId();
+    public abstract int getLayoutId();
 
 
     public void tranDecorView() {
