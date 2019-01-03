@@ -36,6 +36,14 @@ public abstract class LwBaseActivity<P extends IPresent> extends AppCompatActivi
         }
     }
 
+    abstract void initView(Bundle savedInstanceState);
+
+    abstract void initData();
+
+    abstract void initEvent();
+
+    abstract int getLayoutId();
+
 
     public void tranDecorView() {
         if (Build.VERSION.SDK_INT >= 21) {
@@ -94,12 +102,12 @@ public abstract class LwBaseActivity<P extends IPresent> extends AppCompatActivi
         return 0;
     }
 
-    @Override
+
     public void showLoading() {
 
     }
 
-    @Override
+
     public void hideLoading() {
 
     }

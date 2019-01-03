@@ -1,7 +1,5 @@
 package com.luwei.base;
 
-import android.os.Bundle;
-
 /**
  * Created by wanglei on 2016/12/29.
  * <p>
@@ -11,20 +9,8 @@ import android.os.Bundle;
 
 public interface IView<P extends IPresent> {
 
-    void initView(Bundle savedInstanceState);
-
-    void initData();
-
-    void initEvent();
-
-    int getLayoutId();
-
     P newP();
 
     P getP();
-
-    void showLoading();
-
-    void hideLoading();
 
 }
