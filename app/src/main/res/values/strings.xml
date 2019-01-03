@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">LwBaseLib</string>
     <string name="text_image">使用 ImageLoaderUtils 需要先调用 init() 方法进行初始化</string>
+    <string name="push">发布</string>
 </resources>

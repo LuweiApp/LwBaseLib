@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.TitleBarAcitivity">
+
+    <com.luwei.ui.view.TitleBar
+        android:id="@+id/tb_1"
+        android:layout_width="match_parent"
+        android:layout_height="42dp" />
+
+
+
+    <com.luwei.ui.view.TitleBar
+        android:id="@+id/tb_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:leftText="Back"
+        app:rightText="发布"/>
+
+
+
+    <com.luwei.ui.view.TitleBar
+        android:id="@+id/tb_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:leftTextDrawableLeft="@mipmap/top_return"
+        app:leftText="Back"/>
+
+    <com.luwei.ui.view.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:leftTextDrawableRight="@mipmap/top_return"
+        app:leftText="返回"
+        app:rightText="@string/push"/>
+
+    <com.luwei.ui.view.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:rightTextDrawableRight="@mipmap/top_return"
+        app:leftTextDrawableLeft="@mipmap/top_return"
+        app:leftText="返回"
+        app:leftTextColor="@color/colorAccent"
+        app:rightTextColor="@color/colorPrimary"
+        app:leftTextDrawablePadding="50dp"
+        app:rightTextDrawablePadding="50dp"
+        app:rightText="@string/push"/>
+
+    <com.luwei.ui.view.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        app:titleText="显示图片"
+        app:titleTextSize="20sp"
+        app:titleTextColor="@color/colorPrimary"
+        app:leftImage="@mipmap/ic_launcher_round"
+        app:rightImage="@mipmap/default_image"/>
+
+</LinearLayout>
