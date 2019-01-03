@@ -33,6 +33,13 @@ public abstract class LwBaseFragment<P extends IPresent>
         return mRootView;
     }
 
+    public abstract void initView(Bundle savedInstanceState);
+
+    public abstract void initData();
+
+    public abstract void initEvent();
+
+    public abstract int getLayoutId();
 
     @Override
     public P getP() {
@@ -82,6 +89,15 @@ public abstract class LwBaseFragment<P extends IPresent>
     public void onDetach() {
         super.onDetach();
         hostActivity = null;
+    }
+
+    public void showLoading() {
+
+    }
+
+
+    public void hideLoading() {
+
     }
 
 }
