@@ -60,4 +60,32 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="TitleBar">
+        <attr name="showDefaultBackIcon" format="boolean"/>
+        <attr name="padding" format="dimension"/>
+
+        <!--标题-->
+        <attr name="titleText" format="string"/>
+        <attr name="titleTextSize" format="dimension"/>
+        <attr name="titleTextColor" format="color"/>
+
+        <!--左部-->
+        <attr name="leftText" format="string"/>
+        <attr name="leftTextSize" format="dimension"/>
+        <attr name="leftTextColor" format="color"/>
+        <attr name="leftTextDrawableLeft" format="reference"/>
+        <attr name="leftTextDrawableRight" format="reference"/>
+        <attr name="leftTextDrawablePadding" format="dimension"/>
+        <attr name="leftImage" format="reference"/>
+
+        <!--右部-->
+        <attr name="rightText" format="string"/>
+        <attr name="rightTextSize" format="dimension"/>
+        <attr name="rightTextColor" format="color"/>
+        <attr name="rightTextDrawableLeft" format="reference"/>
+        <attr name="rightTextDrawableRight" format="reference"/>
+        <attr name="rightTextDrawablePadding" format="dimension"/>
+        <attr name="rightImage" format="reference"/>
+    </declare-styleable>
+
 </resources>

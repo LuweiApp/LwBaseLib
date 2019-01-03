@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="43dp"
             android:background="@color/colorPrimary"
-            app:isBack="false">
+            app:showDefaultBackIcon="false">
 
         </com.luwei.ui.view.TitleBar>
 
@@ -124,6 +124,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Timer Button"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_titlebar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TitleBar"
             android:textAllCaps="false" />
 
     </LinearLayout>

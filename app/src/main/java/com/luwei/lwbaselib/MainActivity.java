@@ -17,6 +17,7 @@ import com.luwei.lwbaselib.activity.PermissionActivity;
 import com.luwei.lwbaselib.activity.PopupActivity;
 import com.luwei.lwbaselib.activity.RxBusActivity;
 import com.luwei.lwbaselib.activity.TimerButtonActivity;
+import com.luwei.lwbaselib.activity.TitleBarAcitivity;
 import com.luwei.lwbaselib.activity.ToastActivity;
 import com.luwei.lwbaselib.module.banner.BannerActivity;
 import com.luwei.lwbaselib.module.recyclerview.RecyclerViewActivity;
@@ -70,7 +71,7 @@ public class MainActivity extends LwBaseActivity {
     @OnClick({R.id.btn_to_image, R.id.btn_to_log, R.id.btn_to_dialog, R.id.btn_to_popup
             , R.id.btn_to_recyclerview, R.id.btn_to_permission, R.id.btn_to_RxBus,
             R.id.btn_to_toast, R.id.btn_activity_for_result, R.id.btn_preview, R.id.btn_header,
-            R.id.btn_banner,R.id.btn_timer_button})
+            R.id.btn_banner,R.id.btn_timer_button,R.id.btn_titlebar})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_to_image:
@@ -120,6 +121,10 @@ public class MainActivity extends LwBaseActivity {
             case R.id.btn_timer_button:
                 //倒计时控件
                 startActivity(new Intent(MainActivity.this, TimerButtonActivity.class));
+                break;
+            case R.id.btn_titlebar:
+                //标题栏
+                startActivity(new Intent(MainActivity.this, TitleBarAcitivity.class));
                 break;
             default:
                 break;

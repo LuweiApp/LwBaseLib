@@ -28,43 +28,60 @@ import com.luwei.ui.R;
 
 
 /**
- * Created by LiCheng
- * Date：2018/12/10
+ * @author LiCheng
+ * @date   2018/12/10
  */
 public class TitleBar extends RelativeLayout {
 
     private Context mContext;
     private static Config mConfig = new Config();
 
-    private static final int w = LayoutParams.WRAP_CONTENT;
-    private static final int h = LayoutParams.MATCH_PARENT;
+    private static final int WRAP_CONTENT = LayoutParams.WRAP_CONTENT;
+    private static final int MATCH_PARENT = LayoutParams.MATCH_PARENT;
 
+    private static int mDefHeight;
     private static int mDefPadding;
-    private static int mDefTextSize;
-    private static int mDefTextColor;
+    private static int mDefDrawablePadding;
     private static int mDefBackGroundColor;
+    private static int mDefTitleSize;
+    private static int mDefTitleColor;
+    private static int mDefLeftSize;
+    private static int mDefLeftColor;
+    private static int mDefRightSize;
+    private static int mDefRightColor;
     private static Drawable mDefLeftImage;
 
-    //是否添加默认的返回键
-    private boolean mIsBack = true;
-
+    private boolean mShowDefaultBackIcon = true;
     private int mPadding;
+    private int mLeftDrawablePadding;
+    private int mRightDrawablePadding;
     private int mTitleTextColor;
+    private int mLeftTextColor;
     private int mRightTextColor;
     private int mTitleTextSize;
+    private int mLeftTextSize;
     private int mRightTextSize;
 
     private String mTitleText;
+    private String mLeftText;
     private String mRightText;
 
     private Drawable mLeftImage;
+    private Drawable mLeftDrawableLeft;
+    private Drawable mLeftDrawableRight;
     private Drawable mRightImage;
+    private Drawable mRightDrawableLeft;
+    private Drawable mRightDrawableRight;
 
     private TextView mTvTitle;
+    private TextView mTvLeft;
     private TextView mTvRight;
     private ImageView mIvLeft;
     private ImageView mIvRight;
 
+    private LayoutParams mTitleParams;
+    private LayoutParams mLeftParams;
+    private LayoutParams mRightParams;
 
     private OnLeftClickListener mLeftListener;
     private OnRightClickListener mRightListener;
@@ -84,47 +101,119 @@ public class TitleBar extends RelativeLayout {
         this.mContext = context;
         initDefaultParam();
         getAttr(attrs);
-        initTitle();
-        initLeft();
-        initRight();
+        initTitleBar();
     }
 
     private void initDefaultParam() {
+        if (mDefHeight == 0) {
+            mDefHeight = dip2px(mContext, 42.0F);
+        }
         if (mDefPadding == 0) {
             mDefPadding = dip2px(mContext, 14.0F);
         }
-        if (mDefTextSize == 0) {
-            mDefTextSize = 15;
+        if (mDefDrawablePadding == 0) {
+            mDefDrawablePadding = dip2px(mContext, 6.0F);
         }
-        if (mDefTextColor == 0) {
-            mDefTextColor = Color.parseColor("#333333");
+        if (mDefTitleSize == 0) {
+            mDefTitleSize = 15;
+        }
+        if (mDefTitleColor == 0) {
+            mDefTitleColor = Color.parseColor("#262122");
+        }
+        if (mDefLeftSize == 0) {
+            mDefLeftSize = 15;
+        }
+        if (mDefLeftColor == 0) {
+            mDefLeftColor = Color.parseColor("#262122");
+        }
+        if (mDefRightSize == 0) {
+            mDefRightSize = 15;
+        }
+        if (mDefRightColor == 0) {
+            mDefRightColor = Color.parseColor("#262122");
         }
         if (mDefBackGroundColor == 0) {
-            mDefBackGroundColor = Color.parseColor("#3F51B5");
+            mDefBackGroundColor = Color.parseColor("#ffffff");
         }
-        if (mIsBack && mDefLeftImage == null) {
-            mDefLeftImage = ContextCompat.getDrawable(mContext,R.mipmap.top_return);
+        if (mDefLeftImage == null) {
+            mDefLeftImage = ContextCompat.getDrawable(mContext, R.mipmap.top_return);
         }
-        setBackgroundColor(mDefBackGroundColor);
     }
 
     private void getAttr(AttributeSet attrs) {
         //从xml中获取属性
         TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.TitleBar);
-        mIsBack = ta.getBoolean(R.styleable.TitleBar_isBack, true);
+
+        mShowDefaultBackIcon = ta.getBoolean(R.styleable.TitleBar_showDefaultBackIcon, true);
         mPadding = ta.getDimensionPixelSize(R.styleable.TitleBar_padding, mDefPadding);
-        mTitleTextColor = ta.getColor(R.styleable.TitleBar_titleTextColor, mDefTextColor);
+
+        mTitleTextColor = ta.getColor(R.styleable.TitleBar_titleTextColor, mDefTitleColor);
         mTitleText = ta.getString(R.styleable.TitleBar_titleText);
-        mTitleTextSize = ta.getDimensionPixelSize(R.styleable.TitleBar_titleTextSize, mDefTextSize);
+        mTitleTextSize = ta.getDimensionPixelSize(R.styleable.TitleBar_titleTextSize, mDefTitleSize);
+
+        mLeftText = ta.getString(R.styleable.TitleBar_leftText);
+        mLeftTextSize = ta.getDimensionPixelSize(R.styleable.TitleBar_leftTextSize, mDefLeftSize);
+        mLeftTextColor = ta.getColor(R.styleable.TitleBar_leftTextColor, mDefLeftColor);
+        mLeftDrawableLeft = ta.getDrawable(R.styleable.TitleBar_leftTextDrawableLeft);
+        mLeftDrawableRight = ta.getDrawable(R.styleable.TitleBar_leftTextDrawableRight);
+        mLeftDrawablePadding = ta.getDimensionPixelSize(R.styleable.TitleBar_leftTextDrawablePadding, mDefDrawablePadding);
         mLeftImage = ta.getDrawable(R.styleable.TitleBar_leftImage);
+
         mRightText = ta.getString(R.styleable.TitleBar_rightText);
-        mRightTextSize = ta.getDimensionPixelSize(R.styleable.TitleBar_rightTextSize, mDefTextSize);
-        mRightTextColor = ta.getColor(R.styleable.TitleBar_rightTextColor, mDefTextColor);
+        mRightTextSize = ta.getDimensionPixelSize(R.styleable.TitleBar_rightTextSize, mDefRightSize);
+        mRightTextColor = ta.getColor(R.styleable.TitleBar_rightTextColor, mDefRightColor);
+        mRightDrawableLeft = ta.getDrawable(R.styleable.TitleBar_rightTextDrawableLeft);
+        mRightDrawableRight = ta.getDrawable(R.styleable.TitleBar_rightTextDrawableRight);
+        mRightDrawablePadding = ta.getDimensionPixelSize(R.styleable.TitleBar_rightTextDrawablePadding, mDefDrawablePadding);
         mRightImage = ta.getDrawable(R.styleable.TitleBar_rightImage);
+
         ta.recycle();
     }
 
-    private void initTitle() {
+    private void initTitleBar() {
+        setTitleBar();
+        initParams();
+        setTitle();
+
+        if (mLeftText == null) {
+            setLeftImage();
+        } else {
+            setLeftText();
+        }
+
+        if (mRightText != null) {
+            setRightText();
+        } else if (mRightImage != null) {
+            setRightImage();
+        }
+
+    }
+
+    private void initParams() {
+        mTitleParams = new LayoutParams(WRAP_CONTENT, MATCH_PARENT);
+        mTitleParams.addRule(CENTER_IN_PARENT);
+        mLeftParams = new LayoutParams(WRAP_CONTENT, MATCH_PARENT);
+        mLeftParams.addRule(ALIGN_PARENT_LEFT);
+        mRightParams = new LayoutParams(WRAP_CONTENT, MATCH_PARENT);
+        mRightParams.addRule(ALIGN_PARENT_RIGHT);
+    }
+
+    private void setTitleBar() {
+        //判断是否在xml中设置背景颜色，没有则添加默认背景颜色
+        if (getBackground() == null) {
+            setBackgroundColor(mDefBackGroundColor);
+        }
+        //getLayoutParams().height = mDefHeight;
+//        boolean is = false;
+//        if(mHeight == WRAP_CONTENT){
+//            is = true;
+//        }
+//        if(is){
+//            setMinimumHeight(mDefHeight);
+//        }
+    }
+
+    private void setTitle() {
         //未设置标题时 获取Label作为标题
         if (mTitleText == null) {
             try {
@@ -133,7 +222,7 @@ public class TitleBar extends RelativeLayout {
                 if (label != null) {
                     mTitleText = label;
                 } else {
-                    mTitleText = "请设置标题或Label";
+                    mTitleText = "请设置标题或在Manifest中设置Label";
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -155,34 +244,24 @@ public class TitleBar extends RelativeLayout {
             }
         });
 
-
-        LayoutParams titleParams = new LayoutParams(w, h);
-        titleParams.addRule(CENTER_IN_PARENT);
-        mTvTitle.setGravity(Gravity.CENTER_VERTICAL);
-
-        addView(mTvTitle, titleParams);
+        mTvTitle.setGravity(Gravity.CENTER);
+        addView(mTvTitle, mTitleParams);
     }
 
-    private void initLeft() {
-        LayoutParams leftParams = new LayoutParams(w, h);
-        leftParams.addRule(ALIGN_PARENT_LEFT);
-        mIvLeft = new ImageView(mContext);
-        mIvLeft.setPadding(mPadding, 0, mPadding * 2, 0);
-        mIvLeft.setLayoutParams(leftParams);
-        mIvLeft.setScaleType(ImageView.ScaleType.FIT_XY);
-        mIvLeft.setAdjustViewBounds(true);
+    private void setLeftImage() {
+        //mShowDefaultBackIcon是选择是否添加默认返回键的布尔值，如果为false且用户未设置左部图片，则不显示
+        if (!mShowDefaultBackIcon && mLeftImage == null) {
+            return;
+        }
         //没有设置图片资源时设置默认的返回图片
         if (mDefLeftImage != null && mLeftImage == null) {
             mLeftImage = mDefLeftImage;
         }
 
-        if (mLeftImage != null) {
-            mIvLeft.setImageDrawable(mLeftImage);
-            mIvLeft.setVisibility(VISIBLE);
-        } else {
-            mIvLeft.setVisibility(GONE);
-        }
-
+        mIvLeft = new ImageView(mContext);
+        mIvLeft.setPadding(mPadding, 0, mPadding * 2, 0);
+        mIvLeft.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+        mIvLeft.setImageDrawable(mLeftImage);
         mIvLeft.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -199,43 +278,43 @@ public class TitleBar extends RelativeLayout {
                 }
             }
         });
-        this.addView(mIvLeft);
-
+        addView(mIvLeft, mLeftParams);
     }
 
-    private void initRight() {
-        LayoutParams rightParams = new LayoutParams(w, h);
-        rightParams.addRule(ALIGN_PARENT_RIGHT);
-
-        mTvRight = new TextView(mContext);
-        mTvRight.setTextSize(TypedValue.COMPLEX_UNIT_SP, mRightTextSize);
-        mTvRight.setHeight(h);
-        mTvRight.setGravity(Gravity.CENTER);
-        mTvRight.setSingleLine(true);
-        mTvRight.setEllipsize(TextUtils.TruncateAt.END);
-        mTvRight.setPadding(mPadding, 0, mPadding, 0);
-        mTvRight.setLayoutParams(rightParams);
-        mTvRight.setOnClickListener(new OnClickListener() {
+    private void setLeftText() {
+        mTvLeft = new TextView(mContext);
+        mTvLeft.setText(mLeftText);
+        mTvLeft.setTextSize(TypedValue.COMPLEX_UNIT_SP, mLeftTextSize);
+        mTvLeft.setTextColor(mLeftTextColor);
+        mTvLeft.setHeight(MATCH_PARENT);
+        mTvLeft.setGravity(Gravity.CENTER);
+        mTvLeft.setSingleLine(true);
+        mTvLeft.setEllipsize(TextUtils.TruncateAt.END);
+        mTvLeft.setPadding(mPadding, 0, mPadding, 0);
+        if (mLeftDrawableLeft != null) {
+            mTvLeft.setCompoundDrawablesWithIntrinsicBounds(mLeftDrawableLeft, null, null, null);
+            mTvLeft.setCompoundDrawablePadding(mLeftDrawablePadding);
+        }
+        if (mLeftDrawableRight != null) {
+            mTvLeft.setCompoundDrawablesWithIntrinsicBounds(null, null, mLeftDrawableRight, null);
+            mTvLeft.setCompoundDrawablePadding(mLeftDrawablePadding);
+        }
+        mTvLeft.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mRightListener != null) {
-                    mRightListener.rightClick();
+                if (mLeftListener != null) {
+                    mLeftListener.leftClick();
                 }
             }
         });
-        if (mRightText != null) {
-            mTvRight.setText(mRightText);
-            mTvRight.setVisibility(VISIBLE);
-        } else {
-            mTvRight.setVisibility(GONE);
-        }
-        this.addView(mTvRight);
+        addView(mTvLeft, mLeftParams);
+    }
 
+    private void setRightImage() {
         mIvRight = new ImageView(mContext);
         mIvRight.setPadding(mPadding, 0, mPadding, 0);
-        mIvRight.setLayoutParams(rightParams);
-        mIvRight.setScaleType(ImageView.ScaleType.FIT_XY);
-        mIvRight.setAdjustViewBounds(true);
+        mIvRight.setImageDrawable(mRightImage);
+        mIvRight.setVisibility(VISIBLE);
         mIvRight.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -244,52 +323,50 @@ public class TitleBar extends RelativeLayout {
                 }
             }
         });
-        if (mRightImage != null) {
-            mIvRight.setImageDrawable(mRightImage);
-            mIvRight.setVisibility(VISIBLE);
-        } else {
-            mIvRight.setVisibility(GONE);
-        }
-        this.addView(mIvRight);
+        addView(mIvRight, mRightParams);
+    }
 
+    private void setRightText() {
+        mTvRight = new TextView(mContext);
+        mTvRight.setText(mRightText);
+        mTvRight.setTextSize(TypedValue.COMPLEX_UNIT_SP, mRightTextSize);
+        mTvRight.setTextColor(mRightTextColor);
+        mTvRight.setHeight(MATCH_PARENT);
+        mTvRight.setGravity(Gravity.CENTER);
+        mTvRight.setSingleLine(true);
+        mTvRight.setEllipsize(TextUtils.TruncateAt.END);
+        mTvRight.setPadding(mPadding, 0, mPadding, 0);
+        if (mRightDrawableLeft != null) {
+            mTvRight.setCompoundDrawablesWithIntrinsicBounds(mRightDrawableLeft, null, null, null);
+            mTvRight.setCompoundDrawablePadding(mRightDrawablePadding);
+        }
+        if (mRightDrawableRight != null) {
+            mTvRight.setCompoundDrawablesWithIntrinsicBounds(null, null, mRightDrawableRight, null);
+            mTvRight.setCompoundDrawablePadding(mRightDrawablePadding);
+        }
+        mTvRight.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mRightListener != null) {
+                    mRightListener.rightClick();
+                }
+            }
+        });
+        addView(mTvRight, mRightParams);
     }
 
 
     /**
-     * 设置左部图片
+     * 如果高度为wrap_content 将高度设为默认的高度
      */
-    public void setLeftImage(Drawable drawable) {
-        if (drawable == null) {
-            mIvLeft.setVisibility(GONE);
-            return;
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.AT_MOST) {
+            getLayoutParams().height = mDefHeight;
         }
-        mIvLeft.setVisibility(VISIBLE);
-        this.mLeftImage = drawable;
-        mIvLeft.setImageDrawable(mLeftImage);
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
-    public void setLeftImage(@DrawableRes int resId) {
-        Drawable drawable = ContextCompat.getDrawable(mContext, resId);
-        this.setLeftImage(drawable);
-    }
-
-    /**
-     * 设置右部图片
-     */
-    public void setRightImage(Drawable drawable) {
-        if (drawable == null) {
-            mIvRight.setVisibility(GONE);
-            return;
-        }
-        mIvRight.setVisibility(VISIBLE);
-        this.mRightImage = drawable;
-        mIvRight.setImageDrawable(mRightImage);
-    }
-
-    public void setRightImage(@DrawableRes int resId) {
-        Drawable drawable = ContextCompat.getDrawable(mContext, resId);
-        this.setRightImage(drawable);
-    }
 
     /**
      * 设置标题文字
@@ -325,46 +402,246 @@ public class TitleBar extends RelativeLayout {
 
 
     /**
-     * 设置菜单文字
+     * 设置左部图片
+     */
+    public void setLeftImage(Drawable drawable) {
+        this.mLeftImage = drawable;
+        if (mIvLeft == null) {
+            throw new IllegalArgumentException(
+                    "NullPointException! If you set the left text,The left ImageView won't be created.");
+
+        } else {
+            mIvLeft.setImageDrawable(mLeftImage);
+        }
+    }
+
+    public void setLeftImage(@DrawableRes int resId) {
+        this.setLeftImage(ContextCompat.getDrawable(mContext, resId));
+    }
+
+    /**
+     * 设置左部文字
+     */
+    public void setLeftText(String leftText) {
+        this.mLeftText = leftText;
+        if (mTvLeft == null) {
+            setLeftText();
+            if (mIvLeft != null) {
+                mIvLeft.setVisibility(GONE);
+            }
+        } else {
+            mTvLeft.setText(mLeftText);
+        }
+    }
+
+    /**
+     * 设置左部文字
+     */
+    public void setLeftText(@StringRes int resId) {
+        setLeftText(mContext.getResources().getText(resId).toString());
+    }
+
+    /**
+     * 设置左部文字颜色
+     */
+    public void setLeftTextColor(@ColorInt int color) {
+        this.mLeftTextColor = color;
+        if (mTvLeft == null) {
+            throw new IllegalArgumentException(
+                    "NullPointException! Please set left text first.");
+        } else {
+            mTvLeft.setTextColor(mLeftTextColor);
+        }
+
+    }
+
+    /**
+     * 设置左部文字大小
+     */
+    public void setLeftTextSize(@Dimension int sp) {
+        this.mLeftTextSize = sp;
+        if (mTvLeft == null) {
+            throw new IllegalArgumentException(
+                    "NullPointException! Please set left text first.");
+        } else {
+            mTvLeft.setTextSize(mLeftTextSize);
+        }
+    }
+
+    /**
+     * 设置左部文字内图片padding
+     *
+     * @param padding
+     */
+    public void setLeftDrawablePadding(@Dimension int padding) {
+        this.mLeftDrawablePadding = padding;
+        if (mTvLeft == null) {
+            throw new IllegalArgumentException(
+                    "NullPointException! Please set left text first.");
+        } else {
+            mTvLeft.setCompoundDrawablePadding(mLeftDrawablePadding);
+        }
+    }
+
+    /**
+     * 设置左部的文字内图片 右方向
+     *
+     * @param drawable
+     */
+    public void setLeftDrawableRight(Drawable drawable) {
+        this.mLeftDrawableRight = drawable;
+        if (mTvLeft == null) {
+            throw new IllegalArgumentException(
+                    "NullPointException! Please set left text first.");
+        } else {
+            mTvLeft.setCompoundDrawables(mLeftDrawableRight, null, null, null);
+        }
+    }
+
+    public void setLeftDrawableRight(@DrawableRes int resId) {
+        setLeftDrawableRight(ContextCompat.getDrawable(mContext, resId));
+    }
+
+    /**
+     * 设置左部的文字内图片 左方向
+     *
+     * @param drawable
+     */
+    public void setLeftDrawableLeft(Drawable drawable) {
+        this.mLeftDrawableLeft = drawable;
+        if (mTvLeft == null) {
+            throw new IllegalArgumentException(
+                    "NullPointException! Please set left text first.");
+        } else {
+            mTvLeft.setCompoundDrawables(mLeftDrawableLeft, null, null, null);
+        }
+    }
+
+    public void setLeftDrawableLeft(@DrawableRes int resId) {
+        setLeftDrawableLeft(ContextCompat.getDrawable(mContext, resId));
+    }
+
+
+    /**
+     * 设置右部图片
+     */
+    public void setRightImage(Drawable drawable) {
+        this.mRightImage = drawable;
+        if (mIvRight == null) {
+            throw new IllegalArgumentException(
+                    "NullPointException! If you set the right text,The right ImageView won't be created.");
+
+        } else {
+            mIvRight.setImageDrawable(mRightImage);
+        }
+    }
+
+    public void setRightImage(@DrawableRes int resId) {
+        this.setRightImage(ContextCompat.getDrawable(mContext, resId));
+    }
+
+    /**
+     * 设置右部文字
      */
     public void setRightText(String rightText) {
-        if (TextUtils.isEmpty(rightText)) {
-            mTvRight.setVisibility(GONE);
-            return;
-        }
         this.mRightText = rightText;
-        mTvRight.setText(rightText);
-        mTvRight.setVisibility(VISIBLE);
+        if (mTvRight == null) {
+            setRightText();
+            if (mIvRight != null) {
+                mIvRight.setVisibility(GONE);
+            }
+        } else {
+            mTvRight.setText(mRightText);
+        }
     }
 
     /**
-     * 设置菜单文字
+     * 设置右部文字
      */
     public void setRightText(@StringRes int resId) {
-        if (resId == 0) {
-            mTvRight.setVisibility(GONE);
-            return;
-        }
-        this.mRightText = mContext.getResources().getText(resId).toString();
-        mTvRight.setText(mRightText);
-        mTvRight.setVisibility(VISIBLE);
+        setRightText(mContext.getResources().getText(resId).toString());
     }
 
     /**
-     * 设置菜单文字颜色
+     * 设置右部文字颜色
      */
     public void setRightTextColor(@ColorInt int color) {
         this.mRightTextColor = color;
-        mTvRight.setTextColor(mRightTextColor);
+        if (mTvRight == null) {
+            throw new IllegalArgumentException(
+                    "NullPointException! Please set right text first.");
+        } else {
+            mTvRight.setTextColor(mRightTextColor);
+        }
+
     }
 
     /**
-     * 设置菜单文字大小
+     * 设置右部文字大小
      */
     public void setRightTextSize(@Dimension int sp) {
         this.mRightTextSize = sp;
-        mTvRight.setTextSize(mRightTextSize);
+        if (mTvRight == null) {
+            throw new IllegalArgumentException(
+                    "NullPointException! Please set right text first.");
+        } else {
+            mTvRight.setTextSize(mRightTextSize);
+        }
     }
+
+    /**
+     * 设置右部文字内图片padding
+     *
+     * @param padding
+     */
+    public void setRightDrawablePadding(@Dimension int padding) {
+        this.mRightDrawablePadding = padding;
+        if (mTvRight == null) {
+            throw new IllegalArgumentException(
+                    "NullPointException! Please set right text first.");
+        } else {
+            mTvRight.setCompoundDrawablePadding(mRightDrawablePadding);
+        }
+    }
+
+    /**
+     * 设置右部的文字内图片 右方向
+     *
+     * @param drawable
+     */
+    public void setRightDrawableLeft(Drawable drawable) {
+        this.mRightDrawableLeft = drawable;
+        if (mTvRight == null) {
+            throw new IllegalArgumentException(
+                    "NullPointException! Please set right text first.");
+        } else {
+            mTvRight.setCompoundDrawables(mRightDrawableLeft, null, null, null);
+        }
+    }
+
+    public void setRightDrawableLeft(@DrawableRes int resId) {
+        setRightDrawableLeft(ContextCompat.getDrawable(mContext, resId));
+    }
+
+    /**
+     * 设置右部的文字内图片 左方向
+     *
+     * @param drawable
+     */
+    public void setRightDrawableRight(Drawable drawable) {
+        this.mRightDrawableRight = drawable;
+        if (mTvRight == null) {
+            throw new IllegalArgumentException(
+                    "NullPointException! Please set right text first.");
+        } else {
+            mTvRight.setCompoundDrawables(mRightDrawableRight, null, null, null);
+        }
+    }
+
+    public void setRightDrawableRight(@DrawableRes int resId) {
+        setRightDrawableRight(ContextCompat.getDrawable(mContext, resId));
+    }
+
 
     /**
      * 设置背景颜色
@@ -372,9 +649,7 @@ public class TitleBar extends RelativeLayout {
      * @param color color
      */
     public void setBackGroundColor(@ColorInt int color) {
-        int mBackGroundColor = color;
-        this.setBackgroundColor(mBackGroundColor);
-
+        this.setBackgroundColor(color);
     }
 
     /**
@@ -500,13 +775,13 @@ public class TitleBar extends RelativeLayout {
             return mConfig;
         }
 
-        public Config setTitleTextSize(Context context, @Dimension int sp) {
-            mDefTextSize = sp;
+        public Config setTitleTextSize(@Dimension int sp) {
+            mDefTitleSize = sp;
             return mConfig;
         }
 
         public Config setTitleTextColor(@ColorInt int color) {
-            mDefTextColor = color;
+            mDefTitleColor = color;
             return mConfig;
         }
 
@@ -519,6 +794,32 @@ public class TitleBar extends RelativeLayout {
             mDefLeftImage = leftImage;
             return mConfig;
         }
+
+        public Config setLeftImage(Context context, @DrawableRes int leftImageResId) {
+            mDefLeftImage = ContextCompat.getDrawable(context, leftImageResId);
+            return mConfig;
+        }
+
+        public Config setLeftTextSize(@Dimension int sp) {
+            mDefLeftSize = sp;
+            return mConfig;
+        }
+
+        public Config setRightTextSize(@Dimension int sp) {
+            mDefRightSize = sp;
+            return mConfig;
+        }
+
+        public Config setLeftTextColor(@ColorInt int color) {
+            mDefLeftColor = color;
+            return mConfig;
+        }
+
+        public Config setRightTextColor(@ColorInt int color) {
+            mDefRightColor = color;
+            return mConfig;
+        }
+
     }
 
 }
