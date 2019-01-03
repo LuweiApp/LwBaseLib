@@ -33,13 +33,13 @@ public abstract class LwBaseFragment<P extends IPresent>
         return mRootView;
     }
 
-    abstract void initView(Bundle savedInstanceState);
+    public abstract void initView(Bundle savedInstanceState);
 
-    abstract void initData();
+    public abstract void initData();
 
-    abstract void initEvent();
+    public abstract void initEvent();
 
-    abstract int getLayoutId();
+    public abstract int getLayoutId();
 
     @Override
     public P getP() {
