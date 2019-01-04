@@ -38,5 +38,6 @@ public class TitleBarAcitivity extends AppCompatActivity {
         mTb2.setLeftText("测试");
         mTb2.setTitleText("点击左部");
         mTb2.setTitleTextColor(ContextCompat.getColor(this,R.color.colorAccent));
+        mTb2.setTitleTextSize(12);
     }
 }

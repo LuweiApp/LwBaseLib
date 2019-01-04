@@ -29,7 +29,7 @@ import com.luwei.ui.R;
 
 /**
  * @author LiCheng
- * @date   2018/12/10
+ * @date 2018/12/10
  */
 public class TitleBar extends RelativeLayout {
 
@@ -43,21 +43,25 @@ public class TitleBar extends RelativeLayout {
     private static int mDefPadding;
     private static int mDefDrawablePadding;
     private static int mDefBackGroundColor;
-    private static int mDefTitleSize;
-    private static int mDefTitleColor;
-    private static int mDefLeftSize;
-    private static int mDefLeftColor;
-    private static int mDefRightSize;
-    private static int mDefRightColor;
-    private static Drawable mDefLeftImage;
 
+    private static float mDefTitleSize;
+    private static float mDefLeftSize;
+    private static float mDefRightSize;
+
+    private static int mDefTitleColor;
+    private static int mDefLeftColor;
+    private static int mDefRightColor;
+
+    private static Drawable mDefLeftImage;
     private boolean mShowDefaultBackIcon = true;
+
     private int mPadding;
     private int mLeftDrawablePadding;
     private int mRightDrawablePadding;
     private int mTitleTextColor;
     private int mLeftTextColor;
     private int mRightTextColor;
+
     private int mTitleTextSize;
     private int mLeftTextSize;
     private int mRightTextSize;
@@ -106,28 +110,28 @@ public class TitleBar extends RelativeLayout {
 
     private void initDefaultParam() {
         if (mDefHeight == 0) {
-            mDefHeight = dip2px(mContext, 42.0F);
+            mDefHeight = dp2px(mContext, 42.0F);
         }
         if (mDefPadding == 0) {
-            mDefPadding = dip2px(mContext, 14.0F);
+            mDefPadding = dp2px(mContext, 14.0F);
         }
         if (mDefDrawablePadding == 0) {
-            mDefDrawablePadding = dip2px(mContext, 6.0F);
+            mDefDrawablePadding = dp2px(mContext, 6.0F);
         }
         if (mDefTitleSize == 0) {
-            mDefTitleSize = 15;
+            mDefTitleSize = sp2px(mContext, 15.0F);
         }
         if (mDefTitleColor == 0) {
             mDefTitleColor = Color.parseColor("#262122");
         }
         if (mDefLeftSize == 0) {
-            mDefLeftSize = 15;
+            mDefLeftSize = sp2px(mContext, 15.0F);
         }
         if (mDefLeftColor == 0) {
             mDefLeftColor = Color.parseColor("#262122");
         }
         if (mDefRightSize == 0) {
-            mDefRightSize = 15;
+            mDefRightSize = sp2px(mContext, 15.0F);
         }
         if (mDefRightColor == 0) {
             mDefRightColor = Color.parseColor("#262122");
@@ -149,10 +153,10 @@ public class TitleBar extends RelativeLayout {
 
         mTitleTextColor = ta.getColor(R.styleable.TitleBar_titleTextColor, mDefTitleColor);
         mTitleText = ta.getString(R.styleable.TitleBar_titleText);
-        mTitleTextSize = ta.getDimensionPixelSize(R.styleable.TitleBar_titleTextSize, mDefTitleSize);
+        mTitleTextSize = px2sp(mContext, ta.getDimension(R.styleable.TitleBar_titleTextSize, mDefTitleSize));
 
         mLeftText = ta.getString(R.styleable.TitleBar_leftText);
-        mLeftTextSize = ta.getDimensionPixelSize(R.styleable.TitleBar_leftTextSize, mDefLeftSize);
+        mLeftTextSize = px2sp(mContext, ta.getDimension(R.styleable.TitleBar_leftTextSize, mDefLeftSize));
         mLeftTextColor = ta.getColor(R.styleable.TitleBar_leftTextColor, mDefLeftColor);
         mLeftDrawableLeft = ta.getDrawable(R.styleable.TitleBar_leftTextDrawableLeft);
         mLeftDrawableRight = ta.getDrawable(R.styleable.TitleBar_leftTextDrawableRight);
@@ -160,7 +164,7 @@ public class TitleBar extends RelativeLayout {
         mLeftImage = ta.getDrawable(R.styleable.TitleBar_leftImage);
 
         mRightText = ta.getString(R.styleable.TitleBar_rightText);
-        mRightTextSize = ta.getDimensionPixelSize(R.styleable.TitleBar_rightTextSize, mDefRightSize);
+        mRightTextSize = px2sp(mContext, ta.getDimension(R.styleable.TitleBar_rightTextSize, mDefRightSize));
         mRightTextColor = ta.getColor(R.styleable.TitleBar_rightTextColor, mDefRightColor);
         mRightDrawableLeft = ta.getDrawable(R.styleable.TitleBar_rightTextDrawableLeft);
         mRightDrawableRight = ta.getDrawable(R.styleable.TitleBar_rightTextDrawableRight);
@@ -203,14 +207,6 @@ public class TitleBar extends RelativeLayout {
         if (getBackground() == null) {
             setBackgroundColor(mDefBackGroundColor);
         }
-        //getLayoutParams().height = mDefHeight;
-//        boolean is = false;
-//        if(mHeight == WRAP_CONTENT){
-//            is = true;
-//        }
-//        if(is){
-//            setMinimumHeight(mDefHeight);
-//        }
     }
 
     private void setTitle() {
@@ -233,7 +229,7 @@ public class TitleBar extends RelativeLayout {
         mTvTitle.setSingleLine(true);
         mTvTitle.setEllipsize(TextUtils.TruncateAt.END);
         mTvTitle.setText(mTitleText);
-        mTvTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTitleTextSize);
+        mTvTitle.setTextSize(mTitleTextSize);
         mTvTitle.setTextColor(mTitleTextColor);
         mTvTitle.setOnClickListener(new OnClickListener() {
             @Override
@@ -746,9 +742,17 @@ public class TitleBar extends RelativeLayout {
     /**
      * 根据手机的分辨率dp 转成px(像素)
      */
-    private static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+    private static int dp2px(Context context, float dpValue) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, context.getResources().getDisplayMetrics());
+    }
+
+    private static int sp2px(Context context, float spValue) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue, context.getResources().getDisplayMetrics());
+    }
+
+    private static int px2sp(Context context, float pxValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (pxValue / fontScale + 0.5f);
     }
 
 
@@ -771,7 +775,7 @@ public class TitleBar extends RelativeLayout {
     public static class Config {
 
         public Config setPadding(Context context, @Dimension int dp) {
-            mDefPadding = dip2px(context, dp);
+            mDefPadding = dp2px(context, dp);
             return mConfig;
         }
 
