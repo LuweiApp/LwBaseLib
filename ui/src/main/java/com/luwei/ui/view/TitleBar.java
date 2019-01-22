@@ -300,6 +300,14 @@ public class TitleBar extends RelativeLayout {
             public void onClick(View view) {
                 if (mLeftListener != null) {
                     mLeftListener.leftClick();
+                } else {
+                    try {
+                        Activity activity = getActivity();
+                        closeKeyboard(activity);
+                        activity.finish();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
