@@ -32,9 +32,9 @@ dependencies {
     api 'io.reactivex.rxjava2:rxandroid:2.1.0'
     api 'io.reactivex.rxjava2:rxjava:2.2.2'
     api 'com.jakewharton:butterknife:8.8.1'
-    api 'com.tencent.bugly:crashreport:2.6.6.1'
+    api 'com.tencent.bugly:crashreport:2.8.6.0'
     // Android 开发工具代码
-    api 'com.blankj:utilcode:1.20.3'
+    api 'com.blankj:utilcode:1.23.3'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
