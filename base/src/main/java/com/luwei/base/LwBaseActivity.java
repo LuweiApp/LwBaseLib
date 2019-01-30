@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.AdaptScreenUtils;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -88,9 +88,9 @@ public abstract class LwBaseActivity<P extends IPresent> extends AppCompatActivi
     private void adaptScreen() {
         int size = 0;
         if ((size = getAdaptSizeVertical()) > 0) {
-            ScreenUtils.adaptScreen4VerticalSlide(this, size);
+            AdaptScreenUtils.adaptWidth(getResources(),size);
         } else if ((size = getAdaptSizeHorizontal()) > 0) {
-            ScreenUtils.adaptScreen4HorizontalSlide(this, size);
+            AdaptScreenUtils.adaptHeight(getResources(),size);
         }
     }
 
