@@ -13,4 +13,8 @@ public interface IView<P extends IPresent> {
 
     P getP();
 
+    void showLoading();
+
+    void hideLoading();
+
 }
