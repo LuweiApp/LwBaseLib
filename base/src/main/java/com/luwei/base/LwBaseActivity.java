@@ -24,7 +24,7 @@ public abstract class LwBaseActivity<P extends IPresent> extends AppCompatActivi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e(TAG, "current: " + LwBaseActivity.class.getSimpleName());
+        Log.i(TAG, "current activity: " + getLocalClassName());
         adaptScreen();
         setContentView(getLayoutId());
         unbinder = ButterKnife.bind(this);

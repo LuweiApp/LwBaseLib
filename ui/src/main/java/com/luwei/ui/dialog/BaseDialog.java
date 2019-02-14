@@ -3,6 +3,7 @@ package com.luwei.ui.dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -27,6 +28,7 @@ public abstract class BaseDialog extends DialogFragment {
     private int mGravity = Gravity.CENTER;
     private boolean mCanCancel = true;
     private boolean mTransparent = false;
+    private boolean mAnimationEnable = true;
     private int mLeftMargin = 0;
     private int mRightMargin = 0;
     private int mTopMargin = 0;
@@ -54,6 +56,7 @@ public abstract class BaseDialog extends DialogFragment {
             this.mAnimationsStyleId = savedInstanceState.getInt("mAnimationsStyleId");
             this.mTransparent = savedInstanceState.getBoolean("mTransparent");
             this.mCanCancel = savedInstanceState.getBoolean("mCanCancel");
+            this.mAnimationEnable = savedInstanceState.getBoolean("mAnimationEnable");
         }
     }
 
@@ -68,6 +71,7 @@ public abstract class BaseDialog extends DialogFragment {
         outState.putInt("mAnimationsStyleId", mAnimationsStyleId);
         outState.putBoolean("mCanCancel", mCanCancel);
         outState.putBoolean("mTransparent", mTransparent);
+        outState.putBoolean("mAnimationEnable", mAnimationEnable);
     }
 
     @Nullable
@@ -105,10 +109,10 @@ public abstract class BaseDialog extends DialogFragment {
         }
 
         // 设置动画样式
-        if (params.gravity == Gravity.TOP) {
+        if (params.gravity == Gravity.TOP && mAnimationEnable) {
             window.setWindowAnimations(R.style.TopActionSheetDialogAnimation);
         }
-        if (mAnimationsStyleId != 0) {
+        if (mAnimationsStyleId != 0 && mAnimationEnable) {
             window.setWindowAnimations(mAnimationsStyleId);
         }
 
@@ -134,6 +138,9 @@ public abstract class BaseDialog extends DialogFragment {
 
     }
 
+    public void setAnimationEnable(boolean mAnimationEnable) {
+        this.mAnimationEnable = mAnimationEnable;
+    }
 
     public BaseDialog setTransparent(boolean mTransparent) {
         this.mTransparent = mTransparent;
@@ -235,6 +242,18 @@ public abstract class BaseDialog extends DialogFragment {
     public void showDialog(AppCompatActivity appCompatActivity) {
         FragmentManager fragmentManager = appCompatActivity.getSupportFragmentManager();
         if (!appCompatActivity.isFinishing()
+                && !this.isAdded()) {
+
+            fragmentManager.beginTransaction()
+                    .add(this, TAG)
+                    .commitAllowingStateLoss();
+
+        }
+    }
+
+    public void showDialog(Fragment fragment) {
+        FragmentManager fragmentManager = fragment.getChildFragmentManager();
+        if (!fragment.isDetached()
                 && !this.isAdded()) {
 
             fragmentManager.beginTransaction()
