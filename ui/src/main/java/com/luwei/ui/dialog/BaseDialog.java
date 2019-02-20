@@ -41,6 +41,7 @@ public abstract class BaseDialog extends DialogFragment {
 
 
     protected static final String TAG = BaseDialog.class.getSimpleName();
+    private long time;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -240,24 +241,37 @@ public abstract class BaseDialog extends DialogFragment {
 
 
     public void showDialog(AppCompatActivity appCompatActivity) {
+        if (System.currentTimeMillis() - time<1000) {
+            return;
+        }
+        time = System.currentTimeMillis();
+        String tag = this.getClass().getSimpleName();
         FragmentManager fragmentManager = appCompatActivity.getSupportFragmentManager();
         if (!appCompatActivity.isFinishing()
+                && fragmentManager.findFragmentByTag(tag)==null
                 && !this.isAdded()) {
 
             fragmentManager.beginTransaction()
-                    .add(this, TAG)
+                    .add(this, this.getClass().getSimpleName())
                     .commitAllowingStateLoss();
 
         }
     }
 
+
     public void showDialog(Fragment fragment) {
+        if (System.currentTimeMillis() - time<1000) {
+            return;
+        }
+        time = System.currentTimeMillis();
+        String tag = this.getClass().getSimpleName();
         FragmentManager fragmentManager = fragment.getChildFragmentManager();
         if (!fragment.isDetached()
+                && fragmentManager.findFragmentByTag(tag)==null
                 && !this.isAdded()) {
 
             fragmentManager.beginTransaction()
-                    .add(this, TAG)
+                    .add(this, tag)
                     .commitAllowingStateLoss();
 
         }
