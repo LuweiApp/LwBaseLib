@@ -2,240 +2,197 @@ package com.umeng.umlibrary;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.graphics.Bitmap;
+import android.content.Context;
 
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMEmoji;
-import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.media.UMMin;
-import com.umeng.socialize.media.UMVideo;
-import com.umeng.socialize.media.UMWeb;
-import com.umeng.socialize.media.UMusic;
-import com.umeng.socialize.shareboard.ShareBoardConfig;
-import com.umeng.socialize.shareboard.SnsPlatform;
-import com.umeng.socialize.utils.ShareBoardlistener;
-
-import java.io.File;
+import com.umeng.umlibrary.listener.DefaultShareListener;
+import com.umeng.umlibrary.media.UMediaGif;
+import com.umeng.umlibrary.media.UMediaImage;
+import com.umeng.umlibrary.media.UMediaMinAPP;
+import com.umeng.umlibrary.media.UMediaMusic;
+import com.umeng.umlibrary.media.UMediaText;
+import com.umeng.umlibrary.media.UMediaVideo;
+import com.umeng.umlibrary.media.UMediaWeb;
 
 /**
- * Created by LiCheng
- * Date：2018/11/29
+ * @author LiCheng
+ * @date 2019/3/1
  */
 public class UShareUtils {
 
+    @SuppressLint("StaticFieldLeak")
+    private static volatile UShareUtils singleton = null;
+    private final Context context;
+    private ShareAction shareAction;
 
-
-    private static Activity mActivity;
-    private static UMShareListener mListener;
-    private static String mText;
-    private static UMImage mImage;
-    private static UMImage mThumb;
-    private static UMWeb mWeb;
-    private static UMVideo mVideo;
-    private static UMusic mMusic;
-    private static UMEmoji mEmoji;
-    private static UMMin mMinAPP;
-    private static SHARE_MEDIA[] mPlatforms = new SHARE_MEDIA[]{SHARE_MEDIA.WEIXIN,
-            SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
-            SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE};
-
-    public static void init(Activity activity) {
-        mActivity = activity;
-        if (mActivity != null) {
-            //设置默认的监听
-            setShareListener(new CustomShareListener(mActivity));
-        }
+    private UShareUtils(Context context, ShareAction shareAction) {
+        this.context = context;
+        this.shareAction = shareAction;
     }
 
-    //设置分享面板 传入自定义的面板显示方式
-    //详见https://developer.umeng.com/docs/66632/detail/66639
-    public static void shareBoardWithConfig(ShareBoardConfig config, SHARE_TYPE shareType) {
-        shareBoard(config, shareType);
-    }
-
-    public static void shareBoardAtCenter(SHARE_TYPE shareType) {
-        ShareBoardConfig config = new ShareBoardConfig();
-        config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_CENTER);
-        config.setCancelButtonVisibility(true);
-        shareBoard(config, shareType);
-    }
-
-    public static void shareBoardAtBottom(SHARE_TYPE shareType) {
-        ShareBoardConfig config = new ShareBoardConfig();
-        config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_BOTTOM);
-        config.setCancelButtonVisibility(true);
-        shareBoard(config, shareType);
-    }
-
-    private static void shareBoard(ShareBoardConfig config, final SHARE_TYPE shareType) {
-        ShareBoardlistener boardListener = new ShareBoardlistener() {
-            @Override
-            public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA platform) {
-                share(platform, shareType);
+    public static UShareUtils with(Activity activity) {
+        if (singleton == null) {
+            synchronized (UShareUtils.class) {
+                if (singleton == null) {
+                    singleton = new Builder(activity).build();
+                }
             }
-        };
-        new ShareAction(mActivity)
-                .setDisplayList(mPlatforms)
-                .setShareboardclickCallback(boardListener)
-                .open(config);
-        /*ShareAction action = new ShareAction(mActivity)
-                .setDisplayList(SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
-                        SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE)
-                .addButton("复制文本", "复制文本", "umeng_socialize_copy", "umeng_socialize_copy")
-                .addButton("复制链接", "复制链接", "umeng_socialize_copyurl", "umeng_socialize_copyurl")
-                .setShareboardclickCallback(new ShareBoardlistener() {
-                    @Override
-                    public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA platform) {
-
-                        if (snsPlatform.mShowWord.equals("复制文本")) {
-                            Toast.makeText(mActivity, "复制文本按钮", Toast.LENGTH_LONG).show();
-                        } else if (snsPlatform.mShowWord.equals("复制链接")) {
-                            Toast.makeText(mActivity, "复制链接按钮", Toast.LENGTH_LONG).show();
-
-                        } else {
-                            new ShareAction(mActivity).withMedia(mWeb)
-                                    .setPlatform(platform)
-                                    .setCallback(mListener)
-                                    .share();
-                        }
-                    }
-                });
-        action.open(config);*/
+        }
+        return singleton;
     }
 
-    //设置分享面板要分享的内容
-    public static void setBoardPlatforms(SHARE_MEDIA[] platforms) {
-        mPlatforms = platforms;
+    /**
+     * 纯文本分享
+     *
+     * @param text
+     * @return
+     */
+    public UMediaText createText(String text) {
+        return new UMediaText(shareAction, text);
     }
 
-
-    //设置分享监听 传入自定义的监听方式
-    public static void setShareListener(UMShareListener listener) {
-        mListener = listener;
+    /**
+     * 网络图片分享
+     *
+     * @param imgUrl
+     * @return
+     */
+    public UMediaImage createImage(String imgUrl) {
+        return new UMediaImage(context, shareAction, imgUrl);
     }
 
-    //创建待分享的图片
-    public static void createImage(int resId) {
-        mImage = new UMImage(mActivity, resId);
+    /**
+     * 资源文件分享
+     *
+     * @param resource
+     * @return
+     */
+    public UMediaImage createImage(int resource) {
+        return new UMediaImage(context, shareAction, resource);
     }
 
-    public static void createImage(File file) {
-        mImage = new UMImage(mActivity, file);
+    /**
+     * 分享链接
+     *
+     * @param webUrl
+     * @return
+     */
+    public UMediaWeb createWeb(String webUrl) {
+        return new UMediaWeb(context, shareAction, webUrl);
     }
 
-    public static void createImage(String imageUrl) {
-        mImage = new UMImage(mActivity, imageUrl);
+    /**
+     * 分享网络视频
+     *
+     * @param videoUrl
+     * @return
+     */
+    public UMediaVideo createVideo(String videoUrl) {
+        return new UMediaVideo(context, shareAction, videoUrl);
     }
 
-    public static void createImage(Bitmap bitmap) {
-        mImage = new UMImage(mActivity, bitmap);
+    /**
+     * 分享网络音乐
+     *
+     * @param musicUrl
+     * @return
+     */
+    public UMediaMusic createMusic(String musicUrl) {
+        return new UMediaMusic(context, shareAction, musicUrl);
     }
 
-    public static void createImage(byte[] bytes) {
-        mImage = new UMImage(mActivity, bytes);
+    /**
+     * 分享动图表情
+     * 仅支持分享到微信好友
+     *
+     * @param gifUrl
+     * @return
+     */
+    public UMediaGif createGif(String gifUrl) {
+        return new UMediaGif(context, shareAction, gifUrl);
     }
 
-    //创建待分享所用的缩略图
-    public static void createThumbImage(int thumbResId) {
-        mThumb = new UMImage(mActivity, thumbResId);
-    }
-
-    public static void createThumbImage(File thumbFile) {
-        mThumb = new UMImage(mActivity, thumbFile);
-    }
-
-    public static void createThumbImage(String thumbImageUrl) {
-        mThumb = new UMImage(mActivity, thumbImageUrl);
-    }
-
-    public static void createThumbImage(Bitmap thumbBitmap) {
-        mThumb = new UMImage(mActivity, thumbBitmap);
-    }
-
-    public static void createThumbImage(byte[] thumbBytes) {
-        mThumb = new UMImage(mActivity, thumbBytes);
-    }
-
-    //创建待分享的文本
-    public static void createText(String text) {
-        mText = text;
-    }
-
-    //创建待分享的链接 需要缩略图
-    public static void createUrl(String url, String title, String description) {
-        mWeb = new UMWeb(url);
-        mWeb.setTitle(title);
-        mWeb.setDescription(description);
-        mWeb.setThumb(mThumb);
-    }
-
-    //创建待分享的网络视频 需要缩略图
-    public static void createVideo(String videoUrl, String title, String description) {
-        mVideo = new UMVideo(videoUrl);
-        mVideo.setThumb(mThumb);
-        mVideo.setTitle(title);
-        mVideo.setDescription(description);
-    }
-
-    //创建待分享的网络音乐 需要缩略图
-    public static void createMusic(String musicUrl, String targetUrl,
-                                   String title, String description) {
-        mMusic = new UMusic(musicUrl);
-        mMusic.setThumb(mThumb);
-        mMusic.setTitle(title);
-        mMusic.setDescription(description);
-        mMusic.setmTargetUrl(targetUrl);
-    }
-
-    //创建待分享的表情 仅限微信好友 需要缩略图
-    public static void createEmoji(String emojiUrl) {
-        mEmoji = new UMEmoji(mActivity, emojiUrl);
-        mEmoji.setThumb(mThumb);
-    }
-
-    //创建待分享的小程序 仅限微信好友 需要缩略图
-    public static void createMinApp(String url, String title, String description,
-                                    String path, String userName) {
-        mMinAPP = new UMMin(url);
-        mMinAPP.setThumb(mThumb);
-        mMinAPP.setTitle(title);
-        mMinAPP.setDescription(description);
-        mMinAPP.setUserName(userName);
-        mMinAPP.setPath(path);
+    /**
+     * 分享小程序
+     * 仅支持分享到微信好友
+     * 小程序需要和应用在同一个微信开发平台上
+     *
+     * @param minAPPUrl
+     * @return
+     */
+    public UMediaMinAPP createMinApp(String minAPPUrl) {
+        return new UMediaMinAPP(context, shareAction, minAPPUrl);
     }
 
 
-    public static void share(SHARE_MEDIA platform, SHARE_TYPE shareType) {
-        ShareAction action = new ShareAction(mActivity)
-                .setPlatform(platform).setCallback(mListener);
-        switch (shareType) {
-            case SHARE_TYPE_TEXT:
-                action.withText(mText).share();
-                break;
-            case SHARE_TYPE_IMAGE:
-                action.withMedia(mImage).share();
-                break;
-            case SHARE_TYPE_TEXTANDIMG:
-                action.withText(mText).withMedia(mImage).share();
-                break;
-            case SHARE_TYPE_WEB:
-                action.withMedia(mWeb).share();
-                break;
-            case SHARE_TYPE_VIDEO:
-                action.withMedia(mVideo).share();
-                break;
-            case SHARE_TYPE_MUSIC:
-                action.withMedia(mMusic).share();
-                break;
-            case SHARE_TYPE_EMOJI:
-                action.withMedia(mEmoji).share();
-                break;
-            case SHARE_TYPE_MINAPP:
-                action.withMedia(mMinAPP).share();
-                break;
+    /**
+     * 构建默认ShareAction
+     */
+    public static class Builder {
+        private final Activity activity;
+        private UMShareListener shareListener;
+        private ShareAction shareAction;
+        private SHARE_MEDIA[] platforms;
+
+        /**
+         * 开始构造实例
+         */
+        public Builder(Activity activity) {
+            if (activity == null) {
+                throw new IllegalArgumentException("Aitivity must not be null.");
+            }
+            this.activity = activity;
+        }
+
+
+        public Builder setShareListener(UMShareListener shareListener) {
+            if (shareListener == null) {
+                throw new IllegalArgumentException("UMShareListener must not be null.");
+            }
+            if (this.shareListener != null) {
+                throw new IllegalStateException("UMShareListener already set.");
+            }
+            this.shareListener = shareListener;
+            return this;
+        }
+
+        public Builder setDisplayList(SHARE_MEDIA... platforms) {
+            if (platforms == null) {
+                throw new IllegalArgumentException("platforms must not be null.");
+            }
+            if (this.platforms != null) {
+                throw new IllegalStateException("platforms already set.");
+            }
+            this.platforms = platforms;
+            return this;
+        }
+
+
+        public UShareUtils build() {
+            Context context = activity.getBaseContext();
+            if (shareListener == null) {
+                //添加默认分享监听
+                shareListener = new DefaultShareListener(context);
+            }
+
+            if (platforms == null) {
+                //添加微信微博QQ三大平台
+                platforms = new SHARE_MEDIA[]{SHARE_MEDIA.WEIXIN,
+                        SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
+                        SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE};
+//                platforms = new SHARE_MEDIA[]{SHARE_MEDIA.WEIXIN,
+//                        SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA};
+            }
+
+            if (shareAction == null) {
+                shareAction = new ShareAction(activity)
+                        .setCallback(shareListener)
+                        .setDisplayList(platforms);
+            }
+            return new UShareUtils(context, shareAction);
         }
     }
-
 }
+

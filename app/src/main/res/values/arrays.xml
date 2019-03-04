@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="ShareType">
+        <item>文本</item>
+        <item>图片</item>
+        <item>图文</item>
+        <item>网页</item>
+        <item>视频</item>
+        <item>音乐</item>
+        <item>表情</item>
+        <item>小程序</item>
+    </string-array>
+
+    <string-array name="SharePlatform">
+        <item>微信</item>
+        <item>朋友圈</item>
+        <item>微信收藏</item>
+        <item>微博</item>
+        <item>QQ</item>
+        <item>QQ空间</item>
+    </string-array>
+</resources>

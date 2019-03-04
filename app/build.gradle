@@ -32,6 +32,7 @@ dependencies {
     implementation project(':ui')
     implementation project(':net')
     implementation project(':util')
+    implementation project(':umlibrary')
     implementation project(':ImagePreview')
     implementation project(':ImageSelector')
     implementation project(':rxbus')

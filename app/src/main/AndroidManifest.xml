@@ -39,8 +39,12 @@
         <activity
             android:name=".activity.RxBusActivity"
             android:label="RxBus" />
-        <activity android:name=".activity.TitleBarAcitivity"
-            android:label="TitleBar"/>
+        <activity
+            android:name=".activity.TitleBarAcitivity"
+            android:label="TitleBar" />
+        <activity
+            android:name=".activity.UMShareAndAuthActivity"
+            android:label="友盟分享及授权" />
 
         <!--
         <activity android:name=".module.recyclerview.AdapterDemoActivity"
