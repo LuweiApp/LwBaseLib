@@ -133,6 +133,14 @@
             android:text="TitleBar"
             android:textAllCaps="false" />
 
+        <Button
+            android:id="@+id/btn_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="友盟分享及登录"
+            android:textAllCaps="false" />
+
+
     </LinearLayout>
 
 </ScrollView>
