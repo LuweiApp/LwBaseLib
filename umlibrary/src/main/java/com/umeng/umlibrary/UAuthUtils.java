@@ -123,7 +123,7 @@ public class UAuthUtils {
         return weChatInfoMap.get("openid");
     }
 
-    public static String getUnionid() {
+    public static String getUnionId() {
         if (isInfoMapNull()) {
             throw new IllegalArgumentException("weChatInfoMap must not be null.");
         }
@@ -137,7 +137,7 @@ public class UAuthUtils {
         return weChatInfoMap.get("accessToken");
     }
 
-    public static String getRefreshtoken() {
+    public static String getRefreshToken() {
         if (isInfoMapNull()) {
             throw new IllegalArgumentException("weChatInfoMap must not be null.");
         }
@@ -151,7 +151,7 @@ public class UAuthUtils {
         return weChatInfoMap.get("expiration");
     }
 
-    public static String getreIconurl() {
+    public static String getIconUrl() {
         if (isInfoMapNull()) {
             throw new IllegalArgumentException("weChatInfoMap must not be null.");
         }
@@ -179,11 +179,11 @@ public class UAuthUtils {
         return weChatInfoMap.get("country");
     }
 
-    public static String getPrvinice() {
+    public static String getProvince() {
         if (isInfoMapNull()) {
             throw new IllegalArgumentException("weChatInfoMap must not be null.");
         }
-        return weChatInfoMap.get("prvinice");
+        return weChatInfoMap.get("province");
     }
 
     public static String getCity() {
