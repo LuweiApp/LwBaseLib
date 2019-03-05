@@ -145,7 +145,7 @@ public class HeaderActivity extends LwBaseActivity {
                         List<String> urls = resultInfo.getData().getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                         if (urls != null && urls.size() > 0) {
                             mHeadUrl = urls.get(0);
-                            ImageLoaderUtils.loadCircleImage(this, ivHeader, mHeadUrl);
+                            ImageLoaderUtils.getInstance().loadCircleImage(this, ivHeader, mHeadUrl);
                         }
                     }
                 });
@@ -166,7 +166,7 @@ public class HeaderActivity extends LwBaseActivity {
                         List<String> urls = resultInfo.getData().getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                         if (urls != null && urls.size() > 0) {
                             mHeadUrl = urls.get(0);
-                            ImageLoaderUtils.loadCircleImage(this, ivHeader, mHeadUrl);
+                            ImageLoaderUtils.getInstance().loadCircleImage(this, ivHeader, mHeadUrl);
                         }
                     }
                 });
@@ -187,7 +187,7 @@ public class HeaderActivity extends LwBaseActivity {
                 .subscribe((resultInfo -> {
                     if (resultInfo.getResultCode() == RESULT_OK) {
                         mHeadUrl = mTmpFile.getAbsolutePath();
-                        ImageLoaderUtils.loadCircleImage(this, ivHeader, mHeadUrl);
+                        ImageLoaderUtils.getInstance().loadCircleImage(this, ivHeader, mHeadUrl);
                         // 裁剪(如果没有要求可裁剪，也可以不要）
                         startPictureZoom(mTmpFile);
                     }
@@ -209,7 +209,7 @@ public class HeaderActivity extends LwBaseActivity {
                 .subscribe(resultInfo -> {
                     if (mZoomOutFile != null && mZoomOutFile.exists()) {
                         mHeadUrl = mZoomOutFile.getAbsolutePath();
-                        ImageLoaderUtils.loadCircleImage(this, ivHeader, mHeadUrl);
+                        ImageLoaderUtils.getInstance().loadCircleImage(this, ivHeader, mHeadUrl);
                         Log.i(TAG, "startPictureZoom: ");
                     }
                 });
@@ -223,7 +223,7 @@ public class HeaderActivity extends LwBaseActivity {
             List<String> urls = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
             if (urls != null && urls.size() > 0) {
                 mHeadUrl = urls.get(0);
-                ImageLoaderUtils.loadCircleImage(this, ivHeader, mHeadUrl);
+                ImageLoaderUtils.getInstance().loadCircleImage(this, ivHeader, mHeadUrl);
             }
         }
     }

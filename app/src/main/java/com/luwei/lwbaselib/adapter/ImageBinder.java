@@ -10,6 +10,8 @@ import com.luwei.lwbaselib.R;
 import com.luwei.lwbaselib.bean.ImageViewInfo;
 import com.luwei.recyclerview.adapter.extension.LwItemBinder;
 import com.luwei.recyclerview.adapter.extension.LwViewHolder;
+import com.luwei.ui.banner.loader.ImageLoader;
+import com.luwei.util.imageloader.ImageLoaderConfig;
 import com.luwei.util.imageloader.ImageLoaderUtils;
 
 /**
@@ -29,6 +31,13 @@ public class ImageBinder extends LwItemBinder<ImageViewInfo> {
 
     @Override
     protected void onBind(@NonNull LwViewHolder holder, @NonNull ImageViewInfo item) {
-        ImageLoaderUtils.loadImage(mContext,holder.getView(R.id.image),item.getUrl());
+        ImageLoaderConfig mDefaultConfig = new ImageLoaderConfig.Builder()
+                .setErrorPicRes(R.mipmap.ic_launcher)
+                .setPlacePicRes(R.mipmap.ic_launcher)
+                .create();
+        ImageLoaderUtils imageLoaderUtils = new ImageLoaderUtils();
+        imageLoaderUtils.setLoaderConfig(mDefaultConfig);
+        imageLoaderUtils.loadImage(mContext,holder.getView(R.id.image),item.getUrl());
+
     }
 }

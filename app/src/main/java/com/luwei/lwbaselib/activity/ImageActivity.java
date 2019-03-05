@@ -44,16 +44,16 @@ public class ImageActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setTitle("图片框架使用示例");
 
-        ImageLoaderUtils.loadImage(this, mIvNormal, urlPath);
-        ImageLoaderUtils.loadCircleImage(this, mIvCircle, urlPath);
-        ImageLoaderUtils.loadRoundedImage(this, mIvRound, urlPath, 20);
-        ImageLoaderUtils.loadGifImage(this, mIvGif, gitUrlPath);
-        ImageLoaderUtils.loadImageFromDrawable(this, mIvFromDrawable, R.mipmap.sunyizhen);
+        ImageLoaderUtils.getInstance().loadImage(this, mIvNormal, urlPath);
+        ImageLoaderUtils.getInstance().loadCircleImage(this, mIvCircle, urlPath);
+        ImageLoaderUtils.getInstance().loadRoundedImage(this, mIvRound, urlPath, 20);
+        ImageLoaderUtils.getInstance().loadGifImage(this, mIvGif, gitUrlPath);
+        ImageLoaderUtils.getInstance().loadImageFromDrawable(this, mIvFromDrawable, R.mipmap.sunyizhen);
 
-        ImageLoaderUtils.loadMarkImage(this, mIvMask, urlPath,R.mipmap.mask_starfish);
-        ImageLoaderUtils.loadImage(this, mIvBlurBefor, urlPath);
-        ImageLoaderUtils.loadBlurImage(this, mIvBlur, urlPath, 10);
-        ImageLoaderUtils.loadBlurImage(this, mIvBlur1, urlPath, 25);
+        ImageLoaderUtils.getInstance().loadMarkImage(this, mIvMask, urlPath,R.mipmap.mask_starfish);
+        ImageLoaderUtils.getInstance().loadImage(this, mIvBlurBefor, urlPath);
+        ImageLoaderUtils.getInstance().loadBlurImage(this, mIvBlur, urlPath, 10);
+        ImageLoaderUtils.getInstance().loadBlurImage(this, mIvBlur1, urlPath, 25);
 
 
 //        Glide.with(this)

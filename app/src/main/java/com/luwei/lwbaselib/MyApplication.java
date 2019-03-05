@@ -17,7 +17,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ImageLoaderUtils.init();
+//        ImageLoaderUtils.getInstance().init();
 
 //        TitleBar.getConfig()
 //                .setTitleTextColor(Color.RED)

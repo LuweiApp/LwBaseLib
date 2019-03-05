@@ -19,7 +19,7 @@ public class ImageLoaderUtils {
     public static final int MARGIN = 5;  //边距
 
 
-    private static BaseImageLoaderStrategy sImageLoaderStrategy;
+    private BaseImageLoaderStrategy sImageLoaderStrategy;
     private volatile static ImageLoaderUtils instance;
     /**
      * 默认参数配置
@@ -31,17 +31,32 @@ public class ImageLoaderUtils {
             .setPlacePicRes(R.mipmap.default_image)
             .create();
 
-    public static void init() {
+    public void init() {
         sImageLoaderStrategy = new GlideImageLoaderStrategy();
         sImageLoaderStrategy.setLoaderConfig(mDefaultConfig);
     }
 
-    public static void setStrategy(BaseImageLoaderStrategy strategy){
+    public static ImageLoaderUtils getInstance(){
+        if (instance == null) {
+            synchronized (ImageLoaderUtils.class){
+                if (instance == null) {
+                    instance = new ImageLoaderUtils();
+                }
+            }
+        }
+        return instance;
+    }
+
+    public ImageLoaderUtils(){
+        init();
+    }
+
+    public void setStrategy(BaseImageLoaderStrategy strategy){
         sImageLoaderStrategy = strategy;
         sImageLoaderStrategy.setLoaderConfig(mDefaultConfig);
     }
 
-    public static void setImageConfig(ImageLoaderConfig config) {
+    public void setLoaderConfig(ImageLoaderConfig config) {
         sImageLoaderStrategy.setLoaderConfig(config);
     }
 
@@ -51,7 +66,7 @@ public class ImageLoaderUtils {
      * @param imageView
      * @param imgUrl
      */
-    public static void loadImage(Context context, ImageView imageView, Object imgUrl){
+    public void loadImage(Context context, ImageView imageView, Object imgUrl){
         sImageLoaderStrategy.loadImage(context,imageView,imgUrl);
     }
 
@@ -61,7 +76,7 @@ public class ImageLoaderUtils {
      * @param imageView
      * @param resId
      */
-    public static void loadImageFromDrawable(Context context,ImageView imageView,int resId){
+    public void loadImageFromDrawable(Context context,ImageView imageView,int resId){
         sImageLoaderStrategy.loadImageFromDrawable(context,imageView,resId);
     }
 
@@ -71,7 +86,7 @@ public class ImageLoaderUtils {
      * @param imageView
      * @param path
      */
-    public static void loadImageFromLocal(Context context,ImageView imageView,String path){
+    public void loadImageFromLocal(Context context,ImageView imageView,String path){
         sImageLoaderStrategy.loadImageFromLocal(context,imageView,path);
     }
 
@@ -81,7 +96,7 @@ public class ImageLoaderUtils {
      * @param imageView
      * @param imgUrl
      */
-    public static void loadGifImage(Context context,ImageView imageView,Object imgUrl){
+    public void loadGifImage(Context context,ImageView imageView,Object imgUrl){
         sImageLoaderStrategy.loadGifImage(context,imageView,imgUrl);
     }
 
@@ -91,7 +106,7 @@ public class ImageLoaderUtils {
      * @param imageView
      * @param imgUrl
      */
-    public static void loadCircleImage(Context context, ImageView imageView, Object imgUrl){
+    public void loadCircleImage(Context context, ImageView imageView, Object imgUrl){
         sImageLoaderStrategy.loadCircleImage(context,imageView,imgUrl);
     }
 
@@ -102,7 +117,7 @@ public class ImageLoaderUtils {
      * @param imgUrl
      * @param radius
      */
-    public static void loadRoundedImage(Context context, ImageView imageView, Object imgUrl, int radius){
+    public void loadRoundedImage(Context context, ImageView imageView, Object imgUrl, int radius){
         sImageLoaderStrategy.loadRoundedImage(context,imageView,imgUrl,radius);
     }
 
@@ -114,7 +129,7 @@ public class ImageLoaderUtils {
      * @param imgUrl
      * @param blurRadius
      */
-    public static void loadBlurImage(Context context, ImageView imageView, Object imgUrl, int blurRadius) {
+    public void loadBlurImage(Context context, ImageView imageView, Object imgUrl, int blurRadius) {
         sImageLoaderStrategy.loadBlurImage(context,imageView,imgUrl,blurRadius);
     }
 
@@ -125,19 +140,19 @@ public class ImageLoaderUtils {
      * @param imageView
      * @param imgUrl
      */
-    public static void loadBlurImage(Context context, ImageView imageView, Object imgUrl) {
+    public void loadBlurImage(Context context, ImageView imageView, Object imgUrl) {
         sImageLoaderStrategy.loadBlurImage(context,imageView,imgUrl,BLUR_VALUE);
     }
 
 
-    public static void loadMarkImage(Context context,ImageView imageView,Object imgUrl,int maskId){
+    public void loadMarkImage(Context context,ImageView imageView,Object imgUrl,int maskId){
         sImageLoaderStrategy.loadMarkImage(context,imageView,imgUrl,maskId);
     }
     /**
      * 清理内存
      * @param context
      */
-    public static void clearMemory(Context context){
+    public void clearMemory(Context context){
         sImageLoaderStrategy.clearMemory(context);
     }
 }
