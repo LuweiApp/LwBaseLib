@@ -24,7 +24,15 @@
         android:id="@+id/btn_change_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="change"
+        android:text="发送事件（改变文字）"
+        android:textAllCaps="false"/>
+
+
+    <Button
+        android:id="@+id/btn_send_stick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送粘性事件"
         android:textAllCaps="false"/>
 
 </LinearLayout>

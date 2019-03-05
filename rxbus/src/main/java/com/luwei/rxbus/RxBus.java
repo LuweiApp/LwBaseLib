@@ -2,9 +2,14 @@ package com.luwei.rxbus;
 
 import android.annotation.SuppressLint;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.FlowableTransformer;
 import io.reactivex.Scheduler;
 import io.reactivex.annotations.CheckReturnValue;
@@ -90,6 +95,17 @@ public class RxBus {
         mProcessor.onNext(event);
     }
 
+    /**
+     * 发送粘性事件
+     */
+    public void postStick(IEvent event) {
+        mProcessor.onNext(event);
+        CacheUtils.getInstance().putStickEvent(event);
+    }
+
+    public void removeStick(IEvent event) {
+        CacheUtils.getInstance().removeStickEvent(event);
+    }
 
     /**
      * {@link #with(Object, Disposable)}
@@ -140,6 +156,35 @@ public class RxBus {
         public <T extends IEvent> FunctionLink<T> ofType(Class<T> type) {
             Flowable<T> flowable = mProcessor.onBackpressureBuffer()
                     .ofType(type);
+            return new FunctionLink<>(mObserver, flowable);
+        }
+
+        /**
+         * 注册的类型，绑定改类型就只能收到该类型的事件
+         *
+         * @param type 类型
+         */
+        @CheckReturnValue
+        public <T extends IEvent> FunctionLink<T> ofStickType(final Class<T> type) {
+            List<IEvent> eventSources = CacheUtils.getInstance().getStickEvents(type);
+            final List<IEvent> eventList ;
+            if (eventSources==null){
+                eventList = null;
+            }else {
+                eventList = new ArrayList<>(eventSources) ;
+            }
+            Flowable<T> flowable = Flowable.create(new FlowableOnSubscribe<T>() {
+                @Override
+                public void subscribe(FlowableEmitter<T> emitter) throws Exception {
+                    if (eventList==null){
+                        return;
+                    }
+                    for (IEvent iEvent : eventList) {
+                        emitter.onNext(type.cast(iEvent));
+                    }
+                    emitter.onComplete();
+                }
+            }, BackpressureStrategy.LATEST);
             return new FunctionLink<>(mObserver, flowable);
         }
 
@@ -219,5 +264,31 @@ public class RxBus {
             mFlowable.subscribe(subscriber);
             RxBus.getInstance().with(mObserver, subscriber);
         }
+
+//
+//        /**
+//         * {@link Flowable#subscribe(Consumer)}
+//         */
+//        public void subscribeStick(Consumer<T> onNext) {
+//            subscribe(onNext, Functions.ON_ERROR_MISSING);
+//        }
+//
+//        /**
+//         * {@link Flowable#subscribe(Consumer, Consumer)}
+//         */
+//        public void subscribeStick(Consumer<T> onNext, Consumer<? super Throwable> onError) {
+//            subscribe(onNext, onError, Functions.EMPTY_ACTION);
+//        }
+//
+//        /**
+//         * {@link Flowable#subscribe(Consumer, Consumer, Action)}
+//         */
+//        public void subscribeStick(Consumer<T> onNext, Consumer<? super Throwable> onError,
+//                              Action onComplete) {
+//            BusLambdaSubscriber<T> subscriber = new BusLambdaSubscriber<>(
+//                    onNext, onError, onComplete, FlowableInternalHelper.RequestMax.INSTANCE);
+//            mFlowable.subscribe(subscriber);
+//            RxBus.getInstance().with(mObserver, subscriber);
+//        }
     }
 }

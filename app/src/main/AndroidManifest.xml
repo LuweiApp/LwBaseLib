@@ -36,15 +36,9 @@
             android:name=".activity.PopupActivity"
             android:label="PopupWindow" />
         <activity android:name=".activity.PermissionActivity" />
-        <activity
-            android:name=".activity.RxBusActivity"
-            android:label="RxBus" />
-        <activity
-            android:name=".activity.TitleBarAcitivity"
-            android:label="TitleBar" />
-        <activity
-            android:name=".activity.UMShareAndAuthActivity"
-            android:label="友盟分享及授权" />
+
+        <activity android:name=".module.rxbus.RxBusActivity"
+            android:label="RxBus"/>
 
         <!--
         <activity android:name=".module.recyclerview.AdapterDemoActivity"
@@ -67,6 +61,7 @@
             android:launchMode="singleTop" />
         <activity android:name=".module.banner.BannerActivity" />
         <activity android:name=".activity.TimerButtonActivity" />
+        <activity android:name=".module.rxbus.StickReceiverActivity" />
 
         <!-- 7.0拍照相册  注意 android:authorities 里面的值，在后面使用的getUriForFile(Context, String, File) 中， 第二个参数就是这个里面的值 -->
         <provider

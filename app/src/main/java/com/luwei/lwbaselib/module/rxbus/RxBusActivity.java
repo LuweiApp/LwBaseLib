@@ -1,7 +1,9 @@
-package com.luwei.lwbaselib.activity;
+package com.luwei.lwbaselib.module.rxbus;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -67,13 +69,20 @@ public class RxBusActivity extends LwBaseActivity {
     }
 
 
-    @OnClick(R.id.btn_change_text)
-    public void onViewClicked() {
-        new Thread(() -> {
-            RxBus.getInstance()
-                    .post(new BaseEvent(0, etInput.getText().toString()));
+    @OnClick({R.id.btn_change_text, R.id.btn_send_stick})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_change_text:
+                new Thread(() -> {
+                    RxBus.getInstance()
+                            .post(new BaseEvent(0, etInput.getText().toString()));
 
-        }).start();
-
+                }).start();
+                break;
+            case R.id.btn_send_stick:
+                RxBus.getInstance().postStick(new StickEvent(0,etInput.getText().toString()));
+                startActivity(new Intent(this,StickReceiverActivity.class));
+                break;
+        }
     }
 }
