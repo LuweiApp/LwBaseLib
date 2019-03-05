@@ -15,7 +15,7 @@ import com.luwei.lwbaselib.activity.ImagePreviewActivity;
 import com.luwei.lwbaselib.activity.LogActivity;
 import com.luwei.lwbaselib.activity.PermissionActivity;
 import com.luwei.lwbaselib.activity.PopupActivity;
-import com.luwei.lwbaselib.activity.RxBusActivity;
+import com.luwei.lwbaselib.module.rxbus.RxBusActivity;
 import com.luwei.lwbaselib.activity.TimerButtonActivity;
 import com.luwei.lwbaselib.activity.TitleBarAcitivity;
 import com.luwei.lwbaselib.activity.ToastActivity;
