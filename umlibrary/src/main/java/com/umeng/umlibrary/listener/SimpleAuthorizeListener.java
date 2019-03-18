@@ -6,7 +6,7 @@ import java.util.Map;
  * @author LiCheng
  * @date 2019/3/4
  */
-public interface AuthorizeListener {
+public interface SimpleAuthorizeListener {
 
     void onComplete(Map<String, String> infoMap);
 

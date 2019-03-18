@@ -1,7 +1,9 @@
 package com.umeng.umlibrary.media;
 
 
+import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.umlibrary.listener.SimpleShareListener;
 
 /**
  * @author LiCheng
@@ -9,13 +11,15 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
  */
 public class UMediaBase<T extends UMediaBase> {
 
-    protected int mThumbResource;
-    protected String mThumbUrl;
-    protected String mWithText;
-    protected String mTitle;
-    protected String mDescription;
-    protected SHARE_MEDIA[] mPlatforms;
-    protected boolean mIsBoardOnlyShowWechatAndSina;
+    int mThumbResource;
+    String mThumbUrl;
+    String mWithText;
+    String mTitle;
+    String mDescription;
+    SHARE_MEDIA[] mPlatforms;
+    boolean mIsBoardOnlyShowWechatAndSina;
+    SimpleShareListener mSimpleShareListener;
+    UMShareListener mCustomShareListener;
 
     @SuppressWarnings("unchecked")
     public T setThumb(String thumbUrl) {
@@ -91,6 +95,30 @@ public class UMediaBase<T extends UMediaBase> {
     @SuppressWarnings("unchecked")
     public T setBoardOnlyShowWechatAndSina(boolean isBoardOnlyShowWechatAndSina) {
         mIsBoardOnlyShowWechatAndSina = isBoardOnlyShowWechatAndSina;
+        return (T) this;
+    }
+
+    /**
+     * 设置简单的分享结果监听
+     *
+     * @param simpleShareListener
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public T setSimpleShareListener(SimpleShareListener simpleShareListener) {
+        mSimpleShareListener = simpleShareListener;
+        return (T) this;
+    }
+
+    /**
+     * 设置完成的分享结果监听
+     *
+     * @param customShareListener
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public T setCustomShareListener(UMShareListener customShareListener) {
+        mCustomShareListener = customShareListener;
         return (T) this;
     }
 

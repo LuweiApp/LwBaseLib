@@ -1,5 +1,6 @@
 package com.umeng.umlibrary.media;
 
+import android.content.Context;
 import android.graphics.Color;
 
 import com.umeng.socialize.ShareAction;
@@ -7,28 +8,37 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.shareboard.ShareBoardConfig;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
+import com.umeng.umlibrary.listener.DefaultShareListener;
 
 /**
  * @author LiCheng
  * @date 2019/3/2
  */
 public class UMediaText extends UMediaBase<UMediaText> {
-    private final ShareAction shareAction;
+    private Context context;
+    private ShareAction shareAction;
     private String text;
-
 
     /**
      * 纯文本分享
      *
+     * @param context
      * @param shareAction
      * @param text
      */
-    public UMediaText(ShareAction shareAction, String text) {
+    public UMediaText(Context context, ShareAction shareAction, String text) {
+        this.context = context;
         this.shareAction = shareAction;
         this.text = text;
     }
 
     public void share(SHARE_MEDIA platform) {
+        if (mSimpleShareListener != null) {
+            shareAction.setCallback(new DefaultShareListener(context, mSimpleShareListener));
+        }
+        if (mCustomShareListener != null) {
+            shareAction.setCallback(mCustomShareListener);
+        }
         shareAction.setPlatform(platform)
                 .withText(text)
                 .share();

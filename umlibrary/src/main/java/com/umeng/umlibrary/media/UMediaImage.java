@@ -10,6 +10,7 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.shareboard.ShareBoardConfig;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
+import com.umeng.umlibrary.listener.DefaultShareListener;
 
 
 /**
@@ -18,8 +19,8 @@ import com.umeng.socialize.utils.ShareBoardlistener;
  */
 public class UMediaImage extends UMediaBase<UMediaImage> {
 
-    private final Context context;
-    private final ShareAction shareAction;
+    private Context context;
+    private ShareAction shareAction;
     private UMImage umImage;
 
     /**
@@ -90,6 +91,15 @@ public class UMediaImage extends UMediaBase<UMediaImage> {
 
     public void share(SHARE_MEDIA platform) {
         initMedia();
+        if (mWithText != null) {
+            shareAction.withText(mWithText);
+        }
+        if (mSimpleShareListener != null) {
+            shareAction.setCallback(new DefaultShareListener(context, mSimpleShareListener));
+        }
+        if (mCustomShareListener != null) {
+            shareAction.setCallback(mCustomShareListener);
+        }
         shareAction.setPlatform(platform)
                 .withMedia(umImage)
                 .share();

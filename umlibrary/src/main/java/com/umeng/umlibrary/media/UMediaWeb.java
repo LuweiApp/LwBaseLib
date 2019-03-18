@@ -10,15 +10,15 @@ import com.umeng.socialize.media.UMWeb;
 import com.umeng.socialize.shareboard.ShareBoardConfig;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
+import com.umeng.umlibrary.listener.DefaultShareListener;
 
 /**
  * @author LiCheng
  * @date 2019/3/1
  */
 public class UMediaWeb extends UMediaBase<UMediaWeb> {
-
-    private final Context context;
-    private final ShareAction shareAction;
+    private Context context;
+    private ShareAction shareAction;
     private UMWeb umWeb;
 
     /**
@@ -33,7 +33,6 @@ public class UMediaWeb extends UMediaBase<UMediaWeb> {
         this.context = context;
         this.shareAction = shareAction;
         this.umWeb = new UMWeb(url);
-        initMedia();
     }
 
     private void initMedia() {
@@ -52,8 +51,15 @@ public class UMediaWeb extends UMediaBase<UMediaWeb> {
     }
 
     public void share(SHARE_MEDIA platform) {
+        initMedia();
         if (mWithText != null) {
             shareAction.withText(mWithText);
+        }
+        if (mSimpleShareListener != null) {
+            shareAction.setCallback(new DefaultShareListener(context, mSimpleShareListener));
+        }
+        if (mCustomShareListener != null) {
+            shareAction.setCallback(mCustomShareListener);
         }
         shareAction.setPlatform(platform)
                 .withMedia(umWeb)
@@ -99,4 +105,5 @@ public class UMediaWeb extends UMediaBase<UMediaWeb> {
             }
         }).open(config);
     }
+
 }

@@ -15,9 +15,15 @@ import java.lang.ref.WeakReference;
  */
 public class DefaultShareListener implements UMShareListener {
     private WeakReference<Context> mContext;
+    private SimpleShareListener mSimpleShareListener;
 
     public DefaultShareListener(Context context) {
         mContext = new WeakReference(context);
+    }
+
+    public DefaultShareListener(Context context, SimpleShareListener simpleShareListener) {
+        this.mContext = new WeakReference(context);
+        this.mSimpleShareListener = simpleShareListener;
     }
 
     @Override
@@ -48,6 +54,10 @@ public class DefaultShareListener implements UMShareListener {
             Toast.makeText(mContext.get(), platform + "分享成功", Toast.LENGTH_SHORT).show();
         }
 
+        if (mSimpleShareListener != null) {
+            mSimpleShareListener.onComplete(platform);
+        }
+
     }
 
     @Override
@@ -74,6 +84,10 @@ public class DefaultShareListener implements UMShareListener {
                 && platform != SHARE_MEDIA.EVERNOTE) {
             Toast.makeText(mContext.get(), platform + "分享失败", Toast.LENGTH_SHORT).show();
 
+        }
+
+        if (mSimpleShareListener != null) {
+            mSimpleShareListener.onError(platform, throwable);
         }
 
     }

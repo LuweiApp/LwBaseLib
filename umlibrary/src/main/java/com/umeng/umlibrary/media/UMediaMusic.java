@@ -10,6 +10,7 @@ import com.umeng.socialize.media.UMusic;
 import com.umeng.socialize.shareboard.ShareBoardConfig;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
+import com.umeng.umlibrary.listener.DefaultShareListener;
 
 
 /**
@@ -17,8 +18,8 @@ import com.umeng.socialize.utils.ShareBoardlistener;
  * @date 2019/3/2
  */
 public class UMediaMusic extends UMediaBase<UMediaMusic> {
-    private final Context context;
-    private final ShareAction shareAction;
+    private Context context;
+    private ShareAction shareAction;
     private UMusic uMusic;
 
     /**
@@ -92,6 +93,12 @@ public class UMediaMusic extends UMediaBase<UMediaMusic> {
         initMedia();
         if (mWithText != null) {
             shareAction.withText(mWithText);
+        }
+        if (mSimpleShareListener != null) {
+            shareAction.setCallback(new DefaultShareListener(context, mSimpleShareListener));
+        }
+        if (mCustomShareListener != null) {
+            shareAction.setCallback(mCustomShareListener);
         }
         shareAction.setPlatform(platform)
                 .withMedia(uMusic)

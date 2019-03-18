@@ -50,7 +50,7 @@ public class UShareUtils {
      * @return
      */
     public UMediaText createText(String text) {
-        return new UMediaText(shareAction, text);
+        return new UMediaText(context, shareAction, text);
     }
 
     /**
