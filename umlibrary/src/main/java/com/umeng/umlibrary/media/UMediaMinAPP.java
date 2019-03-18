@@ -10,6 +10,7 @@ import com.umeng.socialize.media.UMMin;
 import com.umeng.socialize.shareboard.ShareBoardConfig;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
+import com.umeng.umlibrary.listener.DefaultShareListener;
 
 /**
  * @author LiCheng
@@ -17,8 +18,8 @@ import com.umeng.socialize.utils.ShareBoardlistener;
  */
 public class UMediaMinAPP extends UMediaBase<UMediaMinAPP> {
 
-    private final Context context;
-    private final ShareAction shareAction;
+    private Context context;
+    private ShareAction shareAction;
     private UMMin umMin;
 
     /**
@@ -80,6 +81,12 @@ public class UMediaMinAPP extends UMediaBase<UMediaMinAPP> {
         initMedia();
         if (mWithText != null) {
             shareAction.withText(mWithText);
+        }
+        if (mSimpleShareListener != null) {
+            shareAction.setCallback(new DefaultShareListener(context, mSimpleShareListener));
+        }
+        if (mCustomShareListener != null) {
+            shareAction.setCallback(mCustomShareListener);
         }
         shareAction.setPlatform(platform)
                 .withMedia(umMin)

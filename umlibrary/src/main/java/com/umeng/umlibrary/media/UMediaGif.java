@@ -10,14 +10,15 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.shareboard.ShareBoardConfig;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
+import com.umeng.umlibrary.listener.DefaultShareListener;
 
 /**
  * @author LiCheng
  * @date 2019/3/2
  */
 public class UMediaGif extends UMediaBase<UMediaGif> {
-    private final Context context;
-    private final ShareAction shareAction;
+    private Context context;
+    private ShareAction shareAction;
     private UMEmoji umGif;
 
     /**
@@ -53,6 +54,12 @@ public class UMediaGif extends UMediaBase<UMediaGif> {
         initMedia();
         if (mWithText != null) {
             shareAction.withText(mWithText);
+        }
+        if (mSimpleShareListener != null) {
+            shareAction.setCallback(new DefaultShareListener(context, mSimpleShareListener));
+        }
+        if (mCustomShareListener != null) {
+            shareAction.setCallback(mCustomShareListener);
         }
         shareAction.setPlatform(platform)
                 .withMedia(umGif)
