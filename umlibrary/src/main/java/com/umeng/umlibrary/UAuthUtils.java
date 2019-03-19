@@ -6,7 +6,7 @@ import android.util.Log;
 import com.umeng.socialize.UMAuthListener;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.umlibrary.listener.AuthorizeListener;
+import com.umeng.umlibrary.listener.SimpleAuthorizeListener;
 
 import java.util.Map;
 
@@ -47,7 +47,7 @@ public class UAuthUtils {
                 });
     }
 
-    public static void authorizeWeChat(Activity activity, final AuthorizeListener listener) {
+    public static void authorizeWeChat(Activity activity, final SimpleAuthorizeListener listener) {
         if (isWeChatAuthorize(activity)) {
             deleteOauth(activity);
         }
