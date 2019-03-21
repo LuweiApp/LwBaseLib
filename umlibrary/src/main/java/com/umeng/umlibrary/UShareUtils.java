@@ -3,6 +3,7 @@ package com.umeng.umlibrary;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
@@ -15,6 +16,8 @@ import com.umeng.umlibrary.media.UMediaMusic;
 import com.umeng.umlibrary.media.UMediaText;
 import com.umeng.umlibrary.media.UMediaVideo;
 import com.umeng.umlibrary.media.UMediaWeb;
+
+import java.io.File;
 
 /**
  * @author LiCheng
@@ -71,6 +74,36 @@ public class UShareUtils {
      */
     public UMediaImage createImage(int resource) {
         return new UMediaImage(context, shareAction, resource);
+    }
+
+    /**
+     * Bitmap图片分享
+     *
+     * @param bitmap
+     * @return
+     */
+    public UMediaImage createImage(Bitmap bitmap) {
+        return new UMediaImage(context, shareAction, bitmap);
+    }
+
+    /**
+     * 文件图片分享
+     *
+     * @param file
+     * @return
+     */
+    public UMediaImage createImage(File file) {
+        return new UMediaImage(context, shareAction, file);
+    }
+
+    /**
+     * 流图片分享
+     *
+     * @param bytes
+     * @return
+     */
+    public UMediaImage createImage(byte[] bytes) {
+        return new UMediaImage(context, shareAction, bytes);
     }
 
     /**

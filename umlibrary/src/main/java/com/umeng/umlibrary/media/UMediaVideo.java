@@ -62,11 +62,20 @@ public class UMediaVideo extends UMediaBase<UMediaVideo> {
     }
 
     private void initMedia() {
-        if (mThumbResource != 0) {
-            umVideo.setThumb(new UMImage(context, mThumbResource));
+        if (mThumbFile != null) {
+            umVideo.setThumb(new UMImage(context, mThumbFile));
+        }
+        if (mThumbBytes != null) {
+            umVideo.setThumb(new UMImage(context, mThumbBytes));
+        }
+        if (mThumbBitmap != null) {
+            umVideo.setThumb(new UMImage(context, mThumbBitmap));
         }
         if (mThumbUrl != null) {
             umVideo.setThumb(new UMImage(context, mThumbUrl));
+        }
+        if (mThumbResource != 0) {
+            umVideo.setThumb(new UMImage(context, mThumbResource));
         }
         if (mTitle != null) {
             umVideo.setTitle(mTitle);

@@ -36,11 +36,20 @@ public class UMediaWeb extends UMediaBase<UMediaWeb> {
     }
 
     private void initMedia() {
-        if (mThumbResource != 0) {
-            umWeb.setThumb(new UMImage(context, mThumbResource));
+        if (mThumbFile != null) {
+            umWeb.setThumb(new UMImage(context, mThumbFile));
+        }
+        if (mThumbBytes != null) {
+            umWeb.setThumb(new UMImage(context, mThumbBytes));
+        }
+        if (mThumbBitmap != null) {
+            umWeb.setThumb(new UMImage(context, mThumbBitmap));
         }
         if (mThumbUrl != null) {
             umWeb.setThumb(new UMImage(context, mThumbUrl));
+        }
+        if (mThumbResource != 0) {
+            umWeb.setThumb(new UMImage(context, mThumbResource));
         }
         if (mTitle != null) {
             umWeb.setTitle(mTitle);

@@ -75,11 +75,20 @@ public class UMediaMusic extends UMediaBase<UMediaMusic> {
     }
 
     private void initMedia() {
-        if (mThumbResource != 0) {
-            uMusic.setThumb(new UMImage(context, mThumbResource));
+        if (mThumbFile != null) {
+            uMusic.setThumb(new UMImage(context, mThumbFile));
+        }
+        if (mThumbBytes != null) {
+            uMusic.setThumb(new UMImage(context, mThumbBytes));
+        }
+        if (mThumbBitmap != null) {
+            uMusic.setThumb(new UMImage(context, mThumbBitmap));
         }
         if (mThumbUrl != null) {
             uMusic.setThumb(new UMImage(context, mThumbUrl));
+        }
+        if (mThumbResource != 0) {
+            uMusic.setThumb(new UMImage(context, mThumbResource));
         }
         if (mTitle != null) {
             uMusic.setTitle(mTitle);

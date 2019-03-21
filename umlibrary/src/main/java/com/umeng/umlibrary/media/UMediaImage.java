@@ -12,6 +12,8 @@ import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 import com.umeng.umlibrary.listener.DefaultShareListener;
 
+import java.io.File;
+
 
 /**
  * @author LiCheng
@@ -39,6 +41,7 @@ public class UMediaImage extends UMediaBase<UMediaImage> {
 
     /**
      * 添加资源文件
+     *
      * @param context
      * @param shareAction
      * @param resource
@@ -47,6 +50,24 @@ public class UMediaImage extends UMediaBase<UMediaImage> {
         this.context = context;
         this.shareAction = shareAction;
         this.umImage = new UMImage(context, resource);
+    }
+
+    public UMediaImage(Context context, ShareAction shareAction, Bitmap bitmap) {
+        this.context = context;
+        this.shareAction = shareAction;
+        this.umImage = new UMImage(context, bitmap);
+    }
+
+    public UMediaImage(Context context, ShareAction shareAction, File file) {
+        this.context = context;
+        this.shareAction = shareAction;
+        this.umImage = new UMImage(context, file);
+    }
+
+    public UMediaImage(Context context, ShareAction shareAction, byte[] bytes) {
+        this.context = context;
+        this.shareAction = shareAction;
+        this.umImage = new UMImage(context, bytes);
     }
 
     /**
@@ -75,11 +96,20 @@ public class UMediaImage extends UMediaBase<UMediaImage> {
     }
 
     private void initMedia() {
-        if (mThumbResource != 0) {
-            umImage.setThumb(new UMImage(context, mThumbResource));
+        if (mThumbFile != null) {
+            umImage.setThumb(new UMImage(context, mThumbFile));
+        }
+        if (mThumbBytes != null) {
+            umImage.setThumb(new UMImage(context, mThumbBytes));
+        }
+        if (mThumbBitmap != null) {
+            umImage.setThumb(new UMImage(context, mThumbBitmap));
         }
         if (mThumbUrl != null) {
             umImage.setThumb(new UMImage(context, mThumbUrl));
+        }
+        if (mThumbResource != 0) {
+            umImage.setThumb(new UMImage(context, mThumbResource));
         }
         if (mTitle != null) {
             umImage.setTitle(mTitle);
