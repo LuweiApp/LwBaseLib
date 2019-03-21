@@ -1,9 +1,13 @@
 package com.umeng.umlibrary.media;
 
 
+import android.graphics.Bitmap;
+
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.umlibrary.listener.SimpleShareListener;
+
+import java.io.File;
 
 /**
  * @author LiCheng
@@ -11,6 +15,9 @@ import com.umeng.umlibrary.listener.SimpleShareListener;
  */
 public class UMediaBase<T extends UMediaBase> {
 
+    byte[] mThumbBytes;
+    Bitmap mThumbBitmap;
+    File mThumbFile;
     int mThumbResource;
     String mThumbUrl;
     String mWithText;
@@ -35,6 +42,21 @@ public class UMediaBase<T extends UMediaBase> {
      */
     public T setThumb(int thumbResource) {
         mThumbResource = thumbResource;
+        return (T) this;
+    }
+
+    public T setThumb(Bitmap thumbBitmap) {
+        mThumbBitmap = thumbBitmap;
+        return (T) this;
+    }
+
+    public T setThumb(File thumbFile) {
+        mThumbFile = thumbFile;
+        return (T) this;
+    }
+
+    public T setThumb(byte[] thumbBytes) {
+        mThumbBytes = thumbBytes;
         return (T) this;
     }
 

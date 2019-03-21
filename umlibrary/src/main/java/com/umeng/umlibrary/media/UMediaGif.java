@@ -36,11 +36,20 @@ public class UMediaGif extends UMediaBase<UMediaGif> {
     }
 
     private void initMedia() {
-        if (mThumbResource != 0) {
-            umGif.setThumb(new UMImage(context, mThumbResource));
+        if (mThumbFile != null) {
+            umGif.setThumb(new UMImage(context, mThumbFile));
+        }
+        if (mThumbBytes != null) {
+            umGif.setThumb(new UMImage(context, mThumbBytes));
+        }
+        if (mThumbBitmap != null) {
+            umGif.setThumb(new UMImage(context, mThumbBitmap));
         }
         if (mThumbUrl != null) {
             umGif.setThumb(new UMImage(context, mThumbUrl));
+        }
+        if (mThumbResource != 0) {
+            umGif.setThumb(new UMImage(context, mThumbResource));
         }
         if (mTitle != null) {
             umGif.setTitle(mTitle);

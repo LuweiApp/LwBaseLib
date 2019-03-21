@@ -63,11 +63,20 @@ public class UMediaMinAPP extends UMediaBase<UMediaMinAPP> {
     }
 
     private void initMedia() {
-        if (mThumbResource != 0) {
-            umMin.setThumb(new UMImage(context, mThumbResource));
+        if (mThumbFile != null) {
+            umMin.setThumb(new UMImage(context, mThumbFile));
+        }
+        if (mThumbBytes != null) {
+            umMin.setThumb(new UMImage(context, mThumbBytes));
+        }
+        if (mThumbBitmap != null) {
+            umMin.setThumb(new UMImage(context, mThumbBitmap));
         }
         if (mThumbUrl != null) {
             umMin.setThumb(new UMImage(context, mThumbUrl));
+        }
+        if (mThumbResource != 0) {
+            umMin.setThumb(new UMImage(context, mThumbResource));
         }
         if (mTitle != null) {
             umMin.setTitle(mTitle);
