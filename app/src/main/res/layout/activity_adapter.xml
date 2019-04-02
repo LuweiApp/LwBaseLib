@@ -56,6 +56,14 @@
         app:layout_constraintStart_toEndOf="@+id/btn_adapter_header"
         app:layout_constraintTop_toBottomOf="@+id/view_tb_adapter" />
 
+    <Button
+        android:id="@+id/btn_empty_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="空数据"
+        app:layout_constraintStart_toStartOf="@id/btn_adapter_single"
+        app:layout_constraintTop_toBottomOf="@id/btn_adapter_single" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_adapter_demo"
         android:layout_width="0dp"
@@ -63,6 +71,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_adapter_single" />
+        app:layout_constraintTop_toBottomOf="@id/btn_empty_data" />
 
 </android.support.constraint.ConstraintLayout>

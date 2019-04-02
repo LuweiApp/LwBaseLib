@@ -51,11 +51,13 @@ public abstract class LwItemBinder<T> extends ItemViewBinder<T, LwViewHolder> {
             int id = mChildListenerMap.keyAt(i);
             View view = holder.getView(id);
             if (view != null) {
+                OnChildClickListener<T> l = mChildListenerMap.get(id);
+                if (l == null) {
+                    view.setOnClickListener(null);
+                    continue;
+                }
                 view.setOnClickListener(v -> {
-                    OnChildClickListener<T> l = mChildListenerMap.get(id);
-                    if (l!=null){
-                        l.onChildClick(holder,view,item);
-                    }
+                    l.onChildClick(holder, view, item);
                 });
             }
         }
@@ -64,11 +66,14 @@ public abstract class LwItemBinder<T> extends ItemViewBinder<T, LwViewHolder> {
             int id = mChildLongListenerMap.keyAt(i);
             View view = holder.getView(id);
             if (view != null) {
-                view.setOnClickListener(v -> {
-                    OnChildLongClickListener<T> l = mChildLongListenerMap.get(id);
-                    if (l != null) {
-                        l.onChildLongClick(holder,view, item);
-                    }
+                OnChildLongClickListener<T> listener = mChildLongListenerMap.get(id);
+                if (listener == null) {
+                    view.setOnLongClickListener(null);
+                    continue;
+                }
+                view.setOnLongClickListener(v -> {
+                    listener.onChildLongClick(holder, view, item);
+                    return false;
                 });
             }
         }
@@ -83,19 +88,27 @@ public abstract class LwItemBinder<T> extends ItemViewBinder<T, LwViewHolder> {
      */
     private void bindRootViewListener(LwViewHolder holder, T item) {
         //根View点击事件
-        holder.getView().setOnClickListener(v -> {
-            if (mListener != null) {
-                mListener.onItemClick(holder, item);
-            }
-        });
+        if (mListener != null) {
+            holder.itemView.setOnClickListener(v -> {
+                if (mListener != null) {
+                    mListener.onItemClick(holder, item);
+                }
+            });
+        }else {
+            holder.itemView.setOnClickListener(null);
+        }
         //根View长按事件
-        holder.getView().setOnLongClickListener(v -> {
-            boolean result = false;
-            if (mLongListener != null) {
-                result = mLongListener.onItemLongClick(holder, item);
-            }
-            return result;
-        });
+        if (mLongListener != null) {
+            holder.itemView.setOnLongClickListener(v -> {
+                boolean result = false;
+                if (mLongListener != null) {
+                    result = mLongListener.onItemLongClick(holder, item);
+                }
+                return result;
+            });
+        }else {
+            holder.itemView.setOnLongClickListener(null);
+        }
     }
 
 
@@ -109,15 +122,15 @@ public abstract class LwItemBinder<T> extends ItemViewBinder<T, LwViewHolder> {
     /**
      * 点击事件
      *
-     * @param id 控件id，可传入子view ID
+     * @param id       控件id，可传入子view ID
      * @param listener
      */
-    public void setOnChildClickListener(@IdRes int id, OnChildClickListener<T> listener){
-        mChildListenerMap.put(id,listener);
+    public void setOnChildClickListener(@IdRes int id, OnChildClickListener<T> listener) {
+        mChildListenerMap.put(id, listener);
     }
 
-    public void setOnChildLongClickListener(@IdRes int id, OnChildLongClickListener<T> listener){
-        mChildLongListenerMap.put(id,listener);
+    public void setOnChildLongClickListener(@IdRes int id, OnChildLongClickListener<T> listener) {
+        mChildLongListenerMap.put(id, listener);
     }
 
     /**
@@ -132,12 +145,12 @@ public abstract class LwItemBinder<T> extends ItemViewBinder<T, LwViewHolder> {
      *
      * @param id 控件id，可传入子view ID
      */
-    public void removeChildClickListener(@IdRes int id){
-        mChildListenerMap.remove(id);
+    public void removeChildClickListener(@IdRes int id) {
+        mChildListenerMap.put(id,null);
     }
 
-    public void removeChildLongClickListener(@IdRes int id){
-        mChildLongListenerMap.remove(id);
+    public void removeChildLongClickListener(@IdRes int id) {
+        mChildLongListenerMap.put(id,null);
     }
 
     /**
@@ -146,7 +159,6 @@ public abstract class LwItemBinder<T> extends ItemViewBinder<T, LwViewHolder> {
     public void removeItemClickListener() {
         mListener = null;
     }
-
 
 
     public void removeItemLongClickListener() {
