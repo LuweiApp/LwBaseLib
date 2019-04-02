@@ -12,7 +12,6 @@ import com.luwei.rxbus.RxBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
 
 /**
  * Created by Mr_Zeng
@@ -62,14 +61,11 @@ public class StickReceiverActivity extends LwBaseActivity {
         RxBus.getInstance()
                 .register(this)
                 .ofStickType(StickEvent.class)
-                .subscribe(new Consumer<StickEvent>() {
-                    @Override
-                    public void accept(StickEvent stickEvent) throws Exception {
-                        mTvContent.setText(stickEvent.getContent().toString());
-                        //事件清除
-                        RxBus.getInstance().removeStick(stickEvent);
-                    }
-                },throwable -> {
+                .subscribe(stickEvent -> {
+                    mTvContent.setText(stickEvent.getContent().toString());
+                    //事件清除
+                    RxBus.getInstance().removeStick(stickEvent);
+                }, throwable -> {
                     ToastUtils.showShort(throwable.getMessage());
                     throwable.printStackTrace();
                 });

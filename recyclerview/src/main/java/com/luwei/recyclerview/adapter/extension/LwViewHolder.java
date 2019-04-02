@@ -22,12 +22,14 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.luwei.recyclerview.adapter.multitype.LwAdapter;
+
 /**
  * Created by Mr_Zeng
  *
  * @date 2018/9/5
  */
-public class LwViewHolder extends RecyclerView.ViewHolder{
+public class LwViewHolder extends RecyclerView.ViewHolder {
 
     private View mView;
     private SparseArray<View> mViewMap = new SparseArray<>();
@@ -52,6 +54,10 @@ public class LwViewHolder extends RecyclerView.ViewHolder{
             mViewMap.put(ResId, view);
         }
         return (T) view;
+    }
+
+    public int getRelativeAdapterPos(LwAdapter adapter) {
+        return getAdapterPosition() - adapter.getHeaderSize();
     }
 
     /**

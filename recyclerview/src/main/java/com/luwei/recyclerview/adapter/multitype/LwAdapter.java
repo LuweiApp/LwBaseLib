@@ -1,12 +1,18 @@
 package com.luwei.recyclerview.adapter.multitype;
 
 
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
+import android.view.View;
 
+import com.luwei.recyclerview.adapter.extension.EmptyBean;
+import com.luwei.recyclerview.adapter.extension.EmptyBinder;
+import com.luwei.recyclerview.adapter.extension.EmptyBinderReal;
+import com.luwei.recyclerview.adapter.extension.EmptyExtension;
 import com.luwei.recyclerview.adapter.extension.FooterExtension;
 import com.luwei.recyclerview.adapter.extension.HeaderExtension;
+import com.luwei.recyclerview.adapter.extension.SimpleEmptyBinder;
 
 import java.util.List;
 
@@ -19,6 +25,8 @@ public class LwAdapter extends MultiTypeAdapter {
 
     private HeaderExtension mHeader;
     private FooterExtension mFooter;
+    private EmptyExtension mEmpty;
+    private static AdapterConfig mConfig;
 
     public LwAdapter() {
     }
@@ -32,18 +40,18 @@ public class LwAdapter extends MultiTypeAdapter {
         Object item = null;
         int headerSize = getHeaderSize();
         int mainSize = getItems().size();
-        if (mHeader != null) {
-            if (mHeader.isInRange(getItemCount(), position)) {
-                item = mHeader.getItem(position);
-                return indexInTypesOf(position, item);
-            }
+        if (mHeader != null && mHeader.isInRange(getItemCount(), position)) {
+            item = mHeader.getItem(position);
+            return indexInTypesOf(position, item);
         }
-        if (mFooter != null) {
-            if (mFooter.isInRange(getItemCount(), position)) {
-                int relativePos = position - headerSize - mainSize;
-                item = mFooter.getItem(relativePos);
-                return indexInTypesOf(relativePos, item);
-            }
+        if (mEmpty != null && mEmpty.isInRange(getItemCount(), position)) {
+            item = mEmpty.getItem(position);
+            return indexInTypesOf(position, item);
+        }
+        if (mFooter != null && mFooter.isInRange(getItemCount(), position)) {
+            int relativePos = position - headerSize - mainSize - getEmptySize();
+            item = mFooter.getItem(relativePos);
+            return indexInTypesOf(relativePos, item);
         }
         int relativePos = position - headerSize;
         return super.getItemViewType(relativePos);
@@ -56,16 +64,15 @@ public class LwAdapter extends MultiTypeAdapter {
         int headerSize = getHeaderSize();
         int mainSize = getItems().size();
         ItemViewBinder binder = getTypePool().getItemViewBinder(holder.getItemViewType());
-        if (mHeader != null) {
-            if (mHeader.isInRange(getItemCount(), position)) {
-                item = mHeader.getItem(position);
-            }
+        if (mHeader != null && mHeader.isInRange(getItemCount(), position)) {
+            item = mHeader.getItem(position);
         }
-        if (mFooter != null) {
-            if (mFooter.isInRange(getItemCount(), position)) {
-                int relativePos = position - headerSize - mainSize;
-                item = mFooter.getItem(relativePos);
-            }
+        if (mFooter != null && mFooter.isInRange(getItemCount(), position)) {
+            int relativePos = position - headerSize - mainSize - getEmptySize();
+            item = mFooter.getItem(relativePos);
+        }
+        if (mEmpty != null && mEmpty.isInRange(getItemCount(), position)) {
+            item = mEmpty.getItem(position);
         }
         if (item != null) {
             binder.onBindViewHolder(holder, item);
@@ -74,6 +81,46 @@ public class LwAdapter extends MultiTypeAdapter {
         super.onBindViewHolder(holder, position - headerSize, payloads);
     }
 
+
+    /**
+     * 是否显示缺省view
+     */
+    public void setEmptyViewEnable(boolean showEmptyView) {
+        if (showEmptyView) {
+            setEmptyBinder(null);
+        } else {
+            getTypePool().unregister(EmptyBean.class);
+            mEmpty = null;
+        }
+    }
+
+    /**
+     * 设置缺省view
+     */
+    public void setEmptyView(View view) {
+        setEmptyBinder((inflater, parent) -> view);
+    }
+
+    /**
+     * 设置缺省view
+     */
+    public void setEmptyView(@LayoutRes int viewRes) {
+        setEmptyBinder((inflater, parent) -> inflater.inflate(viewRes, parent, false));
+    }
+
+    /**
+     * 设置缺省view
+     */
+    public void setEmptyBinder(EmptyBinder emptyBinder) {
+        if (emptyBinder == null) {
+            emptyBinder = EmptyExtension.getGlobalBinder();
+        }
+        if (emptyBinder==null){
+            emptyBinder = new SimpleEmptyBinder();
+        }
+        mEmpty = new EmptyExtension(this);
+        register(EmptyBean.class, new EmptyBinderReal(emptyBinder));
+    }
 
     /**
      * 获取Header数量
@@ -93,9 +140,13 @@ public class LwAdapter extends MultiTypeAdapter {
         return mFooter == null ? 0 : mFooter.getItemSize();
     }
 
+    public int getEmptySize() {
+        return mEmpty == null ? 0 : mEmpty.getItemSize();
+    }
+
     @Override
     public final int getItemCount() {
-        int extensionSize = getHeaderSize() + getFooterSize();
+        int extensionSize = getHeaderSize() + getFooterSize() + getEmptySize();
         return super.getItemCount() + extensionSize;
     }
 
@@ -170,5 +221,35 @@ public class LwAdapter extends MultiTypeAdapter {
         }
     }
 
+
+    public static AdapterConfig getConfig() {
+        if (mConfig == null) {
+            synchronized (LwAdapter.class) {
+                if (mConfig == null) {
+                    mConfig = new AdapterConfig();
+                }
+            }
+        }
+        return mConfig;
+    }
+
+    public static class AdapterConfig {
+
+        /**
+         * 设置缺省view
+         */
+        public AdapterConfig setGlobalEmptyView(@LayoutRes int viewRes) {
+            setGlobalEmptyBinder((inflater, parent) -> inflater.inflate(viewRes, parent, false));
+            return this;
+        }
+
+        /**
+         * 设置缺省view
+         */
+        public AdapterConfig setGlobalEmptyBinder(EmptyBinder emptyBinder) {
+            EmptyExtension.setGlobalBinder(emptyBinder);
+            return this;
+        }
+    }
 }
 
