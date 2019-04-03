@@ -531,7 +531,9 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
         showAsDropDown(anchor, 0, 0);
     }
 
-    *//**
+    */
+
+    /**
      * PopupWindow自带的显示方法
      *
      * @param anchor
@@ -581,6 +583,11 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
         }
         mPopupWindow.showAsDropDown(anchor, mOffsetX, mOffsetY, gravity);
     }*/
+
+
+    public void showAtLocation(View parent, int gravity) {
+        showAtLocation(parent, gravity);
+    }
 
     public void showAtLocation(View parent, int gravity, int offsetX, int offsetY) {
         //防止忘记调用 apply() 方法
