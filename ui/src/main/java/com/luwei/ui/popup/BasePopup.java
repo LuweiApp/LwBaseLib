@@ -586,7 +586,7 @@ public abstract class BasePopup<T extends BasePopup> implements PopupWindow.OnDi
 
 
     public void showAtLocation(View parent, int gravity) {
-        showAtLocation(parent, gravity);
+        showAtLocation(parent, gravity,0,0);
     }
 
     public void showAtLocation(View parent, int gravity, int offsetX, int offsetY) {
