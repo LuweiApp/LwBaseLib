@@ -173,7 +173,7 @@ public class RxBus {
             }else {
                 eventList = new ArrayList<>(eventSources) ;
             }
-            Flowable<T> flowable = Flowable.create(new FlowableOnSubscribe<T>() {
+             final Flowable<T> flowable = Flowable.create(new FlowableOnSubscribe<T>() {
                 @Override
                 public void subscribe(FlowableEmitter<T> emitter) throws Exception {
                     if (eventList==null){
@@ -185,7 +185,7 @@ public class RxBus {
                     emitter.onComplete();
                 }
             }, BackpressureStrategy.LATEST);
-            return new FunctionLink<>(mObserver, flowable);
+            return new FunctionLink<>(mObserver, mProcessor.ofType(type).mergeWith(flowable));
         }
 
     }
