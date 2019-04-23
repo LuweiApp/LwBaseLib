@@ -1,14 +1,8 @@
 package com.umeng.umlibrary;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
 
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.umlibrary.listener.DefaultShareListener;
 import com.umeng.umlibrary.media.UMediaGif;
 import com.umeng.umlibrary.media.UMediaImage;
 import com.umeng.umlibrary.media.UMediaMinAPP;
@@ -25,25 +19,21 @@ import java.io.File;
  */
 public class UShareUtils {
 
-    @SuppressLint("StaticFieldLeak")
-    private static volatile UShareUtils singleton = null;
-    private final Context context;
-    private ShareAction shareAction;
+    /**
+     * 全局设置分享平台和监听器
+     */
+    private static UShareConfig config = new UShareConfig.Builder()
+            .setDisplayList(
+                    SHARE_MEDIA.WEIXIN,
+                    SHARE_MEDIA.WEIXIN_CIRCLE,
+                    SHARE_MEDIA.WEIXIN_FAVORITE,
+                    SHARE_MEDIA.SINA,
+                    SHARE_MEDIA.QQ,
+                    SHARE_MEDIA.QZONE)
+            .create();
 
-    private UShareUtils(Context context, ShareAction shareAction) {
-        this.context = context;
-        this.shareAction = shareAction;
-    }
-
-    public static UShareUtils with(Activity activity) {
-        if (singleton == null) {
-            synchronized (UShareUtils.class) {
-                if (singleton == null) {
-                    singleton = new Builder(activity).build();
-                }
-            }
-        }
-        return singleton;
+    public static UShareConfig getConfig() {
+        return config;
     }
 
     /**
@@ -52,8 +42,8 @@ public class UShareUtils {
      * @param text
      * @return
      */
-    public UMediaText createText(String text) {
-        return new UMediaText(context, shareAction, text);
+    public static UMediaText createText(String text) {
+        return new UMediaText(text);
     }
 
     /**
@@ -62,8 +52,8 @@ public class UShareUtils {
      * @param imgUrl
      * @return
      */
-    public UMediaImage createImage(String imgUrl) {
-        return new UMediaImage(context, shareAction, imgUrl);
+    public static UMediaImage createImage(String imgUrl) {
+        return new UMediaImage(imgUrl);
     }
 
     /**
@@ -72,8 +62,8 @@ public class UShareUtils {
      * @param resource
      * @return
      */
-    public UMediaImage createImage(int resource) {
-        return new UMediaImage(context, shareAction, resource);
+    public static UMediaImage createImage(int resource) {
+        return new UMediaImage(resource);
     }
 
     /**
@@ -82,8 +72,8 @@ public class UShareUtils {
      * @param bitmap
      * @return
      */
-    public UMediaImage createImage(Bitmap bitmap) {
-        return new UMediaImage(context, shareAction, bitmap);
+    public static UMediaImage createImage(Bitmap bitmap) {
+        return new UMediaImage(bitmap);
     }
 
     /**
@@ -92,8 +82,8 @@ public class UShareUtils {
      * @param file
      * @return
      */
-    public UMediaImage createImage(File file) {
-        return new UMediaImage(context, shareAction, file);
+    public static UMediaImage createImage(File file) {
+        return new UMediaImage(file);
     }
 
     /**
@@ -102,8 +92,8 @@ public class UShareUtils {
      * @param bytes
      * @return
      */
-    public UMediaImage createImage(byte[] bytes) {
-        return new UMediaImage(context, shareAction, bytes);
+    public static UMediaImage createImage(byte[] bytes) {
+        return new UMediaImage(bytes);
     }
 
     /**
@@ -112,8 +102,8 @@ public class UShareUtils {
      * @param webUrl
      * @return
      */
-    public UMediaWeb createWeb(String webUrl) {
-        return new UMediaWeb(context, shareAction, webUrl);
+    public static UMediaWeb createWeb(String webUrl) {
+        return new UMediaWeb(webUrl);
     }
 
     /**
@@ -122,8 +112,8 @@ public class UShareUtils {
      * @param videoUrl
      * @return
      */
-    public UMediaVideo createVideo(String videoUrl) {
-        return new UMediaVideo(context, shareAction, videoUrl);
+    public static UMediaVideo createVideo(String videoUrl) {
+        return new UMediaVideo(videoUrl);
     }
 
     /**
@@ -132,8 +122,8 @@ public class UShareUtils {
      * @param musicUrl
      * @return
      */
-    public UMediaMusic createMusic(String musicUrl) {
-        return new UMediaMusic(context, shareAction, musicUrl);
+    public static UMediaMusic createMusic(String musicUrl) {
+        return new UMediaMusic(musicUrl);
     }
 
     /**
@@ -143,8 +133,8 @@ public class UShareUtils {
      * @param gifUrl
      * @return
      */
-    public UMediaGif createGif(String gifUrl) {
-        return new UMediaGif(context, shareAction, gifUrl);
+    public static UMediaGif createGif(String gifUrl) {
+        return new UMediaGif(gifUrl);
     }
 
     /**
@@ -155,77 +145,9 @@ public class UShareUtils {
      * @param minAPPUrl
      * @return
      */
-    public UMediaMinAPP createMinApp(String minAPPUrl) {
-        return new UMediaMinAPP(context, shareAction, minAPPUrl);
+    public static UMediaMinAPP createMinApp(String minAPPUrl) {
+        return new UMediaMinAPP(minAPPUrl);
     }
 
-
-    /**
-     * 构建默认ShareAction
-     */
-    public static class Builder {
-        private final Activity activity;
-        private UMShareListener shareListener;
-        private ShareAction shareAction;
-        private SHARE_MEDIA[] platforms;
-
-        /**
-         * 开始构造实例
-         */
-        public Builder(Activity activity) {
-            if (activity == null) {
-                throw new IllegalArgumentException("Aitivity must not be null.");
-            }
-            this.activity = activity;
-        }
-
-
-        public Builder setShareListener(UMShareListener shareListener) {
-            if (shareListener == null) {
-                throw new IllegalArgumentException("UMShareListener must not be null.");
-            }
-            if (this.shareListener != null) {
-                throw new IllegalStateException("UMShareListener already set.");
-            }
-            this.shareListener = shareListener;
-            return this;
-        }
-
-        public Builder setDisplayList(SHARE_MEDIA... platforms) {
-            if (platforms == null) {
-                throw new IllegalArgumentException("platforms must not be null.");
-            }
-            if (this.platforms != null) {
-                throw new IllegalStateException("platforms already set.");
-            }
-            this.platforms = platforms;
-            return this;
-        }
-
-
-        public UShareUtils build() {
-            Context context = activity.getBaseContext();
-            if (shareListener == null) {
-                //添加默认分享监听
-                shareListener = new DefaultShareListener(context);
-            }
-
-            if (platforms == null) {
-                //添加微信微博QQ三大平台
-                platforms = new SHARE_MEDIA[]{SHARE_MEDIA.WEIXIN,
-                        SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
-                        SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE};
-//                platforms = new SHARE_MEDIA[]{SHARE_MEDIA.WEIXIN,
-//                        SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.SINA};
-            }
-
-            if (shareAction == null) {
-                shareAction = new ShareAction(activity)
-                        .setCallback(shareListener)
-                        .setDisplayList(platforms);
-            }
-            return new UShareUtils(context, shareAction);
-        }
-    }
 }
 

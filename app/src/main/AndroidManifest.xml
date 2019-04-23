@@ -40,6 +40,9 @@
         <activity android:name=".module.rxbus.RxBusActivity"
             android:label="RxBus"/>
 
+        <activity android:name=".activity.UMShareAndAuthActivity"
+            android:label="UMShare"/>
+
         <!--
         <activity android:name=".module.recyclerview.AdapterDemoActivity"
             />

@@ -1,16 +1,10 @@
 package com.umeng.umlibrary.media;
 
-import android.content.Context;
-import android.graphics.Color;
+import android.app.Activity;
 
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMusic;
-import com.umeng.socialize.shareboard.ShareBoardConfig;
-import com.umeng.socialize.shareboard.SnsPlatform;
-import com.umeng.socialize.utils.ShareBoardlistener;
-import com.umeng.umlibrary.listener.DefaultShareListener;
 
 
 /**
@@ -18,8 +12,7 @@ import com.umeng.umlibrary.listener.DefaultShareListener;
  * @date 2019/3/2
  */
 public class UMediaMusic extends UMediaBase<UMediaMusic> {
-    private Context context;
-    private ShareAction shareAction;
+
     private UMusic uMusic;
 
     /**
@@ -27,14 +20,8 @@ public class UMediaMusic extends UMediaBase<UMediaMusic> {
      * 播放链接是指在微信qq分享音乐，是可以在当前聊天界面播放的
      * 要求这个musicurl（播放链接）必须要以.mp3等音乐格式结尾
      * 需要设置 标题、描述、缩略图
-     *
-     * @param context
-     * @param shareAction
-     * @param url
      */
-    public UMediaMusic(Context context, ShareAction shareAction, String url) {
-        this.context = context;
-        this.shareAction = shareAction;
+    public UMediaMusic(String url) {
         this.uMusic = new UMusic(url);
     }
 
@@ -74,84 +61,33 @@ public class UMediaMusic extends UMediaBase<UMediaMusic> {
         return this;
     }
 
-    private void initMedia() {
-        if (mThumbFile != null) {
-            uMusic.setThumb(new UMImage(context, mThumbFile));
-        }
-        if (mThumbBytes != null) {
-            uMusic.setThumb(new UMImage(context, mThumbBytes));
-        }
-        if (mThumbBitmap != null) {
-            uMusic.setThumb(new UMImage(context, mThumbBitmap));
-        }
-        if (mThumbUrl != null) {
-            uMusic.setThumb(new UMImage(context, mThumbUrl));
-        }
-        if (mThumbResource != 0) {
-            uMusic.setThumb(new UMImage(context, mThumbResource));
-        }
-        if (mTitle != null) {
-            uMusic.setTitle(mTitle);
-        }
-        if (mDescription != null) {
-            uMusic.setDescription(mDescription);
-        }
-    }
-
-    public void share(SHARE_MEDIA platform) {
-        initMedia();
+    @Override
+    protected void share(Activity activity, SHARE_MEDIA platform, ShareAction shareAction) {
         if (mWithText != null) {
             shareAction.withText(mWithText);
         }
-        if (mSimpleShareListener != null) {
-            shareAction.setCallback(new DefaultShareListener(context, mSimpleShareListener));
-        }
-        if (mCustomShareListener != null) {
-            shareAction.setCallback(mCustomShareListener);
-        }
-        shareAction.setPlatform(platform)
-                .withMedia(uMusic)
-                .share();
+        shareAction.withMedia(getMedia(uMusic, activity));
+        super.share(activity, platform, shareAction);
     }
 
-    public void shareWithCenterBoard() {
-        ShareBoardConfig config = new ShareBoardConfig();
-        config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_CENTER);
-        config.setIndicatorVisibility(false);
-        config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR);
-        config.setShareboardBackgroundColor(Color.parseColor("#f5f5f5"));
-        config.setMenuItemTextColor(Color.BLACK);
-        config.setTitleTextColor(Color.BLACK);
-        shareWithCustomBoard(config);
+    @Override
+    public UMediaMusic setTitle(String title) {
+        return super.setTitle(title);
     }
 
-    public void shareWithBottomBoard() {
-        ShareBoardConfig config = new ShareBoardConfig();
-        config.setCancelButtonVisibility(false);
-        config.setTitleVisibility(false);
-        config.setIndicatorVisibility(false);
-        config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_BOTTOM);
-        config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR);
-        config.setShareboardBackgroundColor(Color.parseColor("#f5f5f5"));
-        config.setMenuItemTextColor(Color.BLACK);
-        shareWithCustomBoard(config);
+    @Override
+    public UMediaMusic setDescription(String description) {
+        return super.setDescription(description);
     }
 
-    public void shareWithCustomBoard(ShareBoardConfig config) {
-        if (mPlatforms != null) {
-            shareAction.setDisplayList(mPlatforms);
-        }
-        if (mIsBoardOnlyShowWechatAndSina) {
-            shareAction.setDisplayList(SHARE_MEDIA.WEIXIN,
-                    SHARE_MEDIA.WEIXIN_CIRCLE,
-                    SHARE_MEDIA.SINA);
-        }
-        shareAction.setShareboardclickCallback(new ShareBoardlistener() {
-            @Override
-            public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA platform) {
-                share(platform);
-            }
-        }).open(config);
+    @Override
+    public void shareWithBottomBoard(Activity activity) {
+        super.shareWithBottomBoard(activity);
+    }
+
+    @Override
+    public void share(Activity activity, SHARE_MEDIA platform) {
+        super.share(activity, platform);
     }
 
 }
