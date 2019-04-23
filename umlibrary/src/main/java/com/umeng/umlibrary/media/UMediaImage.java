@@ -1,16 +1,12 @@
 package com.umeng.umlibrary.media;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.shareboard.ShareBoardConfig;
-import com.umeng.socialize.shareboard.SnsPlatform;
-import com.umeng.socialize.utils.ShareBoardlistener;
-import com.umeng.umlibrary.listener.DefaultShareListener;
 
 import java.io.File;
 
@@ -21,53 +17,39 @@ import java.io.File;
  */
 public class UMediaImage extends UMediaBase<UMediaImage> {
 
-    private Context context;
-    private ShareAction shareAction;
-    private UMImage umImage;
+    private String url;
+    private int resource;
+    private Bitmap bitmap;
+    private File file;
+    private byte[] bytes;
+    private Bitmap.CompressFormat compressFormat;
+    private UMImage.CompressStyle compressStyle;
 
     /**
      * 添加网络图片
      * 分享的图片需要设置缩略图
-     *
-     * @param context
-     * @param shareAction
-     * @param url
      */
-    public UMediaImage(Context context, ShareAction shareAction, String url) {
-        this.context = context;
-        this.shareAction = shareAction;
-        this.umImage = new UMImage(context, url);
+    public UMediaImage(String url) {
+        this.url = url;
     }
 
     /**
      * 添加资源文件
-     *
-     * @param context
-     * @param shareAction
-     * @param resource
      */
-    public UMediaImage(Context context, ShareAction shareAction, int resource) {
-        this.context = context;
-        this.shareAction = shareAction;
-        this.umImage = new UMImage(context, resource);
+    public UMediaImage(int resource) {
+        this.resource = resource;
     }
 
-    public UMediaImage(Context context, ShareAction shareAction, Bitmap bitmap) {
-        this.context = context;
-        this.shareAction = shareAction;
-        this.umImage = new UMImage(context, bitmap);
+    public UMediaImage(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
-    public UMediaImage(Context context, ShareAction shareAction, File file) {
-        this.context = context;
-        this.shareAction = shareAction;
-        this.umImage = new UMImage(context, file);
+    public UMediaImage(File file) {
+        this.file = file;
     }
 
-    public UMediaImage(Context context, ShareAction shareAction, byte[] bytes) {
-        this.context = context;
-        this.shareAction = shareAction;
-        this.umImage = new UMImage(context, bytes);
+    public UMediaImage(byte[] bytes) {
+        this.bytes = bytes;
     }
 
     /**
@@ -77,7 +59,7 @@ public class UMediaImage extends UMediaBase<UMediaImage> {
      * @return
      */
     public UMediaImage setCompressFormat(Bitmap.CompressFormat format) {
-        umImage.compressFormat = format;
+        this.compressFormat = format;
         return this;
     }
 
@@ -91,88 +73,67 @@ public class UMediaImage extends UMediaBase<UMediaImage> {
      * @return
      */
     public UMediaImage setCompressStyle(UMImage.CompressStyle style) {
-        umImage.compressStyle = style;
+        this.compressStyle = style;
         return this;
     }
 
-    private void initMedia() {
-        if (mThumbFile != null) {
-            umImage.setThumb(new UMImage(context, mThumbFile));
+    private UMImage createUmImage(Context context) {
+        if (url != null) {
+            return new UMImage(context, url);
         }
-        if (mThumbBytes != null) {
-            umImage.setThumb(new UMImage(context, mThumbBytes));
+        if (resource != 0) {
+            return new UMImage(context, resource);
         }
-        if (mThumbBitmap != null) {
-            umImage.setThumb(new UMImage(context, mThumbBitmap));
+        if (bitmap != null) {
+            return new UMImage(context, bitmap);
         }
-        if (mThumbUrl != null) {
-            umImage.setThumb(new UMImage(context, mThumbUrl));
+        if (file != null) {
+            return new UMImage(context, file);
         }
-        if (mThumbResource != 0) {
-            umImage.setThumb(new UMImage(context, mThumbResource));
+        if (bytes != null) {
+            return new UMImage(context, bytes);
         }
-        if (mTitle != null) {
-            umImage.setTitle(mTitle);
-        }
-        if (mDescription != null) {
-            umImage.setDescription(mDescription);
-        }
+        return null;
     }
 
-    public void share(SHARE_MEDIA platform) {
-        initMedia();
+    private UMImage getUmImage(Context context) {
+        UMImage umImage = createUmImage(context);
+        if (compressFormat != null) {
+            umImage.compressFormat = compressFormat;
+        }
+        if (compressStyle != null) {
+            umImage.compressStyle = compressStyle;
+        }
+        return umImage;
+    }
+
+    @Override
+    protected void share(Activity activity, SHARE_MEDIA platform, ShareAction shareAction) {
         if (mWithText != null) {
             shareAction.withText(mWithText);
         }
-        if (mSimpleShareListener != null) {
-            shareAction.setCallback(new DefaultShareListener(context, mSimpleShareListener));
-        }
-        if (mCustomShareListener != null) {
-            shareAction.setCallback(mCustomShareListener);
-        }
-        shareAction.setPlatform(platform)
-                .withMedia(umImage)
-                .share();
+        shareAction.withMedia(getMedia(getUmImage(activity), activity));
+        super.share(activity, platform, shareAction);
     }
 
-    public void shareWithCenterBoard() {
-        ShareBoardConfig config = new ShareBoardConfig();
-        config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_CENTER);
-        config.setIndicatorVisibility(false);
-        config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR);
-        config.setShareboardBackgroundColor(Color.parseColor("#f5f5f5"));
-        config.setMenuItemTextColor(Color.BLACK);
-        config.setTitleTextColor(Color.BLACK);
-        shareWithCustomBoard(config);
+    @Override
+    public UMediaImage setTitle(String title) {
+        return super.setTitle(title);
     }
 
-    public void shareWithBottomBoard() {
-        ShareBoardConfig config = new ShareBoardConfig();
-        config.setCancelButtonVisibility(false);
-        config.setTitleVisibility(false);
-        config.setIndicatorVisibility(false);
-        config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_BOTTOM);
-        config.setMenuItemBackgroundShape(ShareBoardConfig.BG_SHAPE_CIRCULAR);
-        config.setShareboardBackgroundColor(Color.parseColor("#f5f5f5"));
-        config.setMenuItemTextColor(Color.BLACK);
-        shareWithCustomBoard(config);
+    @Override
+    public UMediaImage setDescription(String description) {
+        return super.setDescription(description);
     }
 
-    public void shareWithCustomBoard(ShareBoardConfig config) {
-        if (mPlatforms != null) {
-            shareAction.setDisplayList(mPlatforms);
-        }
-        if (mIsBoardOnlyShowWechatAndSina) {
-            shareAction.setDisplayList(SHARE_MEDIA.WEIXIN,
-                    SHARE_MEDIA.WEIXIN_CIRCLE,
-                    SHARE_MEDIA.SINA);
-        }
-        shareAction.setShareboardclickCallback(new ShareBoardlistener() {
-            @Override
-            public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA platform) {
-                share(platform);
-            }
-        }).open(config);
+    @Override
+    public void shareWithBottomBoard(Activity activity) {
+        super.shareWithBottomBoard(activity);
+    }
+
+    @Override
+    public void share(Activity activity, SHARE_MEDIA platform) {
+        super.share(activity, platform);
     }
 
 }

@@ -206,71 +206,63 @@ public class UMShareAndAuthActivity extends LwBaseActivity {
     private void share() {
         switch (mShareType) {
             case 0:
-                UShareUtils.with(this)
-                        .createText(mText)
-                        .share(mSharePlatform);
+                UShareUtils.createText(mText)
+                        .share(this, mSharePlatform);
                 break;
             case 1:
-                UShareUtils.with(this)
-                        .createImage(mImage)
+                UShareUtils.createImage(mImage)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
                         .setCompressStyle(UMImage.CompressStyle.SCALE)
-                        .share(mSharePlatform);
+                        .share(this, mSharePlatform);
                 break;
             case 2:
-                UShareUtils.with(this)
-                        .createImage(mImage)
+                UShareUtils.createImage(mImage)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
                         .setCompressStyle(UMImage.CompressStyle.SCALE)
                         .withText(mText)
-                        .share(mSharePlatform);
+                        .share(this, mSharePlatform);
                 break;
             case 3:
-                UShareUtils.with(this)
-                        .createWeb(mWeb)
+                UShareUtils.createWeb(mWeb)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .share(mSharePlatform);
+                        .share(this, mSharePlatform);
                 break;
             case 4:
-                UShareUtils.with(this)
-                        .createVideo(mVideo)
+                UShareUtils.createVideo(mVideo)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .share(mSharePlatform);
+                        .share(this, mSharePlatform);
                 break;
             case 5:
-                UShareUtils.with(this)
-                        .createMusic(mMusic)
+                UShareUtils.createMusic(mMusic)
                         .setTargetUrl(mMusicTarget)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .share(mSharePlatform);
+                        .share(this, mSharePlatform);
                 break;
             case 6:
-                UShareUtils.with(this)
-                        .createGif(mGif)
+                UShareUtils.createGif(mGif)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .share(mSharePlatform);
+                        .share(this, mSharePlatform);
                 break;
             case 7:
-                UShareUtils.with(this)
-                        .createMinApp(mMin)
+                UShareUtils.createMinApp(mMin)
                         .setPath("pages/index/index")
                         .setUserName("gh_9e4dcf49350c")
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .share(mSharePlatform);
+                        .share(this, mSharePlatform);
                 break;
             default:
         }
@@ -279,71 +271,63 @@ public class UMShareAndAuthActivity extends LwBaseActivity {
     private void shareWithCenterBoard() {
         switch (mShareType) {
             case 0:
-                UShareUtils.with(this)
-                        .createText(mText)
-                        .shareWithCenterBoard();
+                UShareUtils.createText(mText)
+                        .shareWithCenterBoard(this);
                 break;
             case 1:
-                UShareUtils.with(this)
-                        .createImage(mImage)
+                UShareUtils.createImage(mImage)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
                         .setCompressStyle(UMImage.CompressStyle.SCALE)
-                        .shareWithCenterBoard();
+                        .shareWithCenterBoard(this);
                 break;
             case 2:
-                UShareUtils.with(this)
-                        .createImage(mImage)
+                UShareUtils.createImage(mImage)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
                         .setCompressStyle(UMImage.CompressStyle.SCALE)
                         .withText(mText)
-                        .shareWithCenterBoard();
+                        .shareWithCenterBoard(this);
                 break;
             case 3:
-                UShareUtils.with(this)
-                        .createWeb(mWeb)
+                UShareUtils.createWeb(mWeb)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .shareWithCenterBoard();
+                        .shareWithCenterBoard(this);
                 break;
             case 4:
-                UShareUtils.with(this)
-                        .createVideo(mVideo)
+                UShareUtils.createVideo(mVideo)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .shareWithCenterBoard();
+                        .shareWithCenterBoard(this);
                 break;
             case 5:
-                UShareUtils.with(this)
-                        .createMusic(mMusic)
+                UShareUtils.createMusic(mMusic)
                         .setTargetUrl(mMusicTarget)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .shareWithCenterBoard();
+                        .shareWithCenterBoard(this);
                 break;
             case 6:
-                UShareUtils.with(this)
-                        .createGif(mGif)
+                UShareUtils.createGif(mGif)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .shareWithCenterBoard();
+                        .shareWithCenterBoard(this);
                 break;
             case 7:
-                UShareUtils.with(this)
-                        .createMinApp(mMin)
+                UShareUtils.createMinApp(mMin)
                         .setPath("pages/index/index")
                         .setUserName("gh_9e4dcf49350c")
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .shareWithCenterBoard();
+                        .shareWithCenterBoard(this);
                 break;
             default:
         }
@@ -352,71 +336,63 @@ public class UMShareAndAuthActivity extends LwBaseActivity {
     private void shareWithBottomBoard() {
         switch (mShareType) {
             case 0:
-                UShareUtils.with(this)
-                        .createText(mText)
-                        .shareWithBottomBoard();
+                UShareUtils.createText(mText)
+                        .shareWithBottomBoard(this);
                 break;
             case 1:
-                UShareUtils.with(this)
-                        .createImage(mImage)
+                UShareUtils.createImage(mImage)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
                         .setCompressStyle(UMImage.CompressStyle.SCALE)
-                        .shareWithBottomBoard();
+                        .shareWithBottomBoard(this);
                 break;
             case 2:
-                UShareUtils.with(this)
-                        .createImage(mImage)
+                UShareUtils.createImage(mImage)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
                         .setCompressStyle(UMImage.CompressStyle.SCALE)
                         .withText(mText)
-                        .shareWithBottomBoard();
+                        .shareWithBottomBoard(this);
                 break;
             case 3:
-                UShareUtils.with(this)
-                        .createWeb(mWeb)
+                UShareUtils.createWeb(mWeb)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .shareWithBottomBoard();
+                        .shareWithBottomBoard(this);
                 break;
             case 4:
-                UShareUtils.with(this)
-                        .createVideo(mVideo)
+                UShareUtils.createVideo(mVideo)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .shareWithBottomBoard();
+                        .shareWithBottomBoard(this);
                 break;
             case 5:
-                UShareUtils.with(this)
-                        .createMusic(mMusic)
+                UShareUtils.createMusic(mMusic)
                         .setTargetUrl(mMusicTarget)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .shareWithBottomBoard();
+                        .shareWithBottomBoard(this);
                 break;
             case 6:
-                UShareUtils.with(this)
-                        .createGif(mGif)
+                UShareUtils.createGif(mGif)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .shareWithBottomBoard();
+                        .shareWithBottomBoard(this);
                 break;
             case 7:
-                UShareUtils.with(this)
-                        .createMinApp(mMin)
+                UShareUtils.createMinApp(mMin)
                         .setPath("pages/index/index")
                         .setUserName("gh_9e4dcf49350c")
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .shareWithBottomBoard();
+                        .shareWithBottomBoard(this);
                 break;
             default:
         }
@@ -425,71 +401,63 @@ public class UMShareAndAuthActivity extends LwBaseActivity {
     private void shareWithCustomBoard() {
         switch (mShareType) {
             case 0:
-                UShareUtils.with(this)
-                        .createText(mText)
-                        .shareWithCustomBoard(mConfig);
+                UShareUtils.createText(mText)
+                        .shareWithCustomBoard(this, mConfig);
                 break;
             case 1:
-                UShareUtils.with(this)
-                        .createImage(mImage)
+                UShareUtils.createImage(mImage)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
                         .setCompressStyle(UMImage.CompressStyle.SCALE)
-                        .shareWithCustomBoard(mConfig);
+                        .shareWithCustomBoard(this, mConfig);
                 break;
             case 2:
-                UShareUtils.with(this)
-                        .createImage(mImage)
+                UShareUtils.createImage(mImage)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
                         .setCompressStyle(UMImage.CompressStyle.SCALE)
                         .withText(mText)
-                        .shareWithCustomBoard(mConfig);
+                        .shareWithCustomBoard(this, mConfig);
                 break;
             case 3:
-                UShareUtils.with(this)
-                        .createWeb(mWeb)
+                UShareUtils.createWeb(mWeb)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .shareWithCustomBoard(mConfig);
+                        .shareWithCustomBoard(this, mConfig);
                 break;
             case 4:
-                UShareUtils.with(this)
-                        .createVideo(mVideo)
+                UShareUtils.createVideo(mVideo)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .shareWithCustomBoard(mConfig);
+                        .shareWithCustomBoard(this, mConfig);
                 break;
             case 5:
-                UShareUtils.with(this)
-                        .createMusic(mMusic)
+                UShareUtils.createMusic(mMusic)
                         .setTargetUrl(mMusicTarget)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .shareWithCustomBoard(mConfig);
+                        .shareWithCustomBoard(this, mConfig);
                 break;
             case 6:
-                UShareUtils.with(this)
-                        .createGif(mGif)
+                UShareUtils.createGif(mGif)
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .shareWithCustomBoard(mConfig);
+                        .shareWithCustomBoard(this, mConfig);
                 break;
             case 7:
-                UShareUtils.with(this)
-                        .createMinApp(mMin)
+                UShareUtils.createMinApp(mMin)
                         .setPath("pages/index/index")
                         .setUserName("gh_9e4dcf49350c")
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
-                        .shareWithCustomBoard(mConfig);
+                        .shareWithCustomBoard(this, mConfig);
                 break;
             default:
         }
