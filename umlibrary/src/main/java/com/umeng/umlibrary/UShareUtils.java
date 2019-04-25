@@ -22,16 +22,11 @@ public class UShareUtils {
     /**
      * 全局设置分享平台和监听器
      */
-    private static UShareConfig config = new UShareConfig.Builder()
-            .setDisplayList(
-                    SHARE_MEDIA.WEIXIN,
-                    SHARE_MEDIA.WEIXIN_CIRCLE,
-                    SHARE_MEDIA.WEIXIN_FAVORITE,
-                    SHARE_MEDIA.SINA,
-                    SHARE_MEDIA.QQ,
-                    SHARE_MEDIA.QZONE)
-            .create();
+    private static UShareConfig config = new UShareConfig.Builder().create();
 
+    /**
+     * 获取设置
+     */
     public static UShareConfig getConfig() {
         return config;
     }

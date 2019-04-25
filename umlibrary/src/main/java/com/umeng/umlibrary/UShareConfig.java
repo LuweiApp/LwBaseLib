@@ -2,6 +2,7 @@ package com.umeng.umlibrary;
 
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 /**
  * @author LiCheng
@@ -20,6 +21,12 @@ public class UShareConfig {
      */
     private SHARE_MEDIA[] platforms;
 
+    private UMImage thumb;
+
+    private String title;
+
+    private String description;
+
 
     public UShareConfig(Builder builder) {
         this.shareListener = builder.shareListener;
@@ -32,6 +39,38 @@ public class UShareConfig {
 
     public SHARE_MEDIA[] getPlatforms() {
         return platforms;
+    }
+
+    public void setShareListener(UMShareListener shareListener) {
+        this.shareListener = shareListener;
+    }
+
+    public void setPlatforms(SHARE_MEDIA[] platforms) {
+        this.platforms = platforms;
+    }
+
+    public UMImage getThumb() {
+        return thumb;
+    }
+
+    public void setThumb(UMImage thumb) {
+        this.thumb = thumb;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 

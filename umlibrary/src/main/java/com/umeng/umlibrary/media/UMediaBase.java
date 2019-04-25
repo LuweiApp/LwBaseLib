@@ -228,6 +228,15 @@ public class UMediaBase<T extends UMediaBase> {
      * 为Media添加缩略图、标题和描述
      */
     <M extends BaseMediaObject> M getMedia(M m, Context context) {
+        if (UShareUtils.getConfig().getThumb() != null) {
+            m.setThumb(UShareUtils.getConfig().getThumb());
+        }
+        if (UShareUtils.getConfig().getTitle() != null) {
+            m.setTitle(UShareUtils.getConfig().getTitle());
+        }
+        if (UShareUtils.getConfig().getDescription() != null) {
+            m.setDescription(UShareUtils.getConfig().getDescription());
+        }
         if (mThumbFile != null) {
             m.setThumb(new UMImage(context, mThumbFile));
         }
