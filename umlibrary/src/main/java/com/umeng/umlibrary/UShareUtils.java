@@ -2,7 +2,6 @@ package com.umeng.umlibrary;
 
 import android.graphics.Bitmap;
 
-import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.umlibrary.media.UMediaGif;
 import com.umeng.umlibrary.media.UMediaImage;
 import com.umeng.umlibrary.media.UMediaMinAPP;
@@ -22,13 +21,17 @@ public class UShareUtils {
     /**
      * 全局设置分享平台和监听器
      */
-    private static UShareConfig config = new UShareConfig.Builder().create();
+    private static UShareConfig mConfig = new UShareConfig.Builder().create();
 
     /**
      * 获取设置
      */
     public static UShareConfig getConfig() {
-        return config;
+        return mConfig;
+    }
+
+    public static void setConfig(UShareConfig config){
+        mConfig = config;
     }
 
     /**
