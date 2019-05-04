@@ -31,12 +31,13 @@
 
             <Spinner
                 android:id="@+id/sp_platform"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:entries="@array/SharePlatform"
                 app:layout_constraintBottom_toBottomOf="@id/btn_authorize"
                 app:layout_constraintEnd_toStartOf="@id/btn_authorize"
+                app:layout_constraintStart_toStartOf="@+id/sp_type"
                 app:layout_constraintTop_toTopOf="@id/btn_authorize" />
 
             <Button

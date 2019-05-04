@@ -1,10 +1,7 @@
 package com.luwei.lwbaselib;
 
 import android.app.Application;
-import android.graphics.Color;
 
-import com.luwei.ui.view.TitleBar;
-import com.luwei.util.imageloader.ImageLoaderUtils;
 import com.previewlibrary.ZoomMediaLoader;
 
 
@@ -23,6 +20,12 @@ public class MyApplication extends Application {
 //                .setTitleTextColor(Color.RED)
 //                .setTitleTextSize(this,20)
 //                .setBackGroundColor(Color.GRAY);
+
+
+//        UShareUtils.setConfig(new UShareConfig.Builder()
+//                .setTitle("")
+//                .setCopyUrlBtnIcon("banner_4")
+//                .create());
 
         ZoomMediaLoader.getInstance().init(new PreviewPictureLoader());
 
