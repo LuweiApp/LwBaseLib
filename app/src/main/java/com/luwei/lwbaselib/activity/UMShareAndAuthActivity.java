@@ -84,7 +84,7 @@ public class UMShareAndAuthActivity extends LwBaseActivity {
 
     @Override
     public void initData() {
-
+        
     }
 
     @Override
@@ -146,7 +146,11 @@ public class UMShareAndAuthActivity extends LwBaseActivity {
                 ToastIsWeChatAuthorize();
                 break;
             case R.id.btn_show_info:
-                showInfo(UAuthUtils.getWeChatInfoMap());
+                if(UAuthUtils.isWeChatAuthorize(this)){
+                    showInfo(UAuthUtils.getWeChatInfoMap());
+                }else {
+                    Toast.makeText(this, "微信未授权", Toast.LENGTH_SHORT).show();
+                }
                 break;
             default:
         }
@@ -426,6 +430,16 @@ public class UMShareAndAuthActivity extends LwBaseActivity {
                         .setThumb(mThumb)
                         .setTitle(mTitle)
                         .setDescription(mDescription)
+                        .showCopyUrlBtn("123")
+                        .addCustomBoardBtn("复制链接1",
+                                "umeng_socialize_copyurl",
+                                snsPlatform -> Toast.makeText(getApplicationContext(),"复制链接1",Toast.LENGTH_SHORT).show())
+                        .addCustomBoardBtn("复制链接2",
+                                "umeng_socialize_copyurl",
+                                snsPlatform -> Toast.makeText(getApplicationContext(),"复制链接2",Toast.LENGTH_SHORT).show())
+                        .addCustomBoardBtn("保存图片",
+                                "banner_5",
+                                snsPlatform -> Toast.makeText(getApplicationContext(),"保存图片",Toast.LENGTH_SHORT).show())
                         .shareWithCustomBoard(this, mConfig);
                 break;
             case 4:

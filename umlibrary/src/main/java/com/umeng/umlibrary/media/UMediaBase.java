@@ -2,9 +2,13 @@ package com.umeng.umlibrary.media;
 
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
+import android.widget.Toast;
 
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
@@ -15,16 +19,21 @@ import com.umeng.socialize.shareboard.ShareBoardConfig;
 import com.umeng.socialize.shareboard.SnsPlatform;
 import com.umeng.socialize.utils.ShareBoardlistener;
 import com.umeng.umlibrary.UShareUtils;
+import com.umeng.umlibrary.listener.CustomBtnListener;
 import com.umeng.umlibrary.listener.DefaultShareListener;
 import com.umeng.umlibrary.listener.SimpleShareListener;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author LiCheng
  * @date 2019/3/2
  */
 public class UMediaBase<T extends UMediaBase> {
+    private static final String BTN_COPY_URL_KEY_WORD = "u_share_btn_copy";
+    private static final String BTN_COPY_URL_SHOW_WORD = "复制链接";
     byte[] mThumbBytes;
     Bitmap mThumbBitmap;
     File mThumbFile;
@@ -36,8 +45,16 @@ public class UMediaBase<T extends UMediaBase> {
     SHARE_MEDIA[] mPlatforms;
     SimpleShareListener mSimpleShareListener;
     UMShareListener mCustomShareListener;
+    ShareBoardlistener mCustomShareBoardListener;
+    List<String> mCustomBtnNames;
+    List<String> mCustomBtnIcons;
+    List<CustomBtnListener> mCustomBtnListeners;
+    String mCopyUrl;
+    String mCopyIcon;
 
-
+    /**
+     * 添加缩略图
+     */
     public T setThumb(String thumbUrl) {
         mThumbUrl = thumbUrl;
         return (T) this;
@@ -65,9 +82,6 @@ public class UMediaBase<T extends UMediaBase> {
 
     /**
      * 添加标题
-     *
-     * @param title
-     * @return
      */
     public T setTitle(String title) {
         mTitle = title;
@@ -76,9 +90,6 @@ public class UMediaBase<T extends UMediaBase> {
 
     /**
      * 添加描述
-     *
-     * @param description
-     * @return
      */
     public T setDescription(String description) {
         mDescription = description;
@@ -86,10 +97,7 @@ public class UMediaBase<T extends UMediaBase> {
     }
 
     /**
-     * 带上文字
-     *
-     * @param withText
-     * @return
+     * 分享包括文字（微博\QQ空间图文分享）
      */
     public T withText(String withText) {
         mWithText = withText;
@@ -98,21 +106,14 @@ public class UMediaBase<T extends UMediaBase> {
 
     /**
      * 设置分享面板包含的平台
-     *
-     * @param platforms
-     * @return
      */
     public T setBoardDisplayList(SHARE_MEDIA... platforms) {
         mPlatforms = platforms;
         return (T) this;
     }
 
-
     /**
      * 设置简单的分享结果监听
-     *
-     * @param simpleShareListener
-     * @return
      */
     public T setSimpleShareListener(SimpleShareListener simpleShareListener) {
         mSimpleShareListener = simpleShareListener;
@@ -120,13 +121,50 @@ public class UMediaBase<T extends UMediaBase> {
     }
 
     /**
-     * 设置完成的分享结果监听
-     *
-     * @param customShareListener
-     * @return
+     * 设置自定义的分享结果监听
      */
     public T setCustomShareListener(UMShareListener customShareListener) {
         mCustomShareListener = customShareListener;
+        return (T) this;
+    }
+
+    /**
+     * 添加自定义分享面板按钮
+     * 第一个参数是按钮名称，比如"复制链接"
+     * 第二个是icon在drawable文件中的名字，比如umeng_socialize_copyurl
+     * 第三个是自定义点击监听事件处理
+     */
+    public T addCustomBoardBtn(String btnText, String icon_text_from_drawable_xml, CustomBtnListener listener) {
+        if (mCustomBtnNames == null) {
+            mCustomBtnNames = new ArrayList<>();
+        }
+        if (mCustomBtnIcons == null) {
+            mCustomBtnIcons = new ArrayList<>();
+        }
+        if (mCustomBtnListeners == null) {
+            mCustomBtnListeners = new ArrayList<>();
+        }
+        mCustomBtnNames.add(btnText);
+        mCustomBtnIcons.add(icon_text_from_drawable_xml);
+        mCustomBtnListeners.add(listener);
+        return (T) this;
+    }
+
+    /**
+     * 在分享面板中显示复制链接按钮，按钮的icon可以在config中全局更改
+     */
+    public T showCopyUrlBtn(String copyUrl) {
+        mCopyUrl = copyUrl;
+        return (T) this;
+    }
+
+    /**
+     * 在分享面板中显示复制链接按钮，同时设置icon
+     * 注意此icon使用的是icon在drawable文件中的名字，比如umeng_socialize_copyurl
+     */
+    public T showCopyUrlBtn(String copyUrl, String copy_icon_text_from_drawable_xml) {
+        mCopyUrl = copyUrl;
+        mCopyIcon = copy_icon_text_from_drawable_xml;
         return (T) this;
     }
 
@@ -165,12 +203,27 @@ public class UMediaBase<T extends UMediaBase> {
     public void shareWithCustomBoard(final Activity activity, ShareBoardConfig config) {
         final ShareAction shareAction = new ShareAction(activity);
         shareAction.setDisplayList(getPlatforms());
-        shareAction.setShareboardclickCallback(new ShareBoardlistener() {
-            @Override
-            public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA platform) {
-                share(activity, platform, shareAction);
+        //如果设置了复制链接，则添加复制链接的按钮
+        if (mCopyUrl != null) {
+            //检查是否在全局config中设置了复制链接的icon，没有则使用默认icon
+            String icon;
+            if (mCopyIcon != null) {
+                icon = mCopyIcon;
+            } else {
+                icon = UShareUtils.getConfig().getCopyUrlBtnIcon() != null ?
+                        UShareUtils.getConfig().getCopyUrlBtnIcon() : "umeng_socialize_copyurl";
             }
-        }).open(config);
+            shareAction.addButton(BTN_COPY_URL_SHOW_WORD, BTN_COPY_URL_KEY_WORD, icon, icon);
+        }
+        if (mCustomBtnNames != null) {
+            for (int i = 0; i < mCustomBtnNames.size(); i++) {
+                String name = mCustomBtnNames.get(i);
+                String icon = mCustomBtnIcons.get(i);
+                shareAction.addButton(name, name, icon, icon);
+            }
+        }
+        shareAction.setShareboardclickCallback(getBoardListener(activity, shareAction));
+        shareAction.open(config);
     }
 
     /**
@@ -186,6 +239,9 @@ public class UMediaBase<T extends UMediaBase> {
                 .share();
     }
 
+    /**
+     * 获取分享面板显示的分享平台
+     */
     private SHARE_MEDIA[] getPlatforms() {
         //如果有设置面板分享平台则返回
         if (mPlatforms != null) {
@@ -222,6 +278,42 @@ public class UMediaBase<T extends UMediaBase> {
         }
         //如果以上都没有 则返回默认的监听器
         return new DefaultShareListener(activity);
+    }
+
+    /**
+     * 获取分享面板按钮监听
+     */
+    private ShareBoardlistener getBoardListener(final Activity activity, final ShareAction shareAction) {
+        //设置完整的自定义监听 优先级最高
+        if (mCustomShareBoardListener != null) {
+            return mCustomShareBoardListener;
+        }
+        return new ShareBoardlistener() {
+            @Override
+            public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA platform) {
+                if (platform == null) {
+                    //根据key来区分自定义按钮的类型，并进行对应的操作
+                    if (mCopyUrl != null && snsPlatform.mKeyword.equals(BTN_COPY_URL_KEY_WORD)) {
+                        //复制链接btn在传入url后，添加监听，点击执行复制操作
+                        ClipboardManager manager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+                        manager.setPrimaryClip(ClipData.newRawUri("Label", Uri.parse(mCopyUrl)));
+                        Toast.makeText(activity, "已复制到剪贴板", Toast.LENGTH_SHORT).show();
+                    }
+                    //设置了自定义按钮时
+                    if (mCustomBtnNames != null) {
+                        for (int i = 0; i < mCustomBtnNames.size(); i++) {
+                            if (snsPlatform.mKeyword.equals(mCustomBtnNames.get(i))) {
+                                //为自定义按钮添加监听
+                                mCustomBtnListeners.get(i).onBtnClick(snsPlatform);
+                            }
+                        }
+                    }
+                } else {
+                    //社交平台的分享行为
+                    share(activity, platform, shareAction);
+                }
+            }
+        };
     }
 
     /**
