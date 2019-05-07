@@ -24,5 +24,5 @@ public class NoNetException extends RuntimeException {
         this.message = message;
     }
 
-    private String message="网络异常，请检查网络";
+    private String message="网络请求失败";
 }

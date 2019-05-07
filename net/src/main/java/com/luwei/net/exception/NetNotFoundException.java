@@ -24,5 +24,5 @@ public class NetNotFoundException extends RuntimeException {
         this.message = message;
     }
 
-    private String message="找不到异常";
+    private String message="404异常，访问服务器失败";
 }
