@@ -25,5 +25,5 @@ public class ServiceException extends RuntimeException {
         this.message = message;
     }
 
-    private String message="服务器异常，请稍后再试！";
+    private String message="服务器异常，请稍后再试";
 }

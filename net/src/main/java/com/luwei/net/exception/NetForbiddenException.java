@@ -24,5 +24,5 @@ public class NetForbiddenException extends RuntimeException {
         this.message = message;
     }
 
-    private String message="部分功能被禁用，请联系客服！";
+    private String message="部分服务器资源暂不可用";
 }

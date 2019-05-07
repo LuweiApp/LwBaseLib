@@ -24,5 +24,5 @@ public class NetUnauthorizedException extends RuntimeException {
         this.message = message;
     }
 
-    private String message="您的账号已在别处登录";
+    private String message="账号信息失效，请重新登录";
 }
