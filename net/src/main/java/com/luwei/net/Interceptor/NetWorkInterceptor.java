@@ -2,6 +2,7 @@ package com.luwei.net.Interceptor;
 
 
 import com.luwei.net.exception.BIZexception;
+import com.luwei.net.exception.BadGatewayException;
 import com.luwei.net.exception.NetCreatedException;
 import com.luwei.net.exception.NetForbiddenException;
 import com.luwei.net.exception.NetNotFoundException;
@@ -28,6 +29,7 @@ public class NetWorkInterceptor implements Interceptor {
     private final int FORBIDDEN_CODE = 403;
     private final int NOTFOUND_CODE = 404;
     private final int SERVICEERROR_CODE = 500;
+    private final int BADGATEWAY_CODE = 502;
 
     private final int NONET_CODE = 504;
     //业务异常
@@ -51,6 +53,8 @@ public class NetWorkInterceptor implements Interceptor {
                 throw new NoNetException();
             case SERVICEERROR_CODE:
                 throw new ServiceException();
+            case BADGATEWAY_CODE:
+                throw new BadGatewayException();
             case BIZ_CODE:
                 //业务异常，取出其中描述，抛异常
                 try {
