@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white_fff"
+    android:fitsSystemWindows="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <com.luwei.ui.view.TitleBar
         android:layout_width="match_parent"
-        android:layout_height="42dp"/>
+        android:layout_height="wrap_content"/>
 
     <TextView
         android:id="@+id/tv_content"

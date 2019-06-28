@@ -18,16 +18,22 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".MainActivity"
-            android:label="LWBaseLib">
+            android:name=".MainActivityNew"
+            android:label="LWBaseLib"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.ImageActivity" />
-        <activity android:name=".activity.ToastActivity" />
+        <activity android:name=".activity.ImageActivity"
+            android:label="图片加载ImageLoadUtils"/>
+        <activity android:name=".activity.SimpleForResultActivity"
+            android:label="简单返回事件传递SimpleForResult"/>
+        <activity android:name=".activity.SimpleForResult2Activity" />
+        <activity android:name=".activity.TitleBarAcitivity"
+            android:label="通用标题栏"/>
         <activity
             android:name=".activity.DialogActivity"
             android:label="Dialog" />

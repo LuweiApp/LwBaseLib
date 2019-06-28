@@ -53,14 +53,11 @@ public class ImagePreviewActivity extends LwBaseActivity {
 
     @Override
     public void initData() {
-
-
         for (String s : ImageUrlConfig.getUrls()) {
             mThumbViewInfoList.add(new ImageViewInfo(s));
         }
         mItems.addAll(mThumbViewInfoList);
         mAdapter.notifyDataSetChanged();
-
     }
 
     @Override
