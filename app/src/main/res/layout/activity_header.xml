@@ -8,11 +8,17 @@
     android:orientation="vertical"
     tools:context=".activity.HeaderActivity">
 
+    <com.luwei.ui.view.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleText="图片选择ImageSelector"/>
+
 
     <ImageView
         android:id="@+id/iv_header"
         android:layout_width="300dp"
         android:layout_height="300dp"
+        android:layout_marginTop="30dp"
         android:src="@mipmap/default_image" />
 
     <TextView

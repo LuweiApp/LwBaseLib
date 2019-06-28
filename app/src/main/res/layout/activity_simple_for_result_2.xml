@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_fff"
-    android:fitsSystemWindows="true"
-    tools:context="com.luwei.lwbaselib.activity.PermissionActivity">
+    android:fitsSystemWindows="true">
 
     <com.luwei.ui.view.TitleBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:titleText="权限获取Permission"/>
+        app:titleText="输入result内容" />
 
     <Button
-        android:id="@+id/btn_get_permission"
+        android:id="@+id/btn_change_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="获取图片处理权限"
-        android:layout_gravity="center"/>
-
+        android:layout_gravity="center"
+        android:text="关闭Activity，并发送RESULT_OK"
+        android:textAllCaps="false" />
 
 </FrameLayout>

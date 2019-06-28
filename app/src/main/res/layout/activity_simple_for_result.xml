@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.luwei.lwbaselib.activity.SimpleForResultActivity">
+
+    <com.luwei.ui.view.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btn_open_for_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="通过SimpleForResult打开新Activity"
+        android:textAllCaps="false" />
+
+    <TextView
+        android:id="@+id/tv_simple_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Hello，World！"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+</FrameLayout>

@@ -5,7 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f2f2f2"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
+
+    <com.luwei.ui.view.TitleBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleText="横幅广告Banner"/>
 
     <TextView
         android:id="@+id/refresh_tv"
@@ -13,6 +19,7 @@
         android:layout_height="40dp"
         android:gravity="center"
         android:text="刷新~~"
+        android:background="#ccc"
         android:textColor="#333333"
         android:textSize="17sp" />
 

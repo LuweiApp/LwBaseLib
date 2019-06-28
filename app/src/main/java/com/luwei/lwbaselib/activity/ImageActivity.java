@@ -5,10 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.luwei.lwbaselib.R;
+import com.luwei.util.imageloader.ImageLoaderConfig;
 import com.luwei.util.imageloader.ImageLoaderUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 /**
  * 显示图片框架使用的 activity
  */
@@ -44,16 +46,26 @@ public class ImageActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setTitle("图片框架使用示例");
 
+
+        //使用方式
         ImageLoaderUtils.getInstance().loadImage(this, mIvNormal, urlPath);
         ImageLoaderUtils.getInstance().loadCircleImage(this, mIvCircle, urlPath);
         ImageLoaderUtils.getInstance().loadRoundedImage(this, mIvRound, urlPath, 20);
         ImageLoaderUtils.getInstance().loadGifImage(this, mIvGif, gitUrlPath);
         ImageLoaderUtils.getInstance().loadImageFromDrawable(this, mIvFromDrawable, R.mipmap.sunyizhen);
 
-        ImageLoaderUtils.getInstance().loadMarkImage(this, mIvMask, urlPath,R.mipmap.mask_starfish);
+        ImageLoaderUtils.getInstance().loadMarkImage(this, mIvMask, urlPath, R.mipmap.mask_starfish);
         ImageLoaderUtils.getInstance().loadImage(this, mIvBlurBefor, urlPath);
         ImageLoaderUtils.getInstance().loadBlurImage(this, mIvBlur, urlPath, 10);
         ImageLoaderUtils.getInstance().loadBlurImage(this, mIvBlur1, urlPath, 25);
+
+
+        //如何在Application中全局定义ImageLoaderUtils的属性
+        ImageLoaderConfig.Builder builder = new ImageLoaderConfig.Builder();
+        builder.setErrorPicRes(R.mipmap.default_image);
+        builder.setPlacePicRes(R.color.black_000);
+        ImageLoaderConfig config = new ImageLoaderConfig(builder);
+        ImageLoaderUtils.getInstance().setLoaderConfig(config);
 
 
 //        Glide.with(this)

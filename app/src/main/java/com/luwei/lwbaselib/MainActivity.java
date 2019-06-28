@@ -15,10 +15,10 @@ import com.luwei.lwbaselib.activity.ImagePreviewActivity;
 import com.luwei.lwbaselib.activity.LogActivity;
 import com.luwei.lwbaselib.activity.PermissionActivity;
 import com.luwei.lwbaselib.activity.PopupActivity;
+import com.luwei.lwbaselib.activity.SimpleForResultActivity;
 import com.luwei.lwbaselib.module.rxbus.RxBusActivity;
 import com.luwei.lwbaselib.activity.TimerButtonActivity;
 import com.luwei.lwbaselib.activity.TitleBarAcitivity;
-import com.luwei.lwbaselib.activity.ToastActivity;
 import com.luwei.lwbaselib.activity.UMShareAndAuthActivity;
 import com.luwei.lwbaselib.module.banner.BannerActivity;
 import com.luwei.lwbaselib.module.recyclerview.RecyclerViewActivity;
@@ -97,12 +97,12 @@ public class MainActivity extends LwBaseActivity {
                 startActivity(new Intent(MainActivity.this, RxBusActivity.class));
                 break;
             case R.id.btn_to_toast:
-                startActivity(new Intent(MainActivity.this, ToastActivity.class));
+                startActivity(new Intent(MainActivity.this, SimpleForResultActivity.class));
                 break;
             case R.id.btn_activity_for_result:
                 // 简化调用 startActivityForResult 及避免在 onActivityResult 中处理繁琐的结果
                 SimpleForResult simpleForResult = new SimpleForResult(this);
-                simpleForResult.startForResult(ToastActivity.class)
+                simpleForResult.startForResult(SimpleForResultActivity.class)
                         .subscribe((resultInfo) -> {
                             if (resultInfo.getData() != null) {
                                 ToastUtils.showLong(resultInfo.getData().getStringExtra("result"));

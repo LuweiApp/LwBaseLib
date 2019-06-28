@@ -8,11 +8,9 @@
     <com.luwei.ui.view.TitleBar
         android:id="@+id/view_tb_adapter"
         android:layout_width="match_parent"
-        android:layout_height="43dp"
-        android:background="@color/colorPrimary"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </com.luwei.ui.view.TitleBar>
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleText="Adapter" />
 
     <Button
         android:id="@+id/btn_adapter_single"
